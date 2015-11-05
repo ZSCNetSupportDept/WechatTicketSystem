@@ -1,0 +1,9 @@
+.idea/
+out/
+/.metadata/
+/web/META-INF/context.xml
+*.iml
+~*
+.DS_Store
+.classpath
+.project
