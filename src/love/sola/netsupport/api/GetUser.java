@@ -32,13 +32,14 @@ public class GetUser extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "text/plain;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		String name = request.getParameter("name");
 		if (name == null) {
+			response.addHeader("Content-type", "text/plain;charset=utf-8");
 			out.println("Username required.");
 		} else {
+			response.addHeader("Content-type", "text/json;charset=utf-8");
 			Gson gson = new Gson();
 			out.println(gson.toJson(SQLQuery.getUserFromName(name)));
 		}
