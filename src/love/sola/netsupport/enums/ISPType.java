@@ -11,7 +11,6 @@ import java.util.Map;
  */
 public enum ISPType {
 
-
 	TELECOM("Telecom", 1),
 	UNICOM("Unicom", 2),
 	CHINAMOBILE("ChinaMobile", 3),;
@@ -53,4 +52,5 @@ public enum ISPType {
 	public String toString() {
 		return name;
 	}
+
 }

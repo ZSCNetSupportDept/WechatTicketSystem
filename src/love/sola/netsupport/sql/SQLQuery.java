@@ -37,7 +37,11 @@ public class SQLQuery {
 		}
 	}
 
-	public static User getUserFromName(String name) {
+	public static void free(Connection conn) {
+		if (conn != null) try { conn.close(); } catch (SQLException e) { }
+	}
+
+	public static User getUserByName(String name) {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -54,10 +58,31 @@ public class SQLQuery {
 			}
 		} catch (SQLException e) {
 		} finally {
-			if (conn != null) try { conn.close(); } catch (SQLException e) { }
+			free(conn);
 		}
 		return null;
 	}
 
+	public static User getUserById(int id) {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM user_info WHERE id=?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return new User(rs.getInt(COLUMN_ID),
+						rs.getString(COLUMN_NAME),
+						rs.getLong(COLUMN_STUDENT_ID),
+						rs.getString(COLUMN_NET_ACCOUNT),
+						ISPType.fromId(rs.getInt(COLUMN_ISP)),
+						rs.getString(COLUMN_WECHAT));
+			}
+		} catch (SQLException e) {
+		} finally {
+			free(conn);
+		}
+		return null;
+	}
 
 }
