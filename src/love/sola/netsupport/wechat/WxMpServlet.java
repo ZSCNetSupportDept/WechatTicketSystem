@@ -1,6 +1,5 @@
 package love.sola.netsupport.wechat;
 
-import love.sola.netsupport.wechat.handler.RegisterHandler;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
@@ -47,7 +46,6 @@ public class WxMpServlet extends HttpServlet {
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(config);
 		wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
-		wxMpMessageRouter.rule().async(false).rContent("^").handler(new RegisterHandler()).end();
 	}
 
 	@Override

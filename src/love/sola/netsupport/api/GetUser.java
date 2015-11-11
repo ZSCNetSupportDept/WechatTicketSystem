@@ -3,7 +3,7 @@ package love.sola.netsupport.api;
 import com.google.gson.Gson;
 import love.sola.netsupport.enums.ResponseCode;
 import love.sola.netsupport.pojo.User;
-import love.sola.netsupport.sql.SQLQuery;
+import love.sola.netsupport.sql.TableUser;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -46,7 +46,7 @@ public class GetUser extends HttpServlet {
 			out.println(gson.toJson(new Response(ResponseCode.PARAMETER_REQUIRED)));
 		} else if (id != null) {
 			try {
-				User u = SQLQuery.getUserById(Integer.parseInt(id));
+				User u = TableUser.getUserById(Integer.parseInt(id));
 				if (u == null)
 					out.println(gson.toJson(new Response(ResponseCode.USER_NOT_FOUND)));
 				else
@@ -55,7 +55,7 @@ public class GetUser extends HttpServlet {
 				out.println(gson.toJson(new Response(ResponseCode.ILLEGAL_PARAMETER)));
 			}
 		} else {
-			User u = SQLQuery.getUserByName(name);
+			User u = TableUser.getUserByName(name);
 			if (u == null)
 				out.println(gson.toJson(new Response(ResponseCode.USER_NOT_FOUND)));
 			else

@@ -1,10 +1,8 @@
 package love.sola.netsupport.sql;
 
-import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.enums.ISPType;
+import love.sola.netsupport.pojo.User;
 
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,11 +10,11 @@ import java.sql.SQLException;
 
 /**
  * ***********************************************
- * Created by Sola on 2014/8/20.
+ * Created by Sola on 2015/11/10.
  * Don't modify this source without my agreement
  * ***********************************************
  */
-public class SQLQuery {
+public class TableUser extends SQLCore {
 
 	public static final String COLUMN_ID = "id";
 	public static final String COLUMN_NAME = "name";
@@ -24,22 +22,6 @@ public class SQLQuery {
 	public static final String COLUMN_NET_ACCOUNT = "netaccount";
 	public static final String COLUMN_ISP = "isp";
 	public static final String COLUMN_WECHAT = "wechat";
-
-	public static DataSource ds;
-
-	static {
-		try {
-			InitialContext ic = new InitialContext();
-			ds = (DataSource) ic.lookup("java:comp/env/jdbc/netsupport");
-			ds.setLoginTimeout(3);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void free(Connection conn) {
-		if (conn != null) try { conn.close(); } catch (SQLException e) { }
-	}
 
 	public static User getUserByName(String name) {
 		Connection conn = null;
@@ -57,9 +39,7 @@ public class SQLQuery {
 						rs.getString(COLUMN_WECHAT));
 			}
 		} catch (SQLException e) {
-		} finally {
-			free(conn);
-		}
+		} finally { free(conn); }
 		return null;
 	}
 
@@ -79,9 +59,7 @@ public class SQLQuery {
 						rs.getString(COLUMN_WECHAT));
 			}
 		} catch (SQLException e) {
-		} finally {
-			free(conn);
-		}
+		} finally { free(conn); }
 		return null;
 	}
 
