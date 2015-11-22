@@ -2,8 +2,6 @@ package love.sola.netsupport.sql;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * ***********************************************
@@ -23,10 +21,6 @@ public class SQLCore {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void free(Connection conn) {
-		if (conn != null) try { conn.close(); } catch (SQLException e) { }
 	}
 
 }

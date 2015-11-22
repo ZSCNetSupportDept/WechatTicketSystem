@@ -24,9 +24,7 @@ public class TableUser extends SQLCore {
 	public static final String COLUMN_WECHAT = "wechat";
 
 	public static User getUserByName(String name) {
-		Connection conn = null;
-		try {
-			conn = ds.getConnection();
+		try (Connection conn = ds.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM user_info WHERE name=?");
 			ps.setString(1, name);
 			ResultSet rs = ps.executeQuery();
@@ -38,15 +36,12 @@ public class TableUser extends SQLCore {
 						ISPType.fromId(rs.getInt(COLUMN_ISP)),
 						rs.getString(COLUMN_WECHAT));
 			}
-		} catch (SQLException e) {
-		} finally { free(conn); }
+		} catch (SQLException e) { }
 		return null;
 	}
 
 	public static User getUserById(int id) {
-		Connection conn = null;
-		try {
-			conn = ds.getConnection();
+		try (Connection conn = ds.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM user_info WHERE id=?");
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -58,8 +53,7 @@ public class TableUser extends SQLCore {
 						ISPType.fromId(rs.getInt(COLUMN_ISP)),
 						rs.getString(COLUMN_WECHAT));
 			}
-		} catch (SQLException e) {
-		} finally { free(conn); }
+		} catch (SQLException e) { }
 		return null;
 	}
 
