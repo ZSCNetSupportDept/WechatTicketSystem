@@ -1,5 +1,7 @@
 package love.sola.netsupport.sql;
 
+import com.google.gson.Gson;
+
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
@@ -12,6 +14,7 @@ import javax.sql.DataSource;
 public class SQLCore {
 
 	public static DataSource ds;
+	public static Gson gson = new Gson();
 
 	static {
 		try {

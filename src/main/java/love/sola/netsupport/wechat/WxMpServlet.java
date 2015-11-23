@@ -1,5 +1,6 @@
 package love.sola.netsupport.wechat;
 
+import love.sola.netsupport.config.Settings;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
@@ -38,10 +39,10 @@ public class WxMpServlet extends HttpServlet {
 		super.init();
 
 		config = new WxMpInMemoryConfigStorage();
-		config.setAppId("*****");
-		config.setSecret("*****");
-		config.setToken("*****");
-//		config.setAesKey("SolaAES");
+		config.setAppId(Settings.I.Wechat_AppId);
+		config.setSecret(Settings.I.Wechat_Secret);
+		config.setToken(Settings.I.Wechat_Token);
+		config.setAesKey(Settings.I.Wechat_Token);
 
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(config);
