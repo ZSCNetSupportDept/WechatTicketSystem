@@ -1,0 +1,6 @@
+<wechat-config>
+    <appId>****</appId>
+    <secret>****</secret>
+    <token>****</token>
+    <aesKey>****</aesKey>
+</wechat-config>

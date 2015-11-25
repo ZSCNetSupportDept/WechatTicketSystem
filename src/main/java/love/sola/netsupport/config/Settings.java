@@ -1,6 +1,7 @@
 package love.sola.netsupport.config;
 
 import lombok.ToString;
+import love.sola.netsupport.sql.TableConfig;
 
 /**
  * ***********************************************
@@ -13,6 +14,10 @@ public class Settings {
 
 	public static Settings I;
 
+	static {
+		I = TableConfig.getSettings();
+	}
+
 	// -------------------------------------------- //
 	// CONFIGURATIONS
 	// -------------------------------------------- //
@@ -21,10 +26,10 @@ public class Settings {
 	public String Wechat_Token;
 	public String Wechat_AesKey;
 
+	public int Check_Spam_Cache_Expire_Time;
+	public int Check_Spam_Interval;
 
 	//No arg constructor for Yaml.loadAs
-	public Settings() {
-		I = this;
-	}
+	public Settings() { I = this; }
 
 }

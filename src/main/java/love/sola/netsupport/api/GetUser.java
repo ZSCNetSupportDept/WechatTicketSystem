@@ -1,7 +1,6 @@
 package love.sola.netsupport.api;
 
 import com.google.gson.Gson;
-import love.sola.netsupport.enums.ResponseCode;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.TableUser;
 
@@ -43,23 +42,23 @@ public class GetUser extends HttpServlet {
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		if ((id == null || id.isEmpty()) && (name == null || name.isEmpty())) {
-			out.println(gson.toJson(new Response(ResponseCode.PARAMETER_REQUIRED)));
+			out.println(gson.toJson(new Response(Response.ResponseCode.PARAMETER_REQUIRED)));
 		} else if (id != null) {
 			try {
 				User u = TableUser.getUserById(Integer.parseInt(id));
 				if (u == null)
-					out.println(gson.toJson(new Response(ResponseCode.USER_NOT_FOUND)));
+					out.println(gson.toJson(new Response(Response.ResponseCode.USER_NOT_FOUND)));
 				else
-					out.println(gson.toJson(new Response(ResponseCode.OK, u)));
+					out.println(gson.toJson(new Response(Response.ResponseCode.OK, u)));
 			} catch (NumberFormatException e) {
-				out.println(gson.toJson(new Response(ResponseCode.ILLEGAL_PARAMETER)));
+				out.println(gson.toJson(new Response(Response.ResponseCode.ILLEGAL_PARAMETER)));
 			}
 		} else {
 			User u = TableUser.getUserByName(name);
 			if (u == null)
-				out.println(gson.toJson(new Response(ResponseCode.USER_NOT_FOUND)));
+				out.println(gson.toJson(new Response(Response.ResponseCode.USER_NOT_FOUND)));
 			else
-				out.println(gson.toJson(new Response(ResponseCode.OK, u)));
+				out.println(gson.toJson(new Response(Response.ResponseCode.OK, u)));
 		}
 		out.close();
 	}

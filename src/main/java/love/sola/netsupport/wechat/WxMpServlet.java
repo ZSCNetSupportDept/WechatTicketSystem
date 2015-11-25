@@ -1,11 +1,11 @@
 package love.sola.netsupport.wechat;
 
 import love.sola.netsupport.config.Settings;
+import love.sola.netsupport.wechat.handler.RegisterHandler;
+import love.sola.netsupport.wechat.intercepter.CheckSpamInterceptor;
+import love.sola.netsupport.wechat.matcher.CommandMatcher;
 import me.chanjar.weixin.common.util.StringUtils;
-import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpMessageRouter;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxMpServiceImpl;
+import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 
@@ -29,6 +29,7 @@ public class WxMpServlet extends HttpServlet {
 	protected WxMpInMemoryConfigStorage config;
 	protected WxMpService wxMpService;
 	protected WxMpMessageRouter wxMpMessageRouter;
+	protected CheckSpamInterceptor checkSpamInterceptor;
 
 	public WxMpServlet() {
 		instance = this;
@@ -46,7 +47,15 @@ public class WxMpServlet extends HttpServlet {
 
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(config);
+
+		checkSpamInterceptor = new CheckSpamInterceptor();
 		wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
+		wxMpMessageRouter.rule()
+				.async(false)
+				.matcher(new CommandMatcher(Command.REGISTER))
+				.handler(new RegisterHandler())
+				.interceptor(checkSpamInterceptor)
+				.end();
 	}
 
 	@Override
@@ -75,12 +84,12 @@ public class WxMpServlet extends HttpServlet {
 
 		String encryptType = StringUtils.isBlank(request.getParameter("encrypt_type")) ? "raw" : request.getParameter("encrypt_type");
 
-		if ("raw".equals(encryptType)) {
-			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
-			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-			response.getWriter().write(outMessage.toXml());
-			return;
-		}
+//		if ("raw".equals(encryptType)) {
+//			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
+//			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+//			response.getWriter().write(outMessage.toXml());
+//			return;
+//		}
 
 		if ("aes".equals(encryptType)) {
 			String msgSignature = request.getParameter("msg_signature");
@@ -98,4 +107,5 @@ public class WxMpServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doPost(req, resp);
 	}
+
 }
