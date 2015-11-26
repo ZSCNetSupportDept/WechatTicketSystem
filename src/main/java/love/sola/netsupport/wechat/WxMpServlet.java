@@ -5,7 +5,10 @@ import love.sola.netsupport.wechat.handler.RegisterHandler;
 import love.sola.netsupport.wechat.intercepter.CheckSpamInterceptor;
 import love.sola.netsupport.wechat.matcher.CommandMatcher;
 import me.chanjar.weixin.common.util.StringUtils;
-import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 
@@ -85,17 +88,31 @@ public class WxMpServlet extends HttpServlet {
 
 		String encryptType = StringUtils.isBlank(request.getParameter("encrypt_type")) ? "raw" : request.getParameter("encrypt_type");
 
-//		if ("raw".equals(encryptType)) {
-//			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
-//			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-//			response.getWriter().write(outMessage.toXml());
-//			return;
-//		}
+		if ("raw".equals(encryptType)) {
+			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
+			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+			if (outMessage == null) {
+				outMessage = WxMpXmlOutMessage.TEXT()
+						.fromUser(inMessage.getToUserName())
+						.toUser(inMessage.getFromUserName())
+						.content("Invalid Operation.")
+						.build();
+			}
+			response.getWriter().write(outMessage.toXml());
+			return;
+		}
 
 		if ("aes".equals(encryptType)) {
 			String msgSignature = request.getParameter("msg_signature");
 			WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(request.getInputStream(), config, timestamp, nonce, msgSignature);
 			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+			if (outMessage == null) {
+				outMessage = WxMpXmlOutMessage.TEXT()
+						.fromUser(inMessage.getToUserName())
+						.toUser(inMessage.getFromUserName())
+						.content("Invalid Operation.")
+						.build();
+			}
 			response.getWriter().write(outMessage.toEncryptedXml(config));
 			return;
 		}

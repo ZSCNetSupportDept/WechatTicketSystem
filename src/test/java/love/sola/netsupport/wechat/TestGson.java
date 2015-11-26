@@ -2,7 +2,6 @@ package love.sola.netsupport.wechat;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.config.Settings;
-import org.junit.Test;
 
 /**
  * ***********************************************
@@ -12,7 +11,7 @@ import org.junit.Test;
  */
 public class TestGson {
 
-	@Test
+//	@Test
 	public void testGson() {
 		Gson gson = new Gson();
 		Settings settings = new Settings();
