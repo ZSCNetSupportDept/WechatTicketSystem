@@ -45,7 +45,7 @@ public class GetUser extends HttpServlet {
 			out.println(gson.toJson(new Response(Response.ResponseCode.PARAMETER_REQUIRED)));
 		} else if (id != null) {
 			try {
-				User u = TableUser.getUserById(Integer.parseInt(id));
+				User u = TableUser.getUserById(Long.parseLong(id));
 				if (u == null)
 					out.println(gson.toJson(new Response(Response.ResponseCode.USER_NOT_FOUND)));
 				else

@@ -52,6 +52,7 @@ public class WxMpServlet extends HttpServlet {
 		wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
 		wxMpMessageRouter.rule()
 				.async(false)
+				.msgType("text")
 				.matcher(new CommandMatcher(Command.REGISTER))
 				.handler(new RegisterHandler())
 				.interceptor(checkSpamInterceptor)

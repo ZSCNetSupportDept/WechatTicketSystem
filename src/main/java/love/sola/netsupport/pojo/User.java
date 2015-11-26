@@ -14,9 +14,8 @@ import love.sola.netsupport.enums.ISPType;
 @AllArgsConstructor
 public class User {
 
-	private final int id;
+	private final long id;
 	private final String name;
-	private final long studentId;
 	private String netAccount;
 	private ISPType isp;
 	private String wechatId;
