@@ -2,6 +2,7 @@ package love.sola.netsupport.api;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
 
 import javax.servlet.ServletConfig;
@@ -22,12 +23,11 @@ import java.io.PrintWriter;
 @WebServlet(name = "GetUser",urlPatterns = "/api/getuser",loadOnStartup = 1)
 public class GetUser extends HttpServlet {
 
-	private Gson gson = null;
+	private Gson gson = SQLCore.gson;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		gson = new Gson();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

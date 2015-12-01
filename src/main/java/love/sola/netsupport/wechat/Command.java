@@ -1,7 +1,5 @@
 package love.sola.netsupport.wechat;
 
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +11,7 @@ import java.util.Map;
  */
 public enum Command {
 
-	REGISTER(0, "Register", "(?i)^Register$"),
+	REGISTER(0, "Register", ".*"),
 	;
 
 	private static final Map<Integer, Command> ID_MAP = new HashMap<>();
@@ -26,12 +24,9 @@ public enum Command {
 		}
 	}
 
-	@Getter
-	private final String name;
-	@Getter
-	private final String regex;
-	@Getter
-	private final int id;
+	public final String name;
+	public final String regex;
+	public final int id;
 
 	Command(int id, String name, String regex) {
 		this.name = name;

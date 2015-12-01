@@ -2,7 +2,8 @@ package love.sola.netsupport.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import love.sola.netsupport.enums.ISPType;
+import love.sola.netsupport.enums.Block;
+import love.sola.netsupport.enums.ISP;
 
 /**
  * ***********************************************
@@ -16,8 +17,11 @@ public class User {
 
 	private final long id;
 	private final String name;
+	private ISP isp;
 	private String netAccount;
-	private ISPType isp;
 	private String wechatId;
+	private Block block;
+	private int room;
+	private long phone;
 
 }

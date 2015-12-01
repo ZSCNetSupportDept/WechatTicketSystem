@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import java.util.HashMap;
 import java.util.Map;
 
+import static love.sola.netsupport.config.Lang.lang;
+
 /**
  * ***********************************************
  * Created by Sola on 2015/11/5.
@@ -31,27 +33,26 @@ public class Response {
 
 	public enum ResponseCode {
 
-		OK(0, "OK"),
-		PARAMETER_REQUIRED(-1, "Parameter Required"),
-		ILLEGAL_PARAMETER(-2, "Illegal parameter"),
-		USER_NOT_FOUND(-11, "User not found"),
+		OK(0),
+		PARAMETER_REQUIRED(-1),
+		ILLEGAL_PARAMETER(-2),
+		AUTHORIZE_FAILED(-9),
+		USER_NOT_FOUND(-11),
 		;
 
 		private static final Map<Integer, ResponseCode> ID_MAP = new HashMap<>();
 
 		static {
 			for (ResponseCode type : values()) {
-				if (type.id > 0) {
-					ID_MAP.put(type.id, type);
-				}
+				ID_MAP.put(type.id, type);
 			}
 		}
 
 		public final String info;
 		public final int id;
 
-		ResponseCode(int id, String info) {
-			this.info = info;
+		ResponseCode(int id) {
+			this.info = lang("RC_" + name());
 			this.id = id;
 		}
 

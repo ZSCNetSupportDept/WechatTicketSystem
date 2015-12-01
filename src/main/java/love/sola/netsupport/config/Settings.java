@@ -29,6 +29,11 @@ public class Settings {
 	public int Check_Spam_Cache_Expire_Time;
 	public int Check_Spam_Interval;
 
+	public int User_Caching_Time;
+
+	public int User_Register_Timeout;
+	public int User_Command_Timeout;
+
 	//No arg constructor for Yaml.loadAs
 	public Settings() { I = this; }
 

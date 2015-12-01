@@ -29,7 +29,7 @@ public class CommandMatcher implements WxMpMessageMatcher {
 		if (inCmdUsers.containsKey(fromUser)) {
 			return command == inCmdUsers.get(fromUser);
 		} else {
-			return message.getContent().matches(command.getRegex());
+			return message.getContent().matches(command.regex);
 		}
 	}
 

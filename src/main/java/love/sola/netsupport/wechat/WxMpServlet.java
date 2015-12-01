@@ -3,12 +3,11 @@ package love.sola.netsupport.wechat;
 import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.wechat.handler.RegisterHandler;
 import love.sola.netsupport.wechat.intercepter.CheckSpamInterceptor;
-import love.sola.netsupport.wechat.matcher.CommandMatcher;
+import love.sola.netsupport.wechat.matcher.RegisterMatcher;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.StringUtils;
-import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpMessageRouter;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxMpServiceImpl;
+import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 
@@ -18,6 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
+
+import static love.sola.netsupport.config.Lang.lang;
 
 /**
  * ***********************************************
@@ -25,7 +27,7 @@ import java.io.IOException;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "WxMpServlet", urlPatterns = "/wechattest", loadOnStartup = 2)
+@WebServlet(name = "WxMpServlet", urlPatterns = "/wechattest", loadOnStartup = 99)
 public class WxMpServlet extends HttpServlet {
 
 	public static WxMpServlet instance;
@@ -56,9 +58,23 @@ public class WxMpServlet extends HttpServlet {
 		wxMpMessageRouter.rule()
 				.async(false)
 				.msgType("text")
-				.matcher(new CommandMatcher(Command.REGISTER))
+				.matcher(new RegisterMatcher())
 				.handler(new RegisterHandler())
 				.interceptor(checkSpamInterceptor)
+				.end();
+		wxMpMessageRouter.rule()
+				.async(false)
+				.msgType("event")
+				.event("subscribe")
+				.handler(new WxMpMessageHandler() {
+					@Override
+					public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+						return WxMpXmlOutMessage.TEXT()
+								.fromUser(wxMessage.getToUserName())
+								.toUser(wxMessage.getFromUserName())
+								.content(lang("Event_Subscribe")).build();
+					}
+				})
 				.end();
 	}
 
@@ -75,7 +91,7 @@ public class WxMpServlet extends HttpServlet {
 
 		if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
 			// Signature fail
-			response.getWriter().println("Access Denied");
+			response.getWriter().println(lang("Access_Denied"));
 			return;
 		}
 
@@ -95,7 +111,7 @@ public class WxMpServlet extends HttpServlet {
 				outMessage = WxMpXmlOutMessage.TEXT()
 						.fromUser(inMessage.getToUserName())
 						.toUser(inMessage.getFromUserName())
-						.content("Invalid Operation.")
+						.content(lang("Invalid_Operation"))
 						.build();
 			}
 			response.getWriter().write(outMessage.toXml());
@@ -110,14 +126,14 @@ public class WxMpServlet extends HttpServlet {
 				outMessage = WxMpXmlOutMessage.TEXT()
 						.fromUser(inMessage.getToUserName())
 						.toUser(inMessage.getFromUserName())
-						.content("Invalid Operation.")
+						.content(lang("Invalid_Operation"))
 						.build();
 			}
 			response.getWriter().write(outMessage.toEncryptedXml(config));
 			return;
 		}
 
-		response.getWriter().println("Unknown encrypt-type");
+		response.getWriter().println(lang("Unknown_Encrypt_Type"));
 		return;
 	}
 
