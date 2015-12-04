@@ -2,8 +2,13 @@ package love.sola.netsupport.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import love.sola.netsupport.enums.Block;
+import love.sola.netsupport.enums.BlockConverter;
 import love.sola.netsupport.enums.ISP;
+import love.sola.netsupport.enums.ISPConverter;
+
+import javax.persistence.*;
 
 /**
  * ***********************************************
@@ -13,15 +18,25 @@ import love.sola.netsupport.enums.ISP;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
 
-	private final long id;
-	private final String name;
+	@Id
+	@Column(name = "id", updatable = false, nullable = false)
+	private long id;
+	@Column(name = "name", updatable = false, nullable = false)
+	private String name;
+	@Convert(converter = ISPConverter.class)
 	private ISP isp;
+	@Column(name = "netaccount")
 	private String netAccount;
+	@Column(name = "wechat")
 	private String wechatId;
+	@Convert(converter = BlockConverter.class)
 	private Block block;
-	private int room;
-	private long phone;
+	private Integer room;
+	private Long phone;
 
 }

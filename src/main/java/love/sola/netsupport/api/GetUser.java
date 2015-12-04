@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
+import love.sola.netsupport.util.JsonP;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -39,28 +40,34 @@ public class GetUser extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
+		String json = gson.toJson(query(request));
+		out.println(JsonP.parse(request, json));
+		out.close();
+	}
+
+	private Response query(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		if ((id == null || id.isEmpty()) && (name == null || name.isEmpty())) {
-			out.println(gson.toJson(new Response(Response.ResponseCode.PARAMETER_REQUIRED)));
-		} else if (id != null) {
+			return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
+		}
+		if (id != null) {
 			try {
 				User u = TableUser.getUserById(Long.parseLong(id));
 				if (u == null)
-					out.println(gson.toJson(new Response(Response.ResponseCode.USER_NOT_FOUND)));
+					return new Response(Response.ResponseCode.USER_NOT_FOUND);
 				else
-					out.println(gson.toJson(new Response(Response.ResponseCode.OK, u)));
+					return new Response(Response.ResponseCode.OK, u);
 			} catch (NumberFormatException e) {
-				out.println(gson.toJson(new Response(Response.ResponseCode.ILLEGAL_PARAMETER)));
+				return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
 			}
 		} else {
 			User u = TableUser.getUserByName(name);
 			if (u == null)
-				out.println(gson.toJson(new Response(Response.ResponseCode.USER_NOT_FOUND)));
+				return new Response(Response.ResponseCode.USER_NOT_FOUND);
 			else
-				out.println(gson.toJson(new Response(Response.ResponseCode.OK, u)));
+				return new Response(Response.ResponseCode.OK, u);
 		}
-		out.close();
 	}
 
 }

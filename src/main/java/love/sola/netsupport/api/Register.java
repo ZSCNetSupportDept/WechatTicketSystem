@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,27 +31,31 @@ public class Register extends HttpServlet {
 	public static final String STUDENT_ID_REGEX = "^(2010|2012|2013|2014|2015)[0-9]{9}$";
 	public static final String PHONE_NUMBER_REGEX = "^1[34578][0-9]{9}$";
 
+	public static final String REDIRECT_PAGE = "http://topaz.sinaapp.com/nm/result.html?";
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
-		PrintWriter out = response.getWriter();
 
 		ISP isp = checkISP(request.getParameter("isp"));
 		Block block = checkBlock(request.getParameter("block"));
-		out.println(
-				register(
-						checkStudentId(request.getParameter("sid")),
-						request.getParameter("name"),
-						isp,
-						checkNetAccount(request.getParameter("username"), isp),
-						block,
-						checkRoom(request.getParameter("room"), block),
-						checkPhoneNumber(request.getParameter("phone")),
-						checkWechat(request.getParameter("wechatid"))
+		String result = register(
+				checkStudentId(request.getParameter("sid")),
+				request.getParameter("name"),
+				isp,
+				checkNetAccount(request.getParameter("username"), isp),
+				block,
+				checkRoom(request.getParameter("room"), block),
+				checkPhoneNumber(request.getParameter("phone")),
+				checkWechat(request.getParameter("wechatid"))
+		);
+		response.sendRedirect(
+				response.encodeRedirectURL(REDIRECT_PAGE +
+						"msg=" + result + "" +
+						"&type=" + (result.equals("Register_Success") ? 1 : 0)
 				)
 		);
-		out.close();
 	}
 
 	@SuppressWarnings("Duplicates")
@@ -60,31 +63,35 @@ public class Register extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.println(lang("Illegal_Request"));
-		out.close();
+		response.sendRedirect(
+				response.encodeRedirectURL(REDIRECT_PAGE +
+						"msg=" + lang("Illegal_Request") +
+						"&type=-1"
+				)
+		);
 	}
 
 	private String register(long sid, String name, ISP isp, String netAccount, Block block, int room, long phone, String wechat) {
-		if (wechat == null) return lang("Illegal_Request");
-		if (sid == -1) return lang("Invalid_Student_Id");
-		if (name == null) return lang("Invalid_Name");
-		if (isp == null) return lang("Invalid_ISP");
-		if (netAccount == null) return lang("Invalid_Account");
-		if (block == null) return lang("Invalid_Block");
-		if (room == -1) return lang("Invalid_Room");
-		if (phone == -1) return lang("Invalid_Phone_Number");
+		if (wechat == null) return "Illegal_Request";
+		if (sid == -1) return "Invalid_Student_Id";
+		if (name == null) return "Invalid_Name";
+		if (isp == null) return "Invalid_ISP";
+		if (netAccount == null) return "Invalid_Account";
+		if (block == null) return "Invalid_Block";
+		if (room == -1) return "Invalid_Room";
+		if (phone == -1) return "Invalid_Phone_Number";
 		User user = TableUser.getUserById(sid);
-		if (user == null) return lang("Invalid_Student_Id");
-		if (!user.getName().equals(name)) return lang("Invalid_Name");
-		if (user.getWechatId() != null) return lang("User_Already_Registered");
+		if (user == null) return "Invalid_Student_Id";
+		if (!user.getName().equals(name)) return "Invalid_Name";
+		if (user.getWechatId() != null) return "User_Already_Registered";
 		user.setIsp(isp);
 		user.setNetAccount(netAccount);
 		user.setBlock(block);
 		user.setRoom(room);
 		user.setPhone(phone);
 		user.setWechatId(wechat);
-		return lang("Register_Success");
+		TableUser.updateUser(user);
+		return "Register_Success";
 	}
 
 
@@ -150,7 +157,7 @@ public class Register extends HttpServlet {
 	private String checkWechat(String wechat) {
 		if (wechat == null) return null;
 		Long l = authorized.remove(wechat);
-		return l == null ? null : l < System.currentTimeMillis() - Settings.I.User_Register_Timeout ? null : wechat;
+		return l == null ? null : l < System.currentTimeMillis() - Settings.I.User_Register_Timeout * 1000 ? null : wechat;
 	}
 
 }

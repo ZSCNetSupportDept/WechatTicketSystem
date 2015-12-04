@@ -18,4 +18,11 @@ public class TestMessageFormat {
 		System.out.println(format.format(new Object[]{"wechatid"}));
 	}
 
+	@Test
+	public void testJsonp() {
+		String jsonp = "...{0}...";
+		MessageFormat format = new MessageFormat(jsonp);
+		System.out.println(format.format(new Object[]{"{SomeData}"}));
+	}
+
 }

@@ -3,6 +3,8 @@ package love.sola.netsupport.wechat;
 import java.util.HashMap;
 import java.util.Map;
 
+import static love.sola.netsupport.config.Lang.lang;
+
 /**
  * ***********************************************
  * Created by Sola on 2015/11/26.
@@ -11,7 +13,8 @@ import java.util.Map;
  */
 public enum Command {
 
-	REGISTER(0, "Register", ".*"),
+	REGISTER(0, ".*"),
+	QUERY(1, "Query"),
 	;
 
 	private static final Map<Integer, Command> ID_MAP = new HashMap<>();
@@ -28,8 +31,8 @@ public enum Command {
 	public final String regex;
 	public final int id;
 
-	Command(int id, String name, String regex) {
-		this.name = name;
+	Command(int id, String regex) {
+		this.name = lang("CMD_" + name());
 		this.id = id;
 		this.regex = regex;
 	}

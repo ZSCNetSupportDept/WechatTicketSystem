@@ -3,6 +3,7 @@ package love.sola.netsupport.api;
 import com.google.gson.Gson;
 import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.sql.SQLCore;
+import love.sola.netsupport.util.JsonP;
 import love.sola.netsupport.wechat.Command;
 
 import javax.servlet.ServletException;
@@ -14,8 +15,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static love.sola.netsupport.config.Lang.lang;
 
 /**
  * ***********************************************
@@ -32,16 +31,21 @@ public class Authorize extends HttpServlet {
 	public static Map<String, Command> fetchedCommand = new ConcurrentHashMap<>();
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		String wechat = request.getParameter("wechat");
-		out.println(gson.toJson(authorize(wechat)));
+		String json = gson.toJson(authorize(request));
+		out.println(JsonP.parse(request, json));
 		out.close();
 	}
 
-	private Response authorize(String wechat) {
+	private Response authorize(HttpServletRequest request) {
+		String wechat = request.getParameter("wechat");
 		if (wechat == null) {
 			return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
 		}
@@ -50,28 +54,20 @@ public class Authorize extends HttpServlet {
 		if (l == null || c == null) {
 			return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
 		}
-		if (l < System.currentTimeMillis() - Settings.I.User_Command_Timeout) {
-			return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
+		if (l < System.currentTimeMillis() - Settings.I.User_Command_Timeout * 1000) {
+			return new Response(Response.ResponseCode.REQUEST_EXPIRED);
 		}
 		switch (c) {
 			case REGISTER:
 				Register.authorized.put(wechat, System.currentTimeMillis());
 				break;
+			case QUERY:
+				request.getSession(true).setAttribute("wechat", wechat);
+				request.getSession(true).setAttribute("wechat", wechat);
 			default:
 				return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
 		}
 		return new Response(Response.ResponseCode.OK);
-	}
-
-	
-	@SuppressWarnings("Duplicates")
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "text/plain;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.println(lang("Illegal_Request"));
-		out.close();
 	}
 
 }
