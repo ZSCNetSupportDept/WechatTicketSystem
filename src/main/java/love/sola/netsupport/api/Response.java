@@ -33,6 +33,7 @@ public class Response {
 
 	public enum ResponseCode {
 
+		ALREADY_SUBMITTED(1),
 		OK(0),
 		PARAMETER_REQUIRED(-1),
 		ILLEGAL_PARAMETER(-2),

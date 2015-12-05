@@ -3,6 +3,7 @@ package love.sola.netsupport.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import love.sola.netsupport.sql.TableTicket;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,19 +21,23 @@ import java.util.Date;
 @Table(name = "tickets")
 public class Ticket {
 
+	public static final String PROPERTY_USER = "user";
+	public static final String PROPERTY_STATUS = "status";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "sid")
+	@JoinColumn(name = TableTicket.COLUMN_SID)
 	private User user;
 	private String description;
+	@Column(name = TableTicket.COLUMN_SUBMIT_TIME, insertable = false)
 	private Date submitTime;
 	private String remark;
 	private Date updateTime;
 	@ManyToOne(optional = true)
-	@JoinColumn(name = "opsid")
+	@JoinColumn(name = TableTicket.COLUMN_OPSID)
 	private User operator;
-	private int status;
+	private Integer status;
 
 }

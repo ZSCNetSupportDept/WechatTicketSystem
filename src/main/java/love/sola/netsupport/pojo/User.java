@@ -25,7 +25,7 @@ public class User {
 
 	@Id
 	@Column(name = "id", updatable = false, nullable = false)
-	private long id;
+	private Long id;
 	@Column(name = "name", updatable = false, nullable = false)
 	private String name;
 	@Convert(converter = ISPConverter.class)

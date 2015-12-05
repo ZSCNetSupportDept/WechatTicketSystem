@@ -25,8 +25,8 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "QueryTicket", urlPatterns = "/api/querytickets", loadOnStartup = 23)
-public class QueryTicket extends HttpServlet {
+@WebServlet(name = "QueryTicket", urlPatterns = "/api/ticketquery", loadOnStartup = 23)
+public class TicketQuery extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;
 
@@ -34,6 +34,7 @@ public class QueryTicket extends HttpServlet {
 		doGet(request, response);
 	}
 	
+	@SuppressWarnings("Duplicates")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
@@ -63,11 +64,11 @@ public class QueryTicket extends HttpServlet {
 			int limit = request.getParameter("limit") == null ? 5 : Integer.parseInt(request.getParameter("limit"));
 			c.setFirstResult(first);
 			c.setMaxResults(limit);
-			c.add(Restrictions.eq("sid", u.getId()));
+			c.add(Restrictions.eq(Ticket.PROPERTY_USER, u));
 			if (request.getParameter("status") != null) {
-				c.add(Restrictions.eq("status", Integer.parseInt(request.getParameter("status"))));
+				c.add(Restrictions.eq(Ticket.PROPERTY_STATUS, Integer.parseInt(request.getParameter("status"))));
 			} else if (request.getParameter("statusl") != null && request.getParameter("statush") != null) {
-				c.add(Restrictions.between("status",
+				c.add(Restrictions.between(Ticket.PROPERTY_STATUS,
 						Integer.parseInt(request.getParameter("statusl")),
 						Integer.parseInt(request.getParameter("statush"))
 				));

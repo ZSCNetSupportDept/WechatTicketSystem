@@ -1,0 +1,88 @@
+package love.sola.netsupport.api;
+
+import com.google.gson.Gson;
+import love.sola.netsupport.pojo.Ticket;
+import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.sql.SQLCore;
+import love.sola.netsupport.util.JsonP;
+import love.sola.netsupport.util.Redirect;
+import love.sola.netsupport.wechat.Command;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * ***********************************************
+ * Created by Sola on 2015/12/6.
+ * Don't modify this source without my agreement
+ * ***********************************************
+ */
+@WebServlet(name = "TicketSubmit", urlPatterns = "/api/ticketsubmit", loadOnStartup = 23)
+public class TicketSubmit extends HttpServlet {
+
+	private Gson gson = SQLCore.gson;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.addHeader("Content-type", "text/json;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String json = gson.toJson(submit(request));
+		out.println(JsonP.parse(request, json));
+		out.close();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.addHeader("Content-type", "text/plain;charset=utf-8");
+		Redirect.message(response, -1, "Illegal_Request");
+	}
+
+	private Response submit(HttpServletRequest request) {
+		try (Session s = SQLCore.sf.openSession()) {
+			if (request.getSession() == null || request.getSession().getAttribute("authorized") != Command.SUBMIT) {
+				return new Response(Response.ResponseCode.UNAUTHORIZED);
+			}
+			User u = (User) request.getSession().getAttribute("user");
+			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
+			int n = (int) s.createCriteria(Ticket.class)
+					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
+					.add(Restrictions.eq(Ticket.PROPERTY_STATUS, 0))
+					.setProjection(Projections.rowCount())
+					.uniqueResult();
+			if (n > 0) {
+				return new Response(Response.ResponseCode.ALREADY_SUBMITTED);
+			}
+			String desc = request.getParameter("desc");
+			if (desc == null) {
+				return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
+			}
+			Ticket t = new Ticket();
+			t.setUser(u);
+			t.setDescription(desc);
+			t.setStatus(0);
+			s.beginTransaction();
+			s.save(t);
+			s.getTransaction().commit();
+			return new Response(Response.ResponseCode.OK, t);
+		} catch (NumberFormatException e) {
+			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
+		} catch (HibernateException e) {
+			return new Response(Response.ResponseCode.DATABASE_ERROR);
+		} catch (Exception e) {
+			return new Response(Response.ResponseCode.INTERNAL_ERROR);
+		}
+	}
+
+
+}

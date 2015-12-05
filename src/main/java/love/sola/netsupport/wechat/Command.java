@@ -15,6 +15,7 @@ public enum Command {
 
 	REGISTER(0, ".*"),
 	QUERY(1, "Query"),
+	SUBMIT(1, "Submit"),
 	;
 
 	private static final Map<Integer, Command> ID_MAP = new HashMap<>();

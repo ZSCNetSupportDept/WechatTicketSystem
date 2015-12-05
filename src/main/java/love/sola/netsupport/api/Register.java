@@ -4,6 +4,7 @@ import love.sola.netsupport.enums.Block;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.TableUser;
+import love.sola.netsupport.util.Redirect;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static love.sola.netsupport.config.Lang.lang;
 
 /**
  * ***********************************************
@@ -26,7 +25,6 @@ public class Register extends HttpServlet {
 	public static final String STUDENT_ID_REGEX = "^(2010|2012|2013|2014|2015)[0-9]{9}$";
 	public static final String PHONE_NUMBER_REGEX = "^1[34578][0-9]{9}$";
 
-	public static final String REDIRECT_PAGE = "http://topaz.sinaapp.com/nm/result.html";
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -35,7 +33,7 @@ public class Register extends HttpServlet {
 
 		String wechat = checkWechat(request.getParameter("wechatid"), request);
 		if (wechat == null) {
-			response.sendRedirect(response.encodeRedirectURL(REDIRECT_PAGE + "?msg=Illegal_Request&type=1"));
+			Redirect.message(response, 0, "Illegal_Request");
 			return;
 		}
 
@@ -51,12 +49,7 @@ public class Register extends HttpServlet {
 				checkPhoneNumber(request.getParameter("phone")),
 				wechat
 		);
-		response.sendRedirect(
-				response.encodeRedirectURL(REDIRECT_PAGE +
-						"?msg=" + result + "" +
-						"&type=" + (result.equals("Register_Success") ? 1 : 0)
-				)
-		);
+		Redirect.message(response, result.equals("Register_Success") ? 1 : 0, result);
 	}
 
 	@SuppressWarnings("Duplicates")
@@ -64,12 +57,7 @@ public class Register extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
-		response.sendRedirect(
-				response.encodeRedirectURL(REDIRECT_PAGE +
-						"?msg=" + lang("Illegal_Request") +
-						"&type=-1"
-				)
-		);
+		Redirect.message(response, -1, "Illegal_Request");
 	}
 
 	private String register(long sid, String name, ISP isp, String netAccount, Block block, int room, long phone, String wechat) {
