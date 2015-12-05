@@ -38,7 +38,11 @@ public class Response {
 		ILLEGAL_PARAMETER(-2),
 		AUTHORIZE_FAILED(-9),
 		USER_NOT_FOUND(-11),
+		TICKET_NOT_FOUND(-12),
+		UNAUTHORIZED(-20),
 		REQUEST_EXPIRED(-21),
+		INTERNAL_ERROR(-90),
+		DATABASE_ERROR(-91),
 		;
 
 		private static final Map<Integer, ResponseCode> ID_MAP = new HashMap<>();

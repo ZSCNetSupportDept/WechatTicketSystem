@@ -1,6 +1,5 @@
 package love.sola.netsupport.api;
 
-import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.enums.Block;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
@@ -12,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static love.sola.netsupport.config.Lang.lang;
 
@@ -26,17 +23,21 @@ import static love.sola.netsupport.config.Lang.lang;
 @WebServlet(name = "Register", urlPatterns = "/api/register", loadOnStartup = 22)
 public class Register extends HttpServlet {
 
-	public static Map<String, Long> authorized = new ConcurrentHashMap<>();
-
 	public static final String STUDENT_ID_REGEX = "^(2010|2012|2013|2014|2015)[0-9]{9}$";
 	public static final String PHONE_NUMBER_REGEX = "^1[34578][0-9]{9}$";
 
-	public static final String REDIRECT_PAGE = "http://topaz.sinaapp.com/nm/result.html?";
+	public static final String REDIRECT_PAGE = "http://topaz.sinaapp.com/nm/result.html";
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
+
+		String wechat = checkWechat(request.getParameter("wechatid"), request);
+		if (wechat == null) {
+			response.sendRedirect(response.encodeRedirectURL(REDIRECT_PAGE + "?msg=Illegal_Request&type=1"));
+			return;
+		}
 
 		ISP isp = checkISP(request.getParameter("isp"));
 		Block block = checkBlock(request.getParameter("block"));
@@ -48,11 +49,11 @@ public class Register extends HttpServlet {
 				block,
 				checkRoom(request.getParameter("room"), block),
 				checkPhoneNumber(request.getParameter("phone")),
-				checkWechat(request.getParameter("wechatid"))
+				wechat
 		);
 		response.sendRedirect(
 				response.encodeRedirectURL(REDIRECT_PAGE +
-						"msg=" + result + "" +
+						"?msg=" + result + "" +
 						"&type=" + (result.equals("Register_Success") ? 1 : 0)
 				)
 		);
@@ -65,7 +66,7 @@ public class Register extends HttpServlet {
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
 		response.sendRedirect(
 				response.encodeRedirectURL(REDIRECT_PAGE +
-						"msg=" + lang("Illegal_Request") +
+						"?msg=" + lang("Illegal_Request") +
 						"&type=-1"
 				)
 		);
@@ -154,10 +155,12 @@ public class Register extends HttpServlet {
 		return -1;
 	}
 
-	private String checkWechat(String wechat) {
+	private String checkWechat(String wechat, HttpServletRequest request) {
 		if (wechat == null) return null;
-		Long l = authorized.remove(wechat);
-		return l == null ? null : l < System.currentTimeMillis() - Settings.I.User_Register_Timeout * 1000 ? null : wechat;
+		if (request.getSession() == null) return null;
+		String reqWechat = (String) request.getSession().getAttribute("wechat");
+		if (reqWechat != null && reqWechat.equals(wechat)) return reqWechat;
+		else return null;
 	}
 
 }

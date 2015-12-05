@@ -2,7 +2,9 @@ package love.sola.netsupport.api;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.config.Settings;
+import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
+import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.util.JsonP;
 import love.sola.netsupport.wechat.Command;
 
@@ -57,13 +59,16 @@ public class Authorize extends HttpServlet {
 		if (l < System.currentTimeMillis() - Settings.I.User_Command_Timeout * 1000) {
 			return new Response(Response.ResponseCode.REQUEST_EXPIRED);
 		}
+		request.getSession(true).setAttribute("authorized", c);
+		request.getSession(true).setAttribute("wechat", wechat);
 		switch (c) {
 			case REGISTER:
-				Register.authorized.put(wechat, System.currentTimeMillis());
 				break;
 			case QUERY:
-				request.getSession(true).setAttribute("wechat", wechat);
-				request.getSession(true).setAttribute("wechat", wechat);
+				User u = TableUser.getUserByWechat(wechat);
+				if (u == null) return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
+				request.getSession(true).setAttribute("user", u);
+				break;
 			default:
 				return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
 		}
