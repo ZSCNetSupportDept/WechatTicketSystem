@@ -9,6 +9,7 @@ import love.sola.netsupport.wechat.Command;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import javax.servlet.ServletException;
@@ -64,6 +65,7 @@ public class TicketQuery extends HttpServlet {
 			int limit = request.getParameter("limit") == null ? 5 : Integer.parseInt(request.getParameter("limit"));
 			c.setFirstResult(first);
 			c.setMaxResults(limit);
+			c.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME));
 			c.add(Restrictions.eq(Ticket.PROPERTY_USER, u));
 			if (request.getParameter("status") != null) {
 				c.add(Restrictions.eq(Ticket.PROPERTY_STATUS, Integer.parseInt(request.getParameter("status"))));

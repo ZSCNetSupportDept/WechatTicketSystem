@@ -1,6 +1,7 @@
-package love.sola.netsupport.api;
+package love.sola.netsupport.api.admin;
 
 import com.google.gson.Gson;
+import love.sola.netsupport.api.Response;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;

@@ -3,8 +3,6 @@ package love.sola.netsupport.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import love.sola.netsupport.enums.Block;
-import love.sola.netsupport.enums.BlockConverter;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.enums.ISPConverter;
 
@@ -23,6 +21,10 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
+	public static final String PROPERTY_NAME = "name";
+	public static final String PROPERTY_WECHAT = "wechatId";
+	public static final String PROPERTY_BLOCK = "block";
+
 	@Id
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
@@ -34,8 +36,7 @@ public class User {
 	private String netAccount;
 	@Column(name = "wechat")
 	private String wechatId;
-	@Convert(converter = BlockConverter.class)
-	private Block block;
+	private Integer block;
 	private Integer room;
 	private Long phone;
 

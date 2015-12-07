@@ -39,6 +39,7 @@
         <!-- Names the annotated entity class -->
         <mapping class="love.sola.netsupport.pojo.User"/>
         <mapping class="love.sola.netsupport.pojo.Ticket"/>
+        <mapping class="love.sola.netsupport.pojo.Operator"/>
 
     </session-factory>
 

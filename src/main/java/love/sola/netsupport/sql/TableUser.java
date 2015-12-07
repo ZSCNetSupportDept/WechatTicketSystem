@@ -1,7 +1,6 @@
 package love.sola.netsupport.sql;
 
 import love.sola.netsupport.pojo.User;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -26,29 +25,20 @@ public class TableUser extends SQLCore {
 	public static User getUserById(long id) {
 		try (Session s = sf.openSession()) {
 			return s.get(User.class, id);
-		} catch (HibernateException e) {
-			e.printStackTrace();
 		}
-		return null;
 	}
 
 
 	public static User getUserByWechat(String wechat) {
 		try (Session s = sf.openSession()) {
-			return (User) s.createCriteria(User.class).add(Restrictions.eq(COLUMN_WECHAT, wechat)).uniqueResult();
-		} catch (HibernateException e) {
-			e.printStackTrace();
+			return (User) s.createCriteria(User.class).add(Restrictions.eq(User.PROPERTY_WECHAT, wechat)).uniqueResult();
 		}
-		return null;
 	}
 
 	public static User getUserByName(String name) {
 		try (Session s = sf.openSession()) {
-			return (User) s.createCriteria(User.class).add(Restrictions.eq(COLUMN_NAME, name)).uniqueResult();
-		} catch (HibernateException e) {
-			e.printStackTrace();
+			return (User) s.createCriteria(User.class).add(Restrictions.eq(User.PROPERTY_NAME, name)).uniqueResult();
 		}
-		return null;
 	}
 
 	public static int updateUser(User user) {
@@ -57,10 +47,7 @@ public class TableUser extends SQLCore {
 			s.update(user);
 			s.getTransaction().commit();
 			return 1;
-		} catch (HibernateException e) {
-			e.printStackTrace();
 		}
-		return -1;
 	}
 
 }

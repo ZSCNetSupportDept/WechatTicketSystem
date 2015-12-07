@@ -1,6 +1,5 @@
 package love.sola.netsupport.api;
 
-import love.sola.netsupport.enums.Block;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.TableUser;
@@ -38,7 +37,7 @@ public class Register extends HttpServlet {
 		}
 
 		ISP isp = checkISP(request.getParameter("isp"));
-		Block block = checkBlock(request.getParameter("block"));
+		int block = checkBlock(request.getParameter("block"));
 		String result = register(
 				checkStudentId(request.getParameter("sid")),
 				request.getParameter("name"),
@@ -60,13 +59,13 @@ public class Register extends HttpServlet {
 		Redirect.message(response, -1, "Illegal_Request");
 	}
 
-	private String register(long sid, String name, ISP isp, String netAccount, Block block, int room, long phone, String wechat) {
+	private String register(long sid, String name, ISP isp, String netAccount, int block, int room, long phone, String wechat) {
 		if (wechat == null) return "Illegal_Request";
 		if (sid == -1) return "Invalid_Student_Id";
 		if (name == null) return "Invalid_Name";
 		if (isp == null) return "Invalid_ISP";
 		if (netAccount == null) return "Invalid_Account";
-		if (block == null) return "Invalid_Block";
+		if (block == -1) return "Invalid_Block";
 		if (room == -1) return "Invalid_Room";
 		if (phone == -1) return "Invalid_Phone_Number";
 		User user = TableUser.getUserById(sid);
@@ -122,17 +121,17 @@ public class Register extends HttpServlet {
 		return account;
 	}
 
-	private Block checkBlock(String block) {
-		if (block == null) return null;
+	private int checkBlock(String block) {
+		if (block == null) return -1;
 		try {
-			return Block.fromId(Integer.parseInt(block));
+			return Integer.parseInt(block);
 		} catch (NumberFormatException ignored) {
 		}
-		return null;
+		return -1;
 	}
 
-	private int checkRoom(String room, Block block) {
-		if (block == null) return -1;
+	private int checkRoom(String room, int block) {
+		if (block == -1) return -1;
 		if (room == null) return -1;
 		try {
 			Integer i = Integer.parseInt(room);

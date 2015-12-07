@@ -1,5 +1,13 @@
 package love.sola.netsupport.sql;
 
+import love.sola.netsupport.enums.Status;
+import love.sola.netsupport.pojo.Ticket;
+import love.sola.netsupport.pojo.User;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
+import java.util.List;
+
 /**
  * ***********************************************
  * Created by Sola on 2015/12/6.
@@ -16,5 +24,25 @@ public class TableTicket extends SQLCore {
 	public static final String COLUMN_UPDATE_TIME = "updatetime";
 	public static final String COLUMN_OPSID = "opsid";
 	public static final String COLUMN_STATUS = "status";
+
+
+	public static Ticket queryLastOpen(User u) {
+		try (Session s = SQLCore.sf.openSession()) {
+			return (Ticket) s.createCriteria(Ticket.class)
+					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
+					.add(Restrictions.eq(Ticket.PROPERTY_STATUS, Status.UNCHECKED))
+					.uniqueResult();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<Ticket> queryUnsolvedByBlock(int b) {
+		try (Session s = SQLCore.sf.openSession()) {
+			return s.createCriteria(Ticket.class)
+					.createCriteria(Ticket.PROPERTY_USER)
+					.add(Restrictions.between(User.PROPERTY_BLOCK, b * 10, (b + 1) * 10 - 1))
+					.list();
+		}
+	}
 
 }
