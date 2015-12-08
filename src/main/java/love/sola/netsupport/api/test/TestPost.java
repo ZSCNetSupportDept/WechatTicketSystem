@@ -38,6 +38,10 @@ public class TestPost extends HttpServlet {
 		for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
 			out.println(entry.getKey() + ": " + Arrays.toString(entry.getValue()));
 		}
+		Integer i = (Integer) request.getSession().getAttribute("ReqCount");
+		i = i == null ? 0 : i;
+		request.getSession().setAttribute("ReqCount", i + 1);
+		out.println("ReqCount = " + i);
 		out.close();
 	}
 

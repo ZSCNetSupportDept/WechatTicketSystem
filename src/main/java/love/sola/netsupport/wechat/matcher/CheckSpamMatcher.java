@@ -1,16 +1,12 @@
-package love.sola.netsupport.wechat.intercepter;
+package love.sola.netsupport.wechat.matcher;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import love.sola.netsupport.config.Settings;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.mp.api.WxMpMessageInterceptor;
-import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpMessageMatcher;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-public class CheckSpamInterceptor implements WxMpMessageInterceptor {
+public class CheckSpamMatcher implements WxMpMessageMatcher {
 
 	private class ValueLoader extends CacheLoader<String, Long> {
 		@Override
@@ -36,13 +32,13 @@ public class CheckSpamInterceptor implements WxMpMessageInterceptor {
 			.build(new ValueLoader());
 
 	@Override
-	public boolean intercept(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+	public boolean match(WxMpXmlMessage wxMessage) {
 		Long l = cache.getIfPresent(wxMessage.getFromUserName());
 		if (l != null && l > System.currentTimeMillis()) {
-			return false;
+			return true;
 		}
 		cache.refresh(wxMessage.getFromUserName());
-		return true;
+		return false;
 	}
 
 }

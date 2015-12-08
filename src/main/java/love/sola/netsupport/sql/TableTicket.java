@@ -4,6 +4,7 @@ import love.sola.netsupport.enums.Status;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
@@ -31,6 +32,15 @@ public class TableTicket extends SQLCore {
 			return (Ticket) s.createCriteria(Ticket.class)
 					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
 					.add(Restrictions.eq(Ticket.PROPERTY_STATUS, Status.UNCHECKED))
+					.uniqueResult();
+		}
+	}
+
+	public static Ticket queryLast(User u) {
+		try (Session s = SQLCore.sf.openSession()) {
+			return (Ticket) s.createCriteria(Ticket.class)
+					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))
+					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
 					.uniqueResult();
 		}
 	}

@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import java.util.HashMap;
 import java.util.Map;
 
-import static love.sola.netsupport.config.Lang.lang;
-
 /**
  * ***********************************************
  * Created by Sola on 2015/11/5.
@@ -26,7 +24,7 @@ public class Response {
 
 	public Response(ResponseCode code, Object result) {
 		this.code = code.id;
-		this.info = code.info;
+		this.info = code.name();
 		this.result = result;
 	}
 
@@ -54,11 +52,9 @@ public class Response {
 			}
 		}
 
-		public final String info;
 		public final int id;
 
 		ResponseCode(int id) {
-			this.info = lang("RC_" + name());
 			this.id = id;
 		}
 
@@ -68,7 +64,7 @@ public class Response {
 
 		@Override
 		public String toString() {
-			return info;
+			return name();
 		}
 
 	}

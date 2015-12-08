@@ -1,13 +1,15 @@
 package love.sola.netsupport.wechat;
 
 import love.sola.netsupport.config.Settings;
+import love.sola.netsupport.wechat.handler.QueryHandler;
 import love.sola.netsupport.wechat.handler.RegisterHandler;
-import love.sola.netsupport.wechat.intercepter.CheckSpamInterceptor;
+import love.sola.netsupport.wechat.matcher.CheckSpamMatcher;
 import love.sola.netsupport.wechat.matcher.RegisterMatcher;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.StringUtils;
-import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 
@@ -17,7 +19,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 import static love.sola.netsupport.config.Lang.lang;
 
@@ -34,7 +35,7 @@ public class WxMpServlet extends HttpServlet {
 	protected WxMpInMemoryConfigStorage config;
 	protected WxMpService wxMpService;
 	protected WxMpMessageRouter wxMpMessageRouter;
-	protected CheckSpamInterceptor checkSpamInterceptor;
+	protected CheckSpamMatcher checkSpamMatcher;
 
 	public WxMpServlet() {
 		instance = this;
@@ -53,28 +54,39 @@ public class WxMpServlet extends HttpServlet {
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(config);
 
-		checkSpamInterceptor = new CheckSpamInterceptor();
+		checkSpamMatcher = new CheckSpamMatcher();
 		wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
+		wxMpMessageRouter.rule()
+				.async(false)
+				.msgType("event")
+				.event("subscribe")
+				.handler((wxMessage, context, wxMpService1, sessionManager)
+						-> WxMpXmlOutMessage.TEXT()
+						.fromUser(wxMessage.getToUserName())
+						.toUser(wxMessage.getFromUserName())
+						.content(lang("Event_Subscribe")).build())
+				.end();
+		wxMpMessageRouter.rule()
+				.async(false)
+				.msgType("text")
+				.matcher(new CheckSpamMatcher())
+				.handler((wxMessage, context, wxMpService1, sessionManager)
+						-> WxMpXmlOutMessage.TEXT()
+						.fromUser(wxMessage.getToUserName())
+						.toUser(wxMessage.getFromUserName())
+						.content(lang("Message_Spam")).build())
+				.end();
 		wxMpMessageRouter.rule()
 				.async(false)
 				.msgType("text")
 				.matcher(new RegisterMatcher())
 				.handler(new RegisterHandler())
-				.interceptor(checkSpamInterceptor)
 				.end();
 		wxMpMessageRouter.rule()
 				.async(false)
-				.msgType("event")
-				.event("subscribe")
-				.handler(new WxMpMessageHandler() {
-					@Override
-					public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-						return WxMpXmlOutMessage.TEXT()
-								.fromUser(wxMessage.getToUserName())
-								.toUser(wxMessage.getFromUserName())
-								.content(lang("Event_Subscribe")).build();
-					}
-				})
+				.msgType("text")
+				.rContent(Command.QUERY.regex)
+				.handler(new QueryHandler())
 				.end();
 	}
 
