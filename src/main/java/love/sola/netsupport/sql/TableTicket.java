@@ -30,8 +30,10 @@ public class TableTicket extends SQLCore {
 	public static Ticket queryLastOpen(User u) {
 		try (Session s = SQLCore.sf.openSession()) {
 			return (Ticket) s.createCriteria(Ticket.class)
+					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))
 					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
 					.add(Restrictions.eq(Ticket.PROPERTY_STATUS, Status.UNCHECKED))
+					.setMaxResults(1)
 					.uniqueResult();
 		}
 	}
@@ -41,6 +43,7 @@ public class TableTicket extends SQLCore {
 			return (Ticket) s.createCriteria(Ticket.class)
 					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))
 					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
+					.setMaxResults(1)
 					.uniqueResult();
 		}
 	}
