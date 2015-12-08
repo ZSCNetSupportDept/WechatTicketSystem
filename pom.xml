@@ -29,7 +29,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>${project.artifactId}#${project.build.buildCount}</finalName>
+        <finalName>${project.artifactId}##${project.build.buildCount}</finalName>
     </build>
 
 
