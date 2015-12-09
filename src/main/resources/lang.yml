@@ -1,0 +1,14 @@
+Access_Denied: 'Access denied.'
+Already_Registered: "You've already registered. for profile modification, please type 'editprofile'."
+Event_Subscribe: "Welcome to ZSC Network Support Department (ZSCNSD) Wechat Ticket System (WTS).\nIf you have any problem, Please contact loli@sola.love."
+Illegal_Request: "Access denied.\nYou are doing a illegal request, and our system has logged your behaviors.\nYou need to take this seriously, if you do this frequently, you may be banned from our system."
+Invalid_Operation: 'Invalid operation.'
+More_Details: 'For more details, please click >'
+No_Ticket_Available: 'No tickets found.'
+Query_Title: 'Your latest ticket details'
+REGEX_QUERY: '^(?i)Query$'
+REGEX_REGISTER: '^(?i)Reg(ister)?$'
+Unknown_Encrypt_Type: 'Unknown encrypt-type.'
+User_Query_Link: 'http://topaz.sinaapp.com/nm/v1/query.php?wechatid={0}'
+User_Register_Link: "You''ve not registered, please <a href=\"http://topaz.sinaapp.com/nm/v1/reg.php?wechatid={0}\">CLICK HERE</a> to register."
+Already_Opening_Ticket: "You are holding an opening ticket right now. please type 'query' for more information"

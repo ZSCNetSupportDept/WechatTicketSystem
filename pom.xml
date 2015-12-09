@@ -148,6 +148,11 @@
             <artifactId>jBCrypt</artifactId>
             <version>0.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.16</version>
+        </dependency>
     </dependencies>
 
 </project>

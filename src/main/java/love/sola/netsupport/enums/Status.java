@@ -13,7 +13,7 @@ import java.util.Map;
 public class Status {
 
 	public static final int UNCHECKED = 0;
-	public static final int UNSOLVED = 9;
+	public static final int SOLVED = 9;
 
 	public static final Map<Integer, String> inverseMap = new HashMap<>();
 

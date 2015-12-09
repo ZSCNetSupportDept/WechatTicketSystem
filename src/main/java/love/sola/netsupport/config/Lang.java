@@ -1,7 +1,8 @@
 package love.sola.netsupport.config;
 
-import love.sola.netsupport.sql.TableLang;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +19,12 @@ public class Lang {
 	public static Map<String, MessageFormat> format_cache = new HashMap<>(32);
 
 	static {
-		messages = new HashMap<>();
-		TableLang.getLang(messages);
+		//noinspection unchecked
+		InputStream in = Lang.class.getClassLoader().getResourceAsStream("lang.yml");
+		messages = new Yaml().loadAs(in, Map.class);
+		for (Map.Entry<String, String> entry : messages.entrySet()) {
+			System.out.println(entry.getKey() + ": " + entry.getValue());
+		}
 	}
 
 	public static String lang(String key) {
