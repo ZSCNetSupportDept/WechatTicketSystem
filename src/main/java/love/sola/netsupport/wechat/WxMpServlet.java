@@ -3,6 +3,7 @@ package love.sola.netsupport.wechat;
 import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.wechat.handler.QueryHandler;
 import love.sola.netsupport.wechat.handler.RegisterHandler;
+import love.sola.netsupport.wechat.handler.SubmitHandler;
 import love.sola.netsupport.wechat.matcher.CheckSpamMatcher;
 import love.sola.netsupport.wechat.matcher.RegisterMatcher;
 import me.chanjar.weixin.common.util.StringUtils;
@@ -87,6 +88,12 @@ public class WxMpServlet extends HttpServlet {
 				.msgType("text")
 				.rContent(Command.QUERY.regex)
 				.handler(new QueryHandler())
+				.end();
+		wxMpMessageRouter.rule()
+				.async(false)
+				.msgType("text")
+				.rContent(Command.SUBMIT.regex)
+				.handler(new SubmitHandler())
 				.end();
 	}
 

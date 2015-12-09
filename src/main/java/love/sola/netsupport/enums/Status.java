@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import static love.sola.netsupport.config.Lang.lang;
+
 /**
  * ***********************************************
  * Created by Sola on 2015/12/6.
@@ -13,6 +15,8 @@ import java.util.Map;
 public class Status {
 
 	public static final int UNCHECKED = 0;
+	public static final int ARRANGED = 1;
+	public static final int PUTOFF = 2;
 	public static final int SOLVED = 9;
 
 	public static final Map<Integer, String> inverseMap = new HashMap<>();
@@ -28,6 +32,13 @@ public class Status {
 				}
 			}
 		}
+	}
+
+	public static String getLocalized(int status) {
+		if (inverseMap.containsKey(status)) {
+			return lang("STATUS_" + inverseMap.get(status));
+		}
+		return null;
 	}
 
 }

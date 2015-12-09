@@ -1,6 +1,7 @@
 package love.sola.netsupport.wechat.handler;
 
 import love.sola.netsupport.api.Authorize;
+import love.sola.netsupport.enums.Status;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.TableTicket;
@@ -43,15 +44,15 @@ public class QueryHandler implements WxMpMessageHandler {
 		NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
 		WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
 		StringBuilder sb = new StringBuilder()
-				.append("Ticket ID: ").append(t.getId()).append("\n")
-				.append("Desc: ").append(t.getDescription()).append("\n")
-				.append("Submit Time: ").append(dateFormat.format(t.getSubmitTime())).append("\n");
+				.append(lang("Ticket_Info_Id")).append(t.getId()).append("\n")
+				.append(lang("Ticket_Info_Desc")).append(t.getDescription()).append("\n")
+				.append(lang("Ticket_Info_Submit_Time")).append(dateFormat.format(t.getSubmitTime())).append("\n");
 		if (t.getUpdateTime() != null) {
-			sb.append("Operator: ").append(t.getOperator().getId()).append("\n");
-			sb.append("Remark: ").append(t.getRemark()).append("\n");
-			sb.append("Latest Update: ").append(dateFormat.format(t.getUpdateTime())).append("\n");
+			sb.append(lang("Ticket_Info_Operator")).append(t.getOperator().getId()).append("\n");
+			sb.append(lang("Ticket_Info_Remark")).append(t.getRemark()).append("\n");
+			sb.append(lang("Ticket_Info_Update_Time")).append(dateFormat.format(t.getUpdateTime())).append("\n");
 		}
-		sb.append("Ticket Status: ").append(t.getStatus()).append("\n");
+		sb.append(lang("Ticket_Info_Status")).append(Status.getLocalized(t.getStatus())).append("\n");
 		sb.append(lang("More_Details"));
 		item.setUrl(format("User_Query_Link", wxMessage.getFromUserName()));
 		item.setTitle(lang("Query_Title"));

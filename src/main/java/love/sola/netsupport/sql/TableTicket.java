@@ -32,7 +32,7 @@ public class TableTicket extends SQLCore {
 			return (Ticket) s.createCriteria(Ticket.class)
 					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))
 					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
-					.add(Restrictions.eq(Ticket.PROPERTY_STATUS, Status.UNCHECKED))
+					.add(Restrictions.ne(Ticket.PROPERTY_STATUS, Status.SOLVED))
 					.setMaxResults(1)
 					.uniqueResult();
 		}

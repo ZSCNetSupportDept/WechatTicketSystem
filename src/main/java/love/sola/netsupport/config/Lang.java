@@ -22,9 +22,6 @@ public class Lang {
 		//noinspection unchecked
 		InputStream in = Lang.class.getClassLoader().getResourceAsStream("lang.yml");
 		messages = new Yaml().loadAs(in, Map.class);
-		for (Map.Entry<String, String> entry : messages.entrySet()) {
-			System.out.println(entry.getKey() + ": " + entry.getValue());
-		}
 	}
 
 	public static String lang(String key) {

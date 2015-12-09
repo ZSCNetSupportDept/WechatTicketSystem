@@ -17,6 +17,7 @@ import me.chanjar.weixin.mp.bean.outxmlbuilder.NewsBuilder;
 
 import java.util.Map;
 
+import static love.sola.netsupport.config.Lang.format;
 import static love.sola.netsupport.config.Lang.lang;
 
 /**
@@ -37,9 +38,12 @@ public class SubmitHandler implements WxMpMessageHandler {
 		}
 		NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
 		WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
-
+		item.setTitle(lang("Submit_Title"));
+		item.setDescription(lang("Submit_Desc"));
+		item.setUrl(format("User_Submit_Link", wxMessage.getFromUserName()));
+		out.addArticle(item);
 		Authorize.fetchedTime.put(wxMessage.getFromUserName(), System.currentTimeMillis());
-		Authorize.fetchedCommand.put(wxMessage.getFromUserName(), Command.QUERY);
+		Authorize.fetchedCommand.put(wxMessage.getFromUserName(), Command.SUBMIT);
 		return out.build();
 	}
 
