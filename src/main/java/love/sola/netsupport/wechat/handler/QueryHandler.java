@@ -18,6 +18,7 @@ import me.chanjar.weixin.mp.bean.outxmlbuilder.NewsBuilder;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
+import static love.sola.netsupport.config.Lang.format;
 import static love.sola.netsupport.config.Lang.lang;
 
 /**
@@ -41,30 +42,24 @@ public class QueryHandler implements WxMpMessageHandler {
 
 		NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
 		WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
-		item.setTitle(lang("Query_Title"));
 		StringBuilder sb = new StringBuilder()
 				.append("Ticket ID: ").append(t.getId()).append("\n")
 				.append("Desc: ").append(t.getDescription()).append("\n")
 				.append("Submit Time: ").append(dateFormat.format(t.getSubmitTime())).append("\n");
 		if (t.getUpdateTime() != null) {
-			sb.append("Latest Update: ").append(dateFormat.format(t.getUpdateTime())).append("\n");
-			sb.append("Remark: ").append(t.getRemark()).append("\n");
 			sb.append("Operator: ").append(t.getOperator().getId()).append("\n");
+			sb.append("Remark: ").append(t.getRemark()).append("\n");
+			sb.append("Latest Update: ").append(dateFormat.format(t.getUpdateTime())).append("\n");
 		}
-		sb.append("Ticket Status: ").append(t.getStatus());
-
+		sb.append("Ticket Status: ").append(t.getStatus()).append("\n");
+		sb.append(lang("More_Details"));
+		item.setUrl(format("User_Query_Link", wxMessage.getFromUserName()));
+		item.setTitle(lang("Query_Title"));
 		item.setDescription(sb.toString());
 		out.addArticle(item);
-		out.addArticle(more_details);
 		Authorize.fetchedTime.put(wxMessage.getFromUserName(), System.currentTimeMillis());
 		Authorize.fetchedCommand.put(wxMessage.getFromUserName(), Command.QUERY);
 		return out.build();
-	}
-
-	public static WxMpXmlOutNewsMessage.Item more_details = new WxMpXmlOutNewsMessage.Item();
-	static {
-		more_details.setTitle("For more details, please click >");
-		more_details.setUrl("www.baidu.com"); // TODO: 2015/12/8 FOR TEST ONLY
 	}
 
 }
