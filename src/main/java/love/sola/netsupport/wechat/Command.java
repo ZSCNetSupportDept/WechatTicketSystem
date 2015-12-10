@@ -27,7 +27,7 @@ public enum Command {
 
 	static {
 		for (Command type : values()) {
-			if (type.id > 0) {
+			if (type.id >= 0) {
 				ID_MAP.put(type.id, type);
 			}
 		}

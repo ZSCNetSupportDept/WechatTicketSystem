@@ -5,7 +5,6 @@ import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.JsonP;
-import love.sola.netsupport.util.Redirect;
 import love.sola.netsupport.wechat.Command;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -32,6 +31,10 @@ public class TicketSubmit extends HttpServlet {
 	private Gson gson = SQLCore.gson;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/json;charset=utf-8");
@@ -39,13 +42,6 @@ public class TicketSubmit extends HttpServlet {
 		String json = gson.toJson(submit(request));
 		out.println(JsonP.parse(request, json));
 		out.close();
-	}
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "text/plain;charset=utf-8");
-		Redirect.message(response, -1, "Illegal_Request");
 	}
 
 	private Response submit(HttpServletRequest request) {
