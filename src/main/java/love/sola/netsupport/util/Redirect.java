@@ -13,7 +13,7 @@ import static love.sola.netsupport.config.Lang.lang;
  */
 public class Redirect {
 
-	public static final String REDIRECT_PAGE = lang("RESULT_PAGE");
+	public static final String REDIRECT_PAGE = lang("Result_Page");
 
 	public static void message(HttpServletResponse response, int type, String message) throws IOException {
 		response.sendRedirect(
