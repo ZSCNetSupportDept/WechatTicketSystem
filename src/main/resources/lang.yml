@@ -40,6 +40,7 @@ Submit_Desc: "在网维工作人员上门解决您的问题之前，您可以尝
 User_Register_Link: "您尚未进行微信绑定, 请<a href=\"http://topaz.sinaapp.com/nm/v1/reg.php?wechatid={0}\">点击这里</a>进行微信绑定操作。"
 User_Query_Link: 'http://topaz.sinaapp.com/nm/v1/query.php?wechatid={0}'
 User_Submit_Link: 'http://topaz.sinaapp.com/nm/v1/submit.php?wechatid={0}'
+Result_Page: 'http://topaz.sinaapp.com/nm/v1/result.html'
 
 #Localized
 #Status

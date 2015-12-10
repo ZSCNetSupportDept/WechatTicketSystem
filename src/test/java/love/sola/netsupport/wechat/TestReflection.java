@@ -13,7 +13,7 @@ public class TestReflection {
 
 	@Test
 	public void testBlock() {
-		System.out.println(Block.inverseMap);
+		assert Block.inverseMap != null;
 	}
 
 }

@@ -14,8 +14,8 @@ public class TestRegex {
 
 	@Test
 	public void testStudentId() {
-		System.out.println("2011130201233".matches(STUDENT_ID_REGEX));
-		System.out.println("2015130201233".matches(STUDENT_ID_REGEX));
+		assert !"2011130201233".matches(STUDENT_ID_REGEX);
+		assert "2015130201233".matches(STUDENT_ID_REGEX);
 	}
 
 }

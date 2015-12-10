@@ -14,7 +14,6 @@ public class TestMessageFormat {
 	@Test
 	public void testLang() {
 		assert Lang.messages != null;
-		System.out.println(Lang.messages);
 	}
 
 }

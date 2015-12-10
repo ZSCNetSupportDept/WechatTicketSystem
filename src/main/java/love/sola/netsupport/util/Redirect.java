@@ -3,6 +3,8 @@ package love.sola.netsupport.util;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static love.sola.netsupport.config.Lang.lang;
+
 /**
  * ***********************************************
  * Created by Sola on 2015/12/6.
@@ -11,7 +13,7 @@ import java.io.IOException;
  */
 public class Redirect {
 
-	public static final String REDIRECT_PAGE = "http://topaz.sinaapp.com/nm/result.html";
+	public static final String REDIRECT_PAGE = lang("RESULT_PAGE");
 
 	public static void message(HttpServletResponse response, int type, String message) throws IOException {
 		response.sendRedirect(
