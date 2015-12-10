@@ -26,7 +26,7 @@ Ticket_Info_Remark: '维修描述: '
 Ticket_Info_Update_Time: '更新时间: '
 Ticket_Info_Status: '报修单状态: '
 #Submit
-Already_Opening_Ticket: "您上次提交的报修单仍在处理中. 若想查询报修单状态，请发送 '查询' 。"
+Already_Opening_Ticket: "您上次提交的报修单仍在处理中. 若需要查询报修单状态，请发送 '查询' 。"
 Submit_Title: '在网维工作人员上门解决您的问题之前...'
 Submit_Desc: "在网维工作人员上门解决您的问题之前，您可以尝试以下方法来更有效地解决您的问题：\n
               重新插拔您电脑的网线以及墙上的端口。\n

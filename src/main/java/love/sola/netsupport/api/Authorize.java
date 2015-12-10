@@ -53,6 +53,13 @@ public class Authorize extends HttpServlet {
 		}
 		Long l = fetchedTime.remove(wechat);
 		Command c = fetchedCommand.remove(wechat);
+
+		// FIXME: 2015/12/10 FOR TEST ONLY
+		if (request.getParameter("bypass") != null) {
+			c = Command.fromId(Integer.parseInt(request.getParameter("bypass")));
+			l = System.currentTimeMillis();
+		}
+
 		if (l == null || c == null) {
 			return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
 		}
