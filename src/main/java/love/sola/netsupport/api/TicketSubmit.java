@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
-import love.sola.netsupport.util.JsonP;
+import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -40,7 +40,7 @@ public class TicketSubmit extends HttpServlet {
 		response.addHeader("Content-type", "text/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String json = gson.toJson(submit(request));
-		out.println(JsonP.parse(request, json));
+		out.println(ParseUtil.parseJsonP(request, json));
 		out.close();
 	}
 

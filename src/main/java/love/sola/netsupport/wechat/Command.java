@@ -1,5 +1,6 @@
 package love.sola.netsupport.wechat;
 
+import love.sola.netsupport.wechat.handler.CancelHandler;
 import love.sola.netsupport.wechat.handler.QueryHandler;
 import love.sola.netsupport.wechat.handler.RegisterHandler;
 import love.sola.netsupport.wechat.handler.SubmitHandler;
@@ -21,6 +22,7 @@ public enum Command {
 	REGISTER(0, RegisterHandler.class),
 	QUERY(1, QueryHandler.class),
 	SUBMIT(2, SubmitHandler.class),
+	CANCEL(3, CancelHandler.class),
 	;
 
 	private static final Map<Integer, Command> ID_MAP = new HashMap<>();

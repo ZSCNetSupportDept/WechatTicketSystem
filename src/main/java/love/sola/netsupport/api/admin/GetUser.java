@@ -5,7 +5,7 @@ import love.sola.netsupport.api.Response;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
-import love.sola.netsupport.util.JsonP;
+import love.sola.netsupport.util.ParseUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -43,7 +43,7 @@ public class GetUser extends HttpServlet {
 		response.addHeader("Content-type", "text/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String json = gson.toJson(query(request));
-		out.println(JsonP.parse(request, json));
+		out.println(ParseUtil.parseJsonP(request, json));
 		out.close();
 	}
 

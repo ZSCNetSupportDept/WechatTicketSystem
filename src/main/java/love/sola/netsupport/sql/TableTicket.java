@@ -27,7 +27,7 @@ public class TableTicket extends SQLCore {
 	public static final String COLUMN_STATUS = "status";
 
 
-	public static Ticket queryLastOpen(User u) {
+	public static Ticket queryLatestOpen(User u) {
 		try (Session s = SQLCore.sf.openSession()) {
 			return (Ticket) s.createCriteria(Ticket.class)
 					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))
@@ -38,7 +38,7 @@ public class TableTicket extends SQLCore {
 		}
 	}
 
-	public static Ticket queryLast(User u) {
+	public static Ticket queryLatest(User u) {
 		try (Session s = SQLCore.sf.openSession()) {
 			return (Ticket) s.createCriteria(Ticket.class)
 					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))

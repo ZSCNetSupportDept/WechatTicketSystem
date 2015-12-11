@@ -5,7 +5,7 @@ import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
-import love.sola.netsupport.util.JsonP;
+import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
 
 import javax.servlet.ServletException;
@@ -42,7 +42,7 @@ public class Authorize extends HttpServlet {
 		response.addHeader("Content-type", "text/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String json = gson.toJson(authorize(request));
-		out.println(JsonP.parse(request, json));
+		out.println(ParseUtil.parseJsonP(request, json));
 		out.close();
 	}
 
