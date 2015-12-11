@@ -30,7 +30,7 @@ public class Register extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
 
-		String wechat = checkWechat(request.getParameter("wechatid"), request);
+		String wechat = checkWechat(request);
 		if (wechat == null) {
 			Redirect.message(response, 0, "Illegal_Request");
 			return;
@@ -144,12 +144,9 @@ public class Register extends HttpServlet {
 		return -1;
 	}
 
-	private String checkWechat(String wechat, HttpServletRequest request) {
-		if (wechat == null) return null;
-		if (request.getSession() == null) return null;
-		String reqWechat = (String) request.getSession().getAttribute("wechat");
-		if (reqWechat != null && reqWechat.equals(wechat)) return reqWechat;
-		else return null;
+	private String checkWechat(HttpServletRequest request) {
+		if (request.getSession(false) == null) return null;
+		return (String) request.getSession(false).getAttribute("wechat");
 	}
 
 }

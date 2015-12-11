@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -48,16 +49,12 @@ public class TicketQuery extends HttpServlet {
 
 	private Response query(HttpServletRequest request) {
 		try (Session s = SQLCore.sf.openSession()) {
-//			if (request.getParameter("id") != null) {
-//				Ticket t = s.get(Ticket.class, Integer.parseInt(request.getParameter("id")));
-//				if (t == null) return new Response(Response.ResponseCode.TICKET_NOT_FOUND);
-//				else return new Response(Response.ResponseCode.OK, t);
-//			}
-			if (request.getSession() == null || request.getSession().getAttribute("authorized") != Command.QUERY) {
+
+			HttpSession httpSession = request.getSession(false);
+			if (httpSession == null || httpSession.getAttribute("authorized") != Command.QUERY) {
 				return new Response(Response.ResponseCode.UNAUTHORIZED);
 			}
-
-			User u = (User) request.getSession().getAttribute("user");
+			User u = (User) httpSession.getAttribute("user");
 			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
 
 			Criteria c = s.createCriteria(Ticket.class);
@@ -79,9 +76,11 @@ public class TicketQuery extends HttpServlet {
 		} catch (NumberFormatException e) {
 			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
 		} catch (HibernateException e) {
-			return new Response(Response.ResponseCode.DATABASE_ERROR);
+			e.printStackTrace();
+			return new Response(Response.ResponseCode.DATABASE_ERROR, e);
 		} catch (Exception e) {
-			return new Response(Response.ResponseCode.INTERNAL_ERROR);
+			e.printStackTrace();
+			return new Response(Response.ResponseCode.INTERNAL_ERROR, e);
 		}
 	}
 

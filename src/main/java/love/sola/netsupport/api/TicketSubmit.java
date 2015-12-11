@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -45,12 +46,20 @@ public class TicketSubmit extends HttpServlet {
 	}
 
 	private Response submit(HttpServletRequest request) {
+		String desc = request.getParameter("desc");
+		if (desc == null) {
+			return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
+		}
+
 		try (Session s = SQLCore.sf.openSession()) {
-			if (request.getSession() == null || request.getSession().getAttribute("authorized") != Command.SUBMIT) {
+
+			HttpSession httpSession = request.getSession(false);
+			if (httpSession == null || httpSession.getAttribute("authorized") != Command.SUBMIT) {
 				return new Response(Response.ResponseCode.UNAUTHORIZED);
 			}
-			User u = (User) request.getSession().getAttribute("user");
+			User u = (User) httpSession.getAttribute("user");
 			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
+
 			long n = (long) s.createCriteria(Ticket.class)
 					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
 					.add(Restrictions.eq(Ticket.PROPERTY_STATUS, 0))
@@ -58,10 +67,6 @@ public class TicketSubmit extends HttpServlet {
 					.uniqueResult();
 			if (n > 0) {
 				return new Response(Response.ResponseCode.ALREADY_SUBMITTED);
-			}
-			String desc = request.getParameter("desc");
-			if (desc == null) {
-				return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
 			}
 			Ticket t = new Ticket();
 			t.setUser(u);

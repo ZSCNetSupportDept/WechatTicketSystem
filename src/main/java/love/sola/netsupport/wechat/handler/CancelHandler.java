@@ -40,7 +40,7 @@ public class CancelHandler implements WxMpMessageHandler {
 		}
 		try (Session s = SQLCore.sf.openSession()) {
 			t.setUpdateTime(new Date());
-			t.setDescription(lang("User_Cancel_Remark"));
+			t.setRemark(lang("User_Cancel_Remark"));
 			t.setStatus(Status.SOLVED);
 			s.beginTransaction();
 			s.update(t);
