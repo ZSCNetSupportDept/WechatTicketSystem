@@ -8,14 +8,14 @@ import org.mindrot.jbcrypt.BCrypt;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-public class Crypt {
+public class Crypto {
 
 	public static String hash(String pw) {
 		return BCrypt.hashpw(pw, BCrypt.gensalt());
 	}
 
 	public static boolean check(String plain, String hash) {
-		return BCrypt.checkpw(plain, hash);
+		return BCrypt.checkpw(AESUtil.decrypt(plain), hash);
 	}
 
 }

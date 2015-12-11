@@ -1,16 +1,14 @@
-package love.sola.netsupport.api;
+package love.sola.netsupport.api.admin;
 
 import com.google.gson.Gson;
-import love.sola.netsupport.pojo.Ticket;
-import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.api.Response;
+import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
+import love.sola.netsupport.util.Crypto;
 import love.sola.netsupport.util.ParseUtil;
-import love.sola.netsupport.wechat.Command;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,12 +21,12 @@ import java.io.PrintWriter;
 
 /**
  * ***********************************************
- * Created by Sola on 2015/12/6.
+ * Created by Sola on 2015/12/12.
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "TicketSubmit", urlPatterns = "/api/ticketsubmit", loadOnStartup = 23)
-public class TicketSubmit extends HttpServlet {
+@WebServlet(name = "Login", urlPatterns = "/api/login", loadOnStartup = 31)
+public class Login extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;
 
@@ -41,53 +39,37 @@ public class TicketSubmit extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		String json = gson.toJson(submit(request));
+		String json = gson.toJson(login(request));
 		out.println(ParseUtil.parseJsonP(request, json));
 		out.close();
 	}
 
-	private Response submit(HttpServletRequest request) {
-		String desc = request.getParameter("desc");
-		if (desc == null) {
-			return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
-		}
+	private Response login(HttpServletRequest request) {
+		String wechat = request.getParameter("wechat");
+		String opId = request.getParameter("op");
+		String password = request.getParameter("pass");
+		if (Checker.nonNull(wechat, opId, password)) return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
 
 		try (Session s = SQLCore.sf.openSession()) {
+			Operator operator = s.get(Operator.class, Integer.parseInt(opId));
+			if (operator == null) return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
+			if (!wechat.equals(operator.getWechat()))
+				return new Response(Response.ResponseCode.INCORRECT_WECHAT);
+			if (!Crypto.check(password,operator.getPassword()))
+				return new Response(Response.ResponseCode.WRONG_PASSWORD);
 
-			HttpSession httpSession = request.getSession(false);
-			if (Checker.authorized(httpSession, Command.SUBMIT)) {
-				return new Response(Response.ResponseCode.UNAUTHORIZED);
-			}
-			User u = (User) httpSession.getAttribute("user");
-			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
-
-			long n = (long) s.createCriteria(Ticket.class)
-					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
-					.add(Restrictions.eq(Ticket.PROPERTY_STATUS, 0))
-					.setProjection(Projections.rowCount())
-					.uniqueResult();
-			if (n > 0) {
-				return new Response(Response.ResponseCode.ALREADY_SUBMITTED);
-			}
-			Ticket t = new Ticket();
-			t.setUser(u);
-			t.setDescription(desc);
-			t.setStatus(0);
-			s.beginTransaction();
-			s.save(t);
-			s.getTransaction().commit();
-			request.getSession().invalidate();
-			return new Response(Response.ResponseCode.OK, t);
+			HttpSession httpSession = request.getSession(true);
+			httpSession.setAttribute("wechat", wechat);
+			httpSession.setAttribute("operator", operator);
+			return new Response(Response.ResponseCode.OK);
 		} catch (NumberFormatException e) {
 			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
 		} catch (HibernateException e) {
 			e.printStackTrace();
-			return new Response(Response.ResponseCode.DATABASE_ERROR);
+			return new Response(Response.ResponseCode.DATABASE_ERROR, e);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Response(Response.ResponseCode.INTERNAL_ERROR, e);
 		}
 	}
-
-
 }

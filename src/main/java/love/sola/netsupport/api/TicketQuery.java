@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
+import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
 import org.hibernate.Criteria;
@@ -27,7 +28,7 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "QueryTicket", urlPatterns = "/api/ticketquery", loadOnStartup = 23)
+@WebServlet(name = "QueryTicket", urlPatterns = "/api/ticketquery", loadOnStartup = 24)
 public class TicketQuery extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;
@@ -51,7 +52,7 @@ public class TicketQuery extends HttpServlet {
 		try (Session s = SQLCore.sf.openSession()) {
 
 			HttpSession httpSession = request.getSession(false);
-			if (httpSession == null || httpSession.getAttribute("authorized") != Command.QUERY) {
+			if (Checker.authorized(httpSession, Command.QUERY)) {
 				return new Response(Response.ResponseCode.UNAUTHORIZED);
 			}
 			User u = (User) httpSession.getAttribute("user");

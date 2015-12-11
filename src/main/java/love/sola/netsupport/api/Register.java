@@ -3,13 +3,16 @@ package love.sola.netsupport.api;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.TableUser;
+import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.Redirect;
+import love.sola.netsupport.wechat.Command;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -30,7 +33,12 @@ public class Register extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
 
-		String wechat = checkWechat(request);
+		HttpSession httpSession = request.getSession(false);
+		if (Checker.authorized(httpSession, Command.REGISTER)) {
+			Redirect.message(response, 0, "Authorize_Failed");
+			return;
+		}
+		String wechat = (String) httpSession.getAttribute("wechat");
 		if (wechat == null) {
 			Redirect.message(response, 0, "Illegal_Request");
 			return;
@@ -142,11 +150,6 @@ public class Register extends HttpServlet {
 		} catch (NumberFormatException ignored) {
 		}
 		return -1;
-	}
-
-	private String checkWechat(HttpServletRequest request) {
-		if (request.getSession(false) == null) return null;
-		return (String) request.getSession(false).getAttribute("wechat");
 	}
 
 }

@@ -5,6 +5,7 @@ import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
+import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
 
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
@@ -60,14 +62,16 @@ public class Authorize extends HttpServlet {
 			l = System.currentTimeMillis();
 		}
 
-		if (l == null || c == null) {
+		if (!Checker.nonNull(c, l)) {
 			return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
 		}
 		if (l < System.currentTimeMillis() - Settings.I.User_Command_Timeout * 1000) {
 			return new Response(Response.ResponseCode.REQUEST_EXPIRED);
 		}
-		request.getSession(true).setAttribute("authorized", c);
-		request.getSession(true).setAttribute("wechat", wechat);
+
+		HttpSession httpSession = request.getSession(true);
+		httpSession.setAttribute("authorized", c);
+		httpSession.setAttribute("wechat", wechat);
 		switch (c) {
 			case REGISTER:
 				break;
@@ -75,7 +79,7 @@ public class Authorize extends HttpServlet {
 			case SUBMIT:
 				User u = TableUser.getUserByWechat(wechat);
 				if (u == null) return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
-				request.getSession(true).setAttribute("user", u);
+				httpSession.setAttribute("user", u);
 				break;
 			default:
 				return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
