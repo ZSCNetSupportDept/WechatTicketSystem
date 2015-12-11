@@ -51,7 +51,7 @@ public class TicketSubmit extends HttpServlet {
 			}
 			User u = (User) request.getSession().getAttribute("user");
 			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
-			int n = (int) s.createCriteria(Ticket.class)
+			long n = (long) s.createCriteria(Ticket.class)
 					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
 					.add(Restrictions.eq(Ticket.PROPERTY_STATUS, 0))
 					.setProjection(Projections.rowCount())
