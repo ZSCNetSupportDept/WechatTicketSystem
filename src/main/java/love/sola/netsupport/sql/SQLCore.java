@@ -1,7 +1,6 @@
 package love.sola.netsupport.sql;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -9,7 +8,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * ***********************************************
@@ -20,7 +19,10 @@ import java.text.DateFormat;
 public class SQLCore {
 
 	public static DataSource ds;
-	public static Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG, DateFormat.LONG).create();
+	public static Gson gson = new GsonBuilder()
+			.registerTypeAdapter(Date.class, (JsonDeserializer<Date>) (json, typeOfT, context) -> new Date(json.getAsJsonPrimitive().getAsLong()))
+			.registerTypeAdapter(Date.class, (JsonSerializer<Date>) (src, typeOfSrc, context) -> new JsonPrimitive(src.getTime()))
+			.create();
 	public static SessionFactory sf;
 	public static ServiceRegistry sr;
 

@@ -70,6 +70,7 @@ public class TicketSubmit extends HttpServlet {
 			s.beginTransaction();
 			s.save(t);
 			s.getTransaction().commit();
+			request.getSession().invalidate();
 			return new Response(Response.ResponseCode.OK, t);
 		} catch (NumberFormatException e) {
 			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);

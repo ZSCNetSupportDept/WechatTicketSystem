@@ -48,7 +48,9 @@ public class Register extends HttpServlet {
 				checkPhoneNumber(request.getParameter("phone")),
 				wechat
 		);
-		Redirect.message(response, result.equals("Register_Success") ? 1 : 0, result);
+		boolean isSuccess = result.equals("Register_Success");
+		if (isSuccess) request.getSession().invalidate();
+		Redirect.message(response, isSuccess ? 1 : 0, result);
 	}
 
 	@SuppressWarnings("Duplicates")
