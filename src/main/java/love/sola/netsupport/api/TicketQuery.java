@@ -52,7 +52,7 @@ public class TicketQuery extends HttpServlet {
 		try (Session s = SQLCore.sf.openSession()) {
 
 			HttpSession httpSession = request.getSession(false);
-			if (Checker.authorized(httpSession, Command.QUERY)) {
+			if (!Checker.authorized(httpSession, Command.QUERY)) {
 				return new Response(Response.ResponseCode.UNAUTHORIZED);
 			}
 			User u = (User) httpSession.getAttribute("user");

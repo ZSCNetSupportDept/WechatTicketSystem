@@ -34,7 +34,7 @@ public class Register extends HttpServlet {
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
 
 		HttpSession httpSession = request.getSession(false);
-		if (Checker.authorized(httpSession, Command.REGISTER)) {
+		if (!Checker.authorized(httpSession, Command.REGISTER)) {
 			Redirect.message(response, 0, "Authorize_Failed");
 			return;
 		}
