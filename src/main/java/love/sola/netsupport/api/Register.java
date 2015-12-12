@@ -6,6 +6,7 @@ import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.Redirect;
 import love.sola.netsupport.wechat.Command;
+import org.hibernate.exception.ConstraintViolationException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -88,7 +89,12 @@ public class Register extends HttpServlet {
 		user.setRoom(room);
 		user.setPhone(phone);
 		user.setWechatId(wechat);
-		TableUser.update(user);
+		try {
+			TableUser.update(user);
+		} catch (ConstraintViolationException e) {
+			String dupKey = e.getConstraintName();
+			return "Duplicated_" + dupKey.toUpperCase(); // PHONE ACCOUNT WECHAT
+		}
 		return "Register_Success";
 	}
 
