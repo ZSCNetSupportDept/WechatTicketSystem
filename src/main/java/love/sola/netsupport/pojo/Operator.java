@@ -32,10 +32,15 @@ public class Operator {
 	private String name;
 	@Column(name = "access", nullable = false, insertable = false, updatable = false)
 	private Integer access;
-	@Column(name = "wechat", nullable = false, insertable = false, updatable = false)
+	@Column(name = "wechat", insertable = false, updatable = false)
 	private String wechat;
 	private Integer block;
 	private Integer week;
 	private String password;
+
+
+	//System Accounts
+	public static Operator USER_SELF;
+	public static Operator ADMIN;
 
 }

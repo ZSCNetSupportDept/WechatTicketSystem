@@ -1,6 +1,7 @@
 package love.sola.netsupport.wechat.handler;
 
 import love.sola.netsupport.enums.Status;
+import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
@@ -39,6 +40,7 @@ public class CancelHandler implements WxMpMessageHandler {
 					.content(lang("No_Open_Ticket_Available")).build();
 		}
 		try (Session s = SQLCore.sf.openSession()) {
+			t.setOperator(Operator.USER_SELF);
 			t.setUpdateTime(new Date());
 			t.setRemark(lang("User_Cancel_Remark"));
 			t.setStatus(Status.SOLVED);

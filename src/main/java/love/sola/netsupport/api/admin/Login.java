@@ -2,6 +2,7 @@ package love.sola.netsupport.api.admin;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
+import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
@@ -52,7 +53,8 @@ public class Login extends HttpServlet {
 
 		try (Session s = SQLCore.sf.openSession()) {
 			Operator operator = s.get(Operator.class, Integer.parseInt(opId));
-			if (operator == null) return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
+			if (operator == null || operator.getAccess() == Access.NOLOGIN)
+				return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
 			if (!wechat.equals(operator.getWechat()))
 				return new Response(Response.ResponseCode.INCORRECT_WECHAT);
 			if (!Crypto.check(password,operator.getPassword()))

@@ -22,5 +22,17 @@ public class TableOperator extends SQLCore {
 		}
 	}
 
+	public static Operator get(int id) {
+		try (Session s = SQLCore.sf.openSession()) {
+			return s.get(Operator.class, id);
+		}
+	}
+
+	protected static void init() {
+		try (Session s = SQLCore.sf.openSession()) {
+			Operator.USER_SELF = s.get(Operator.class, -1);
+			Operator.ADMIN = s.get(Operator.class, 0);
+		}
+	}
 
 }
