@@ -2,11 +2,10 @@ package love.sola.netsupport.api.admin;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
-import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.pojo.Operator;
+import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
-import love.sola.netsupport.util.Crypto;
 import love.sola.netsupport.util.ParseUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -22,12 +21,12 @@ import java.io.PrintWriter;
 
 /**
  * ***********************************************
- * Created by Sola on 2015/12/12.
+ * Created by Sola on 2015/12/13.
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "Login", urlPatterns = "/api/login", loadOnStartup = 31)
-public class Login extends HttpServlet {
+@WebServlet(name = "TicketUpdate", urlPatterns = "/api/ticketupdate", loadOnStartup = 32)
+public class TicketUpdate extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;
 
@@ -35,35 +34,40 @@ public class Login extends HttpServlet {
 		doGet(request, response);
 	}
 
+	@SuppressWarnings("Duplicates")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		String json = gson.toJson(login(request));
+		String json = gson.toJson(update(request));
 		out.println(ParseUtil.parseJsonP(request, json));
 		out.close();
 	}
 
-	private Response login(HttpServletRequest request) {
-		String wechat = request.getParameter("wechat");
-		String opId = request.getParameter("op");
-		String password = request.getParameter("pass");
-		if (Checker.hasNull(wechat, opId, password)) return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
+	private Response update(HttpServletRequest request) {
+		String ticket = request.getParameter("ticket");
+		String remark = request.getParameter("remark");
+		String status = request.getParameter("status");
+		if (Checker.hasNull(ticket, remark, status)) return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
 
 		try (Session s = SQLCore.sf.openSession()) {
-			Operator operator = s.get(Operator.class, Integer.parseInt(opId));
-			if (operator == null || operator.getAccess() == Access.NOLOGIN)
-				return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
-			if (!wechat.equals(operator.getWechat()))
-				return new Response(Response.ResponseCode.INCORRECT_WECHAT);
-			if (!Crypto.check(password,operator.getPassword()))
-				return new Response(Response.ResponseCode.WRONG_PASSWORD);
-
-			HttpSession httpSession = request.getSession(true);
-			httpSession.setAttribute("wechat", wechat);
-			httpSession.setAttribute("operator", operator);
-			return new Response(Response.ResponseCode.OK, operator);
+			HttpSession httpSession = request.getSession(false);
+			if (!Checker.operator(httpSession)) {
+				return new Response(Response.ResponseCode.UNAUTHORIZED);
+			}
+			Operator op = (Operator) httpSession.getAttribute("operator");
+			Ticket t = s.get(Ticket.class, Integer.parseInt(ticket));
+			if (t == null) {
+				return new Response(Response.ResponseCode.TICKET_NOT_FOUND);
+			}
+			t.setOperator(op);
+			t.setRemark(remark);
+			t.setStatus(Integer.parseInt(status));
+			s.beginTransaction();
+			s.update(t);
+			s.getTransaction().commit();
+			return new Response(Response.ResponseCode.OK, t);
 		} catch (NumberFormatException e) {
 			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
 		} catch (HibernateException e) {
@@ -74,4 +78,5 @@ public class Login extends HttpServlet {
 			return new Response(Response.ResponseCode.INTERNAL_ERROR, e);
 		}
 	}
+
 }

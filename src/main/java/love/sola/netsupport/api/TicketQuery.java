@@ -28,7 +28,7 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "QueryTicket", urlPatterns = "/api/ticketquery", loadOnStartup = 24)
+@WebServlet(name = "TicketQuery", urlPatterns = "/api/ticketquery", loadOnStartup = 24)
 public class TicketQuery extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;

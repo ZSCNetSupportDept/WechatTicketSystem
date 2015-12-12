@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import love.sola.netsupport.sql.TableTicket;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,6 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "tickets")
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class Ticket {
 
 	public static final String PROPERTY_USER = "user";

@@ -1,6 +1,6 @@
 package love.sola.netsupport.wechat;
 
-import love.sola.netsupport.util.AESUtil;
+import love.sola.netsupport.util.RSAUtil;
 import org.junit.Test;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -19,9 +19,9 @@ public class TestEncrypt {
 	}
 
 	@Test
-	public void testAES() {
-		assert "Hello World".equals(AESUtil.decrypt(AESUtil.encrypt("Hello World")));
-		assert "Encrypt".equals(AESUtil.decrypt(AESUtil.encrypt("Encrypt")));
+	public void testRSA() {
+		assert "Hello World".equals(RSAUtil.decrypt(RSAUtil.encrypt("Hello World")));
+		assert "Encrypt".equals(RSAUtil.decrypt(RSAUtil.encrypt("Encrypt")));
 	}
 
 }

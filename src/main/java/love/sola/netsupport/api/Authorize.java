@@ -62,7 +62,7 @@ public class Authorize extends HttpServlet {
 			l = System.currentTimeMillis();
 		}
 
-		if (!Checker.nonNull(c, l)) {
+		if (Checker.hasNull(c, l)) {
 			return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
 		}
 		if (l < System.currentTimeMillis() - Settings.I.User_Command_Timeout * 1000) {

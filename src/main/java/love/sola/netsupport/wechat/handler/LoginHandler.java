@@ -1,6 +1,7 @@
 package love.sola.netsupport.wechat.handler;
 
 import love.sola.netsupport.sql.TableOperator;
+import love.sola.netsupport.util.RSAUtil;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
@@ -28,7 +29,7 @@ public class LoginHandler implements WxMpMessageHandler {
 		if (!TableOperator.has(wxMessage.getFromUserName())) {
 			return out.content(lang("Not_Operator")).build();
 		} else {
-			return out.content(format("Operator_Login_Link", wxMessage.getFromUserName())).build();
+			return out.content(format("Operator_Login_Link", wxMessage.getFromUserName(), RSAUtil.publicKey_s)).build();
 		}
 	}
 

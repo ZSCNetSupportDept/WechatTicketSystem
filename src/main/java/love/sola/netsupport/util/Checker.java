@@ -12,13 +12,17 @@ import javax.servlet.http.HttpSession;
  */
 public class Checker {
 
-	public static boolean nonNull(Object... v) {
-		for (Object o : v) if (o == null) return false;
-		return true;
+	public static boolean hasNull(Object... v) {
+		for (Object o : v) if (o == null) return true;
+		return false;
 	}
 
 	public static boolean authorized(HttpSession s, Command c) {
 		return s != null && s.getAttribute("authorized") == c;
+	}
+
+	public static boolean operator(HttpSession s) {
+		return s != null && s.getAttribute("operator") != null;
 	}
 
 }
