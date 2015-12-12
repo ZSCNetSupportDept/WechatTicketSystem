@@ -5,6 +5,7 @@ import love.sola.netsupport.config.Lang;
 import love.sola.netsupport.enums.ISP;
 import org.junit.Test;
 
+import java.text.MessageFormat;
 import java.util.Date;
 
 /**
@@ -32,6 +33,11 @@ public class TestMessageFormat {
 		assert gson.fromJson(gson.toJson(date), Date.class).compareTo(date) == 0;
 		assert gson.fromJson(gson.toJson(ISP.TELECOM), ISP.class) == ISP.TELECOM;
 		assert gson.toJson(ISP.TELECOM).equals("1");
+	}
+
+	@Test
+	public void testLong() {
+		assert "15838838438".equals(MessageFormat.format("{0,number,#}", 15838838438L));
 	}
 
 }

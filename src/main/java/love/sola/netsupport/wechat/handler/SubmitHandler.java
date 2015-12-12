@@ -38,7 +38,7 @@ public class SubmitHandler implements WxMpMessageHandler {
 		WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
 		item.setTitle(lang("Submit_Title"));
 		item.setDescription(lang("Submit_Desc"));
-		item.setUrl(format("User_Submit_Link", wxMessage.getFromUserName(), u.getName(), u.getIsp(), u.getRoom(), u.getBlock(), u.getPhone()));
+		item.setUrl(format("User_Submit_Link", wxMessage.getFromUserName(), u.getName(), u.getIsp().id, u.getRoom(), u.getBlock(), u.getPhone()));
 		out.addArticle(item);
 		Authorize.fetchedTime.put(wxMessage.getFromUserName(), System.currentTimeMillis());
 		Authorize.fetchedCommand.put(wxMessage.getFromUserName(), Command.SUBMIT);
