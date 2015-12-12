@@ -7,7 +7,6 @@ import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
-import love.sola.netsupport.util.Redirect;
 import love.sola.netsupport.wechat.Command;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -37,16 +36,21 @@ public class Register extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "text/plain;charset=utf-8");
-
+		response.addHeader("Content-type", "text/json;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String json;
 		HttpSession httpSession = request.getSession(false);
 		if (!Checker.authorized(httpSession, Command.REGISTER)) {
-			Redirect.message(response, 0, "Authorize_Failed");
+			json = gson.toJson(new Response(Response.ResponseCode.AUTHORIZE_FAILED));
+			out.println(ParseUtil.parseJsonP(request, json));
+			out.close();
 			return;
 		}
 		String wechat = (String) httpSession.getAttribute("wechat");
 		if (wechat == null) {
-			Redirect.message(response, 0, "Illegal_Request");
+			json = gson.toJson(new Response(Response.ResponseCode.AUTHORIZE_FAILED));
+			out.println(ParseUtil.parseJsonP(request, json));
+			out.close();
 			return;
 		}
 
@@ -63,13 +67,12 @@ public class Register extends HttpServlet {
 				wechat
 		);
 		boolean isSuccess = result.equals("Register_Success");
-		PrintWriter out = response.getWriter();
 		if (isSuccess) {
 			request.getSession().invalidate();
-			String json = gson.toJson(new Response(Response.ResponseCode.OK, result));
+			json = gson.toJson(new Response(Response.ResponseCode.OK, result));
 			out.println(ParseUtil.parseJsonP(request, json));
 		} else {
-			String json = gson.toJson(new Response(Response.ResponseCode.REQUEST_FAILED, result));
+			json = gson.toJson(new Response(Response.ResponseCode.REQUEST_FAILED, result));
 			out.println(ParseUtil.parseJsonP(request, json));
 		}
 		out.close();
