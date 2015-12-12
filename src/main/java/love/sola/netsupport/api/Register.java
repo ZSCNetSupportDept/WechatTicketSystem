@@ -1,9 +1,12 @@
 package love.sola.netsupport.api;
 
+import com.google.gson.Gson;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.util.Checker;
+import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.util.Redirect;
 import love.sola.netsupport.wechat.Command;
 import org.hibernate.exception.ConstraintViolationException;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * ***********************************************
@@ -28,6 +32,7 @@ public class Register extends HttpServlet {
 	public static final String STUDENT_ID_REGEX = "^(2010|2012|2013|2014|2015)[0-9]{9}$";
 	public static final String PHONE_NUMBER_REGEX = "^1[34578][0-9]{9}$";
 
+	private Gson gson = SQLCore.gson;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -58,16 +63,21 @@ public class Register extends HttpServlet {
 				wechat
 		);
 		boolean isSuccess = result.equals("Register_Success");
-		if (isSuccess) request.getSession().invalidate();
-		Redirect.message(response, isSuccess ? 1 : 0, result);
+		PrintWriter out = response.getWriter();
+		if (isSuccess) {
+			request.getSession().invalidate();
+			String json = gson.toJson(new Response(Response.ResponseCode.OK, result));
+			out.println(ParseUtil.parseJsonP(request, json));
+		} else {
+			String json = gson.toJson(new Response(Response.ResponseCode.REQUEST_FAILED, result));
+			out.println(ParseUtil.parseJsonP(request, json));
+		}
+		out.close();
 	}
 
 	@SuppressWarnings("Duplicates")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "text/plain;charset=utf-8");
-		Redirect.message(response, -1, "Illegal_Request");
+		doPost(request, response);
 	}
 
 	private String register(long sid, String name, ISP isp, String netAccount, int block, int room, long phone, String wechat) {
