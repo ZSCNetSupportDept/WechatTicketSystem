@@ -55,7 +55,7 @@ public class GetUser extends HttpServlet {
 		}
 		if (id != null) {
 			try {
-				User u = TableUser.getUserById(Long.parseLong(id));
+				User u = TableUser.getById(Long.parseLong(id));
 				if (u == null)
 					return new Response(Response.ResponseCode.USER_NOT_FOUND);
 				else
@@ -64,7 +64,7 @@ public class GetUser extends HttpServlet {
 				return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
 			}
 		} else {
-			User u = TableUser.getUserByName(name);
+			User u = TableUser.getByName(name);
 			if (u == null)
 				return new Response(Response.ResponseCode.USER_NOT_FOUND);
 			else

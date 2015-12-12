@@ -4,13 +4,12 @@ import com.google.gson.Gson;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
+import love.sola.netsupport.sql.TableTicket;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,14 +60,10 @@ public class TicketSubmit extends HttpServlet {
 			User u = (User) httpSession.getAttribute("user");
 			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
 
-			long n = (long) s.createCriteria(Ticket.class)
-					.add(Restrictions.eq(Ticket.PROPERTY_USER, u))
-					.add(Restrictions.eq(Ticket.PROPERTY_STATUS, 0))
-					.setProjection(Projections.rowCount())
-					.uniqueResult();
-			if (n > 0) {
+			if (TableTicket.hasOpen(u)) {
 				return new Response(Response.ResponseCode.ALREADY_SUBMITTED);
 			}
+
 			Ticket t = new Ticket();
 			t.setUser(u);
 			t.setDescription(desc);

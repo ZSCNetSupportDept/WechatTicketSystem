@@ -22,26 +22,26 @@ public class TableUser extends SQLCore {
 	public static final String COLUMN_ROOM = "room";
 	public static final String COLUMN_PHONE = "phone";
 
-	public static User getUserById(long id) {
+	public static User getById(long id) {
 		try (Session s = sf.openSession()) {
 			return s.get(User.class, id);
 		}
 	}
 
 
-	public static User getUserByWechat(String wechat) {
+	public static User getByWechat(String wechat) {
 		try (Session s = sf.openSession()) {
 			return (User) s.createCriteria(User.class).add(Restrictions.eq(User.PROPERTY_WECHAT, wechat)).uniqueResult();
 		}
 	}
 
-	public static User getUserByName(String name) {
+	public static User getByName(String name) {
 		try (Session s = sf.openSession()) {
 			return (User) s.createCriteria(User.class).add(Restrictions.eq(User.PROPERTY_NAME, name)).uniqueResult();
 		}
 	}
 
-	public static int updateUser(User user) {
+	public static int update(User user) {
 		try (Session s = sf.openSession()) {
 			s.beginTransaction();
 			s.update(user);

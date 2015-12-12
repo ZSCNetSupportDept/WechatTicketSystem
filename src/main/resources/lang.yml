@@ -8,11 +8,12 @@ REGEX_QUERY: '^(?i)(Query)|(查询)|(cx)$'
 REGEX_REGISTER: '^(?i)(Reg(ister)?)|(注册)|(zc)$'
 REGEX_SUBMIT: '^(?i)(Submit)|(报修)|(bx)$'
 REGEX_CANCEL: '^(?i)(Cancel)|(取消)|(qx)$'
+REGEX_LOGIN: '^(?i)Authme$'
 
 #Event
 Event_Subscribe: "欢迎使用电子科技大学中山学院网络维护科微信自助报修平台。\n如您在使用中遇到任何问题，请将投诉或建议邮件至loli@sola.love."
 Invalid_Operation: 'Whoops，报修姬找不到你想要的东西啦 (╯‵□′)╯︵┻━┻。'
-Message_Spam: '你的语速太快了，喝一杯82年的雪碧压压惊吧。'
+Message_Spam: '你的打字速度太快了，喝一杯82年的Java压压惊吧。'
 #Register
 Already_Registered: "您已进行过微信绑定。如果需要更改个人信息，请发送 '修改资料' 。"
 #Query
@@ -34,12 +35,15 @@ No_Open_Ticket_Available: '您当前没有未解决的报修表单。'
 Cancel_Title: '报修已取消：'
 User_Cancel_Remark: '用户手动取消报修。'
 Cancel_Failed: '取消失败。'
+#Login
+Not_Operator: '嘟嘟嘟……'
 
 #URL
 User_Register_Link: "您尚未进行微信绑定, 请<a href=\"http://topaz.sinaapp.com/nm/v1/reg.php?wechatid={0}\">点击这里</a>进行微信绑定操作。"
 User_Query_Link: 'http://topaz.sinaapp.com/nm/v1/query.php?wechatid={0}'
-User_Submit_Link: 'http://topaz.sinaapp.com/nm/v1/submit.php?wechatid={0}'
+User_Submit_Link: 'http://topaz.sinaapp.com/nm/v1/rrepair.html?wechatid={0}&name={1}&isp={2}&room={3}&block={4}&phone={5}'
 Result_Page: 'http://topaz.sinaapp.com/nm/v1/result.html'
+Operator_Login_Link: '<a href=\"http://topaz.sinaapp.com/nm/v1/login.html?wechatid={0}\">CLICK HERE</a>'
 
 #Localized
 #Status

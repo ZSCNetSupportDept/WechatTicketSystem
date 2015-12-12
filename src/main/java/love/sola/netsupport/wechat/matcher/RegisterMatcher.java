@@ -24,7 +24,7 @@ public class RegisterMatcher implements WxMpMessageMatcher {
 		if (registered.contains(fromUser)) {
 			return false;
 		} else {
-			User u = TableUser.getUserByWechat(fromUser);
+			User u = TableUser.getByWechat(fromUser);
 			if (u != null) registered.add(u.getWechatId());
 			return u == null;
 		}

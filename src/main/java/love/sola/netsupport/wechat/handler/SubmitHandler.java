@@ -1,7 +1,6 @@
 package love.sola.netsupport.wechat.handler;
 
 import love.sola.netsupport.api.Authorize;
-import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.TableTicket;
 import love.sola.netsupport.sql.TableUser;
@@ -30,9 +29,8 @@ public class SubmitHandler implements WxMpMessageHandler {
 
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		User u = TableUser.getUserByWechat(wxMessage.getFromUserName());
-		Ticket t = TableTicket.queryLatestOpen(u);
-		if (t != null) {
+		User u = TableUser.getByWechat(wxMessage.getFromUserName());
+		if (TableTicket.hasOpen(u)) {
 			return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
 					.content(lang("Already_Opening_Ticket")).build();
 		}
@@ -40,7 +38,7 @@ public class SubmitHandler implements WxMpMessageHandler {
 		WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
 		item.setTitle(lang("Submit_Title"));
 		item.setDescription(lang("Submit_Desc"));
-		item.setUrl(format("User_Submit_Link", wxMessage.getFromUserName()));
+		item.setUrl(format("User_Submit_Link", wxMessage.getFromUserName(), u.getName(), u.getIsp(), u.getRoom(), u.getBlock(), u.getPhone()));
 		out.addArticle(item);
 		Authorize.fetchedTime.put(wxMessage.getFromUserName(), System.currentTimeMillis());
 		Authorize.fetchedCommand.put(wxMessage.getFromUserName(), Command.SUBMIT);

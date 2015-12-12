@@ -78,7 +78,7 @@ public class Register extends HttpServlet {
 		if (block == -1) return "Invalid_Block";
 		if (room == -1) return "Invalid_Room";
 		if (phone == -1) return "Invalid_Phone_Number";
-		User user = TableUser.getUserById(sid);
+		User user = TableUser.getById(sid);
 		if (user == null) return "Invalid_Student_Id";
 		if (!user.getName().equals(name)) return "Invalid_Name";
 		if (user.getWechatId() != null) return "User_Already_Registered";
@@ -88,7 +88,7 @@ public class Register extends HttpServlet {
 		user.setRoom(room);
 		user.setPhone(phone);
 		user.setWechatId(wechat);
-		TableUser.updateUser(user);
+		TableUser.update(user);
 		return "Register_Success";
 	}
 

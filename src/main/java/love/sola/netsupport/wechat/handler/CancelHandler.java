@@ -32,8 +32,8 @@ public class CancelHandler implements WxMpMessageHandler {
 
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		User u = TableUser.getUserByWechat(wxMessage.getFromUserName());
-		Ticket t = TableTicket.queryLatestOpen(u);
+		User u = TableUser.getByWechat(wxMessage.getFromUserName());
+		Ticket t = TableTicket.latestOpen(u);
 		if (t == null) {
 			return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
 					.content(lang("No_Open_Ticket_Available")).build();

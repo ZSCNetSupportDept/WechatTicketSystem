@@ -32,8 +32,8 @@ public class QueryHandler implements WxMpMessageHandler {
 
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		User u = TableUser.getUserByWechat(wxMessage.getFromUserName());
-		Ticket t = TableTicket.queryLatest(u);
+		User u = TableUser.getByWechat(wxMessage.getFromUserName());
+		Ticket t = TableTicket.latest(u);
 		if (t == null) {
 			return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
 					.content(lang("No_Ticket_Available")).build();

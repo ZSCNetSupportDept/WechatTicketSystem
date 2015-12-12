@@ -1,7 +1,5 @@
 package love.sola.netsupport.enums;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +13,8 @@ import static love.sola.netsupport.config.Lang.lang;
  */
 public enum ISP {
 
-	@SerializedName("1")
 	TELECOM(1, "^1[3|4|5|7|8][0-9]{9}$"),
-	@SerializedName("2")
 	UNICOM(2, "ZSZJLAN[0-9]{10}@16900\\.gd"),
-	@SerializedName("3")
 	CHINAMOBILE(3, "^1[3|4|5|7|8][0-9]{9}@139\\.gd$"),;
 
 	private static final Map<String, ISP> NAME_MAP = new HashMap<>();

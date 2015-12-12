@@ -23,6 +23,8 @@ import javax.persistence.Table;
 @Table(name = "operators")
 public class Operator {
 
+	public static final String PROPERTY_WECHAT = "wechat";
+
 	@Id
 	@Column(name = "id", nullable = false, insertable = false, updatable = false)
 	private Integer id;

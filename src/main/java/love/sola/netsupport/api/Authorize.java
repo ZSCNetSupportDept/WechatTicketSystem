@@ -77,7 +77,7 @@ public class Authorize extends HttpServlet {
 				break;
 			case QUERY:
 			case SUBMIT:
-				User u = TableUser.getUserByWechat(wechat);
+				User u = TableUser.getByWechat(wechat);
 				if (u == null) return new Response(Response.ResponseCode.AUTHORIZE_FAILED);
 				httpSession.setAttribute("user", u);
 				break;
