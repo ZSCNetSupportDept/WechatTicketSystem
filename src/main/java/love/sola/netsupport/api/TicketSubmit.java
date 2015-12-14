@@ -48,7 +48,7 @@ public class TicketSubmit extends HttpServlet {
 
 	private Response submit(HttpServletRequest request) {
 		String desc = request.getParameter("desc");
-		if (desc == null) {
+		if (desc == null || desc.isEmpty()) {
 			return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
 		}
 
@@ -62,6 +62,7 @@ public class TicketSubmit extends HttpServlet {
 			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
 
 			if (TableTicket.hasOpen(u)) {
+				session.invalidate();
 				return new Response(Response.ResponseCode.ALREADY_SUBMITTED);
 			}
 
@@ -72,7 +73,7 @@ public class TicketSubmit extends HttpServlet {
 			s.beginTransaction();
 			s.save(t);
 			s.getTransaction().commit();
-			request.getSession().invalidate();
+			session.invalidate();
 			return new Response(Response.ResponseCode.OK, t);
 		} catch (NumberFormatException e) {
 			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);

@@ -65,7 +65,7 @@ public class Register extends HttpServlet {
 		);
 		boolean isSuccess = result.equals("Register_Success");
 		if (isSuccess) {
-			request.getSession().invalidate();
+			session.invalidate();
 			out.println(ParseUtil.parseJsonP(request, gson.toJson(new Response(Response.ResponseCode.OK, result))));
 		} else {
 			out.println(ParseUtil.parseJsonP(request, gson.toJson(new Response(Response.ResponseCode.REQUEST_FAILED, result))));
