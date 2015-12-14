@@ -1,6 +1,7 @@
 package love.sola.netsupport.api;
 
 import com.google.gson.Gson;
+import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
@@ -44,7 +45,7 @@ public class Register extends HttpServlet {
 			printAuthorizeFailed(request, out);
 			return;
 		}
-		String wechat = (String) session.getAttribute("wechat");
+		String wechat = (String) session.getAttribute(Attribute.WECHAT);
 		if (wechat == null) {
 			printAuthorizeFailed(request, out);
 			return;

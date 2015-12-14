@@ -1,6 +1,7 @@
 package love.sola.netsupport.api;
 
 import com.google.gson.Gson;
+import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
@@ -55,7 +56,7 @@ public class TicketQuery extends HttpServlet {
 			if (session == null) {
 				return new Response(Response.ResponseCode.UNAUTHORIZED);
 			}
-			User u = (User) session.getAttribute("user");
+			User u = (User) session.getAttribute(Attribute.USER);
 			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
 
 			Criteria c = s.createCriteria(Ticket.class);

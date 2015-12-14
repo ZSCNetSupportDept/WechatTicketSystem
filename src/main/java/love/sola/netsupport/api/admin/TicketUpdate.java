@@ -2,11 +2,14 @@ package love.sola.netsupport.api.admin;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
+import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
+import love.sola.netsupport.wechat.Command;
+import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -15,7 +18,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -50,13 +52,12 @@ public class TicketUpdate extends HttpServlet {
 		String remark = request.getParameter("remark");
 		String status = request.getParameter("status");
 		if (Checker.hasNull(ticket, remark, status)) return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
-
+		WxSession session = Checker.isAuthorized(request, Command.LOGIN);
+		if (session == null) {
+			return new Response(Response.ResponseCode.UNAUTHORIZED);
+		}
 		try (Session s = SQLCore.sf.openSession()) {
-			HttpSession httpSession = request.getSession(false);
-			if (!Checker.isOperator(httpSession)) {
-				return new Response(Response.ResponseCode.UNAUTHORIZED);
-			}
-			Operator op = (Operator) httpSession.getAttribute("operator");
+			Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
 			Ticket t = s.get(Ticket.class, Integer.parseInt(ticket));
 			if (t == null) {
 				return new Response(Response.ResponseCode.TICKET_NOT_FOUND);

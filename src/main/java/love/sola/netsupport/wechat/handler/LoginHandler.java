@@ -1,10 +1,13 @@
 package love.sola.netsupport.wechat.handler;
 
 import love.sola.netsupport.enums.Access;
+import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.sql.TableOperator;
-import love.sola.netsupport.util.RSAUtil;
+import love.sola.netsupport.wechat.Command;
+import love.sola.netsupport.wechat.WechatSession;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -32,13 +35,20 @@ public class LoginHandler implements WxMpMessageHandler {
 			Operator operator = TableOperator.get(wxMessage.getFromUserName());
 			if (operator == null)
 				out.content(lang("Not_Operator"));
-			else if (operator.getAccess() == Access.NOLOGIN)
+			else if (operator.getAccess() == Access.NOLOGIN) {
 				out.content(lang("No_Login"));
-			else
-				out.content(format("Operator_Login_Link", wxMessage.getFromUserName(), RSAUtil.publicKey_s));
+			} else {
+				String id = WechatSession.genId();
+				WxSession session = WechatSession.get(id, true);
+				session.setAttribute(Attribute.AUTHORIZED, Command.LOGIN);
+				session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
+				session.setAttribute(Attribute.OPERATOR, operator);
+				out.content(format("Operator_Home_Page", id));
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			out.content(lang("Internal_Error"));
+			out.content(lang("Login_Error"));
 		}
 		return out.build();
 	}

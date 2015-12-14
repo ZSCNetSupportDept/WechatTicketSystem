@@ -27,11 +27,4 @@ public class Checker {
 		return s == null ? null : s.getAttribute(Attribute.AUTHORIZED) == c ? s : null;
 	}
 
-	public static WxSession isOperator(HttpServletRequest r) {
-		String t = r.getParameter("token");
-		if (t == null || t.isEmpty()) return null;
-		WxSession s = WechatSession.get(t, false);
-		return s == null ? null : s.getAttribute(Attribute.OPERATOR) == null ? null : s;
-	}
-
 }
