@@ -22,6 +22,15 @@ public class TableOperator extends SQLCore {
 		}
 	}
 
+
+	public static Operator get(String wechat) {
+		try (Session s = SQLCore.sf.openSession()) {
+			return (Operator) s.createCriteria(Operator.class)
+					.add(Restrictions.eq(Operator.PROPERTY_WECHAT, wechat))
+					.uniqueResult();
+		}
+	}
+
 	public static Operator get(int id) {
 		try (Session s = SQLCore.sf.openSession()) {
 			return s.get(Operator.class, id);

@@ -1,5 +1,7 @@
 package love.sola.netsupport.wechat.handler;
 
+import love.sola.netsupport.enums.Access;
+import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.sql.TableOperator;
 import love.sola.netsupport.util.RSAUtil;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -25,34 +27,20 @@ public class LoginHandler implements WxMpMessageHandler {
 
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-//		try (Session s = SQLCore.sf.openSession()) {
-//			if (operator == null || operator.getAccess() == Access.NOLOGIN)
-//				return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
-//			if (!wechat.equals(operator.getWechat()))
-//				return new Response(Response.ResponseCode.INCORRECT_WECHAT);
-//			if (!Crypto.check(password,operator.getPassword()))
-//				return new Response(Response.ResponseCode.WRONG_PASSWORD);
-//
-//			return new Response(Response.ResponseCode.OK, operator);
-//		} catch (NumberFormatException e) {
-//			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
-//		} catch (HibernateException e) {
-//			e.printStackTrace();
-//			return new Response(Response.ResponseCode.DATABASE_ERROR, e);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new Response(Response.ResponseCode.INTERNAL_ERROR, e);
-//		}
-
-//		if (operator == null || operator.getAccess() == Access.NOLOGIN)
-//			return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
-
 		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-		if (!TableOperator.has(wxMessage.getFromUserName())) {
-			return out.content(lang("Not_Operator")).build();
-		} else {
-			return out.content(format("Operator_Login_Link", wxMessage.getFromUserName(), RSAUtil.publicKey_s)).build();
+		try {
+			Operator operator = TableOperator.get(wxMessage.getFromUserName());
+			if (operator == null)
+				out.content(lang("Not_Operator"));
+			else if (operator.getAccess() == Access.NOLOGIN)
+				out.content(lang("No_Login"));
+			else
+				out.content(format("Operator_Login_Link", wxMessage.getFromUserName(), RSAUtil.publicKey_s));
+		} catch (Exception e) {
+			e.printStackTrace();
+			out.content(lang("Internal_Error"));
 		}
+		return out.build();
 	}
 
 }
