@@ -31,8 +31,7 @@ public class Settings {
 
 	public int User_Caching_Time;
 
-	public int User_Register_Timeout;
-	public int User_Command_Timeout;
+	public int User_Session_Max_Inactive;
 
 	//No arg constructor for Yaml.loadAs
 	public Settings() { I = this; }

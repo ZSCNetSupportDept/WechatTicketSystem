@@ -8,6 +8,7 @@ import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
+import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.exception.ConstraintViolationException;
 
 import javax.servlet.ServletException;
@@ -15,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -38,19 +38,15 @@ public class Register extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		String json;
-		HttpSession httpSession = request.getSession(false);
-		if (!Checker.authorized(httpSession, Command.REGISTER)) {
-			json = gson.toJson(new Response(Response.ResponseCode.AUTHORIZE_FAILED));
-			out.println(ParseUtil.parseJsonP(request, json));
-			out.close();
+
+		WxSession session = Checker.isAuthorized(request, Command.REGISTER);
+		if (session == null) {
+			printAuthorizeFailed(request, out);
 			return;
 		}
-		String wechat = (String) httpSession.getAttribute("wechat");
+		String wechat = (String) session.getAttribute("wechat");
 		if (wechat == null) {
-			json = gson.toJson(new Response(Response.ResponseCode.AUTHORIZE_FAILED));
-			out.println(ParseUtil.parseJsonP(request, json));
-			out.close();
+			printAuthorizeFailed(request, out);
 			return;
 		}
 
@@ -69,11 +65,9 @@ public class Register extends HttpServlet {
 		boolean isSuccess = result.equals("Register_Success");
 		if (isSuccess) {
 			request.getSession().invalidate();
-			json = gson.toJson(new Response(Response.ResponseCode.OK, result));
-			out.println(ParseUtil.parseJsonP(request, json));
+			out.println(ParseUtil.parseJsonP(request, gson.toJson(new Response(Response.ResponseCode.OK, result))));
 		} else {
-			json = gson.toJson(new Response(Response.ResponseCode.REQUEST_FAILED, result));
-			out.println(ParseUtil.parseJsonP(request, json));
+			out.println(ParseUtil.parseJsonP(request, gson.toJson(new Response(Response.ResponseCode.REQUEST_FAILED, result))));
 		}
 		out.close();
 	}
@@ -169,6 +163,12 @@ public class Register extends HttpServlet {
 		} catch (NumberFormatException ignored) {
 		}
 		return -1;
+	}
+
+	private void printAuthorizeFailed(HttpServletRequest request, PrintWriter out) {
+		out.println(ParseUtil.parseJsonP(request, gson.toJson(new Response(Response.ResponseCode.AUTHORIZE_FAILED))));
+		out.close();
+		return;
 	}
 
 }

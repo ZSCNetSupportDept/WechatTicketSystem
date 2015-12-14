@@ -7,6 +7,7 @@ import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
+import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -18,7 +19,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -51,11 +51,11 @@ public class TicketQuery extends HttpServlet {
 	private Response query(HttpServletRequest request) {
 		try (Session s = SQLCore.sf.openSession()) {
 
-			HttpSession httpSession = request.getSession(false);
-			if (!Checker.authorized(httpSession, Command.QUERY)) {
+			WxSession session = Checker.isAuthorized(request, Command.QUERY);
+			if (session == null) {
 				return new Response(Response.ResponseCode.UNAUTHORIZED);
 			}
-			User u = (User) httpSession.getAttribute("user");
+			User u = (User) session.getAttribute("user");
 			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
 
 			Criteria c = s.createCriteria(Ticket.class);

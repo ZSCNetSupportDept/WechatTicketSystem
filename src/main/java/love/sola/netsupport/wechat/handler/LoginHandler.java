@@ -25,6 +25,28 @@ public class LoginHandler implements WxMpMessageHandler {
 
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+//		try (Session s = SQLCore.sf.openSession()) {
+//			if (operator == null || operator.getAccess() == Access.NOLOGIN)
+//				return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
+//			if (!wechat.equals(operator.getWechat()))
+//				return new Response(Response.ResponseCode.INCORRECT_WECHAT);
+//			if (!Crypto.check(password,operator.getPassword()))
+//				return new Response(Response.ResponseCode.WRONG_PASSWORD);
+//
+//			return new Response(Response.ResponseCode.OK, operator);
+//		} catch (NumberFormatException e) {
+//			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
+//		} catch (HibernateException e) {
+//			e.printStackTrace();
+//			return new Response(Response.ResponseCode.DATABASE_ERROR, e);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return new Response(Response.ResponseCode.INTERNAL_ERROR, e);
+//		}
+
+//		if (operator == null || operator.getAccess() == Access.NOLOGIN)
+//			return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
+
 		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
 		if (!TableOperator.has(wxMessage.getFromUserName())) {
 			return out.content(lang("Not_Operator")).build();

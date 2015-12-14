@@ -2,21 +2,19 @@ package love.sola.netsupport.api.admin;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
-import love.sola.netsupport.enums.Access;
+import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.Crypto;
 import love.sola.netsupport.util.ParseUtil;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
+import me.chanjar.weixin.common.session.WxSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -46,32 +44,18 @@ public class Login extends HttpServlet {
 	}
 
 	private Response login(HttpServletRequest request) {
-		String wechat = request.getParameter("wechat");
-		String opId = request.getParameter("op");
 		String password = request.getParameter("pass");
-		if (Checker.hasNull(wechat, opId, password)) return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
+		if (Checker.hasNull(password)) return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
 
-		try (Session s = SQLCore.sf.openSession()) {
-			Operator operator = s.get(Operator.class, Integer.parseInt(opId));
-			if (operator == null || operator.getAccess() == Access.NOLOGIN)
-				return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
-			if (!wechat.equals(operator.getWechat()))
-				return new Response(Response.ResponseCode.INCORRECT_WECHAT);
-			if (!Crypto.check(password,operator.getPassword()))
-				return new Response(Response.ResponseCode.WRONG_PASSWORD);
-
-			HttpSession httpSession = request.getSession(true);
-			httpSession.setAttribute("wechat", wechat);
-			httpSession.setAttribute("operator", operator);
-			return new Response(Response.ResponseCode.OK, operator);
-		} catch (NumberFormatException e) {
-			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			return new Response(Response.ResponseCode.DATABASE_ERROR, e);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Response(Response.ResponseCode.INTERNAL_ERROR, e);
+		WxSession session = Checker.isOperator(request);
+		if (session == null) {
+			return new Response(Response.ResponseCode.UNAUTHORIZED);
 		}
+		Operator operator = (Operator) session.getAttribute(Attribute.OPERATOR);
+
+		if (!Crypto.check(password,operator.getPassword()))
+			return new Response(Response.ResponseCode.WRONG_PASSWORD);
+		else
+			return new Response(Response.ResponseCode.OK, operator);
 	}
 }

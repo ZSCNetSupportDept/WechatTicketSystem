@@ -1,8 +1,11 @@
 package love.sola.netsupport.util;
 
+import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.wechat.Command;
+import love.sola.netsupport.wechat.WechatSession;
+import me.chanjar.weixin.common.session.WxSession;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * ***********************************************
@@ -17,12 +20,18 @@ public class Checker {
 		return false;
 	}
 
-	public static boolean authorized(HttpSession s, Command c) {
-		return s != null && s.getAttribute("authorized") == c;
+	public static WxSession isAuthorized(HttpServletRequest r, Command c) {
+		String t = r.getParameter("token");
+		if (t == null || t.isEmpty()) return null;
+		WxSession s = WechatSession.get(t, false);
+		return s == null ? null : s.getAttribute(Attribute.AUTHORIZED) == c ? s : null;
 	}
 
-	public static boolean operator(HttpSession s) {
-		return s != null && s.getAttribute("operator") != null;
+	public static WxSession isOperator(HttpServletRequest r) {
+		String t = r.getParameter("token");
+		if (t == null || t.isEmpty()) return null;
+		WxSession s = WechatSession.get(t, false);
+		return s == null ? null : s.getAttribute(Attribute.OPERATOR) == null ? null : s;
 	}
 
 }

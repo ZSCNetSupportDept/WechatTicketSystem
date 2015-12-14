@@ -53,7 +53,7 @@ public class TicketUpdate extends HttpServlet {
 
 		try (Session s = SQLCore.sf.openSession()) {
 			HttpSession httpSession = request.getSession(false);
-			if (!Checker.operator(httpSession)) {
+			if (!Checker.isOperator(httpSession)) {
 				return new Response(Response.ResponseCode.UNAUTHORIZED);
 			}
 			Operator op = (Operator) httpSession.getAttribute("operator");
