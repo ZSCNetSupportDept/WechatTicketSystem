@@ -1,6 +1,7 @@
 package love.sola.netsupport.wechat;
 
 import love.sola.netsupport.config.Settings;
+import me.chanjar.weixin.common.session.InternalSession;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSession;
 
@@ -32,4 +33,9 @@ public class WechatSession {
 	public static String genId() {
 		return UUID.randomUUID().toString();
 	}
+
+	public static InternalSession[] list() {
+		return manager.findSessions();
+	}
+
 }

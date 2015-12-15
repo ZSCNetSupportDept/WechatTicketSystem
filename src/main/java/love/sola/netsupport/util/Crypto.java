@@ -15,7 +15,7 @@ public class Crypto {
 	}
 
 	public static boolean check(String plain, String hash) {
-		return BCrypt.checkpw(RSAUtil.decrypt(plain), hash);
+		return BCrypt.checkpw(plain, hash);
 	}
 
 }

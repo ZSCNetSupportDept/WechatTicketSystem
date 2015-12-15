@@ -2,10 +2,16 @@ package love.sola.netsupport.api.admin;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
+import love.sola.netsupport.enums.Access;
+import love.sola.netsupport.enums.Attribute;
+import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
+import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
+import love.sola.netsupport.wechat.Command;
+import me.chanjar.weixin.common.session.WxSession;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,7 +28,7 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "GetUser",urlPatterns = "/api/getuser",loadOnStartup = 1)
+@WebServlet(name = "GetUser",urlPatterns = "/api/admin/getuser",loadOnStartup = 42)
 public class GetUser extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;
@@ -48,6 +54,15 @@ public class GetUser extends HttpServlet {
 	}
 
 	private Response query(HttpServletRequest request) {
+		WxSession session = Checker.isAuthorized(request, Command.LOGIN);
+		if (session == null) {
+			return new Response(Response.ResponseCode.UNAUTHORIZED);
+		}
+		Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
+		if (op.getAccess() != Access.ROOT) {
+			return new Response(Response.ResponseCode.PERMISSION_DENIED);
+		}
+
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		if ((id == null || id.isEmpty()) && (name == null || name.isEmpty())) {
