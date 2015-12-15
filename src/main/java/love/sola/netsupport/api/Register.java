@@ -73,7 +73,6 @@ public class Register extends HttpServlet {
 		out.close();
 	}
 
-	@SuppressWarnings("Duplicates")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
