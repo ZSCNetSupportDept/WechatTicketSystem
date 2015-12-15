@@ -1,6 +1,7 @@
 package love.sola.netsupport.sql;
 
 import com.google.gson.*;
+import com.google.gson.annotations.Expose;
 import love.sola.netsupport.enums.ISP;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -21,6 +22,30 @@ public class SQLCore {
 
 	public static DataSource ds;
 	public static Gson gson = new GsonBuilder()
+			.addSerializationExclusionStrategy(new ExclusionStrategy() {
+				@Override
+				public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+					final Expose expose = fieldAttributes.getAnnotation(Expose.class);
+					return expose != null && !expose.serialize();
+				}
+
+				@Override
+				public boolean shouldSkipClass(Class<?> aClass) {
+					return false;
+				}
+			})
+			.addDeserializationExclusionStrategy(new ExclusionStrategy() {
+				@Override
+				public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+					final Expose expose = fieldAttributes.getAnnotation(Expose.class);
+					return expose != null && !expose.deserialize();
+				}
+
+				@Override
+				public boolean shouldSkipClass(Class<?> aClass) {
+					return false;
+				}
+			})
 			.registerTypeAdapter(Date.class, (JsonDeserializer<Date>) (json, typeOfT, context) -> new Date(json.getAsJsonPrimitive().getAsLong()))
 			.registerTypeAdapter(Date.class, (JsonSerializer<Date>) (src, typeOfSrc, context) -> new JsonPrimitive(src.getTime()))
 			.registerTypeAdapter(ISP.class, (JsonDeserializer<ISP>) (json, typeOfT, context) -> ISP.fromId(json.getAsJsonPrimitive().getAsInt()))

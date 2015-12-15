@@ -1,5 +1,6 @@
 package love.sola.netsupport.pojo;
 
+import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class User {
 	private ISP isp;
 	@Column(name = "netaccount")
 	private String netAccount;
+	@Expose(serialize = false)
 	@Column(name = "wechat")
 	private String wechatId;
 	private Integer block;
