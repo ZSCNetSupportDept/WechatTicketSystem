@@ -1,4 +1,4 @@
-package love.sola.netsupport.api.admin;
+package love.sola.netsupport.api.admin.root;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
@@ -46,7 +46,7 @@ public class GetUser extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "text/json;charset=utf-8");
+		response.addHeader("Content-type", "application/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String json = gson.toJson(query(request));
 		out.println(ParseUtil.parseJsonP(request, json));

@@ -5,10 +5,11 @@ Unknown_Encrypt_Type: 'Unknown encrypt-type.'
 
 #Command Regex
 REGEX_QUERY: '^(?i)(Query)|(查询)|(cx)$'
-REGEX_REGISTER: '^(?i)(Reg(ister)?)|(注册)|(绑定)|(zc)$'
+REGEX_REGISTER: '^(?i)(Reg(ister)?)|(注册)|(绑定)|(zc)|(bd)$'
 REGEX_SUBMIT: '^(?i)(Submit)|(报修)|(bx)$'
-REGEX_CANCEL: '^(?i)(Cancel)|(取消)|(撤销)|(qx)$'
+REGEX_CANCEL: '^(?i)(Cancel)|(取消)|(撤销)|(qx)|(cx)$'
 REGEX_LOGIN: '^(?i)Authme$'
+REGEX_PROFILE: '^(?i)(EditProfile)|(修改资料)|(xgzl)$'
 
 #Event
 Event_Subscribe: "欢迎使用电子科技大学中山学院网络维护科微信自助报修平台。\n如您在使用中遇到任何问题，请将投诉或建议邮件至loli@sola.love.\n\n请发送'绑定'进行微信绑定"
@@ -44,8 +45,10 @@ Internal_Error: '啊哦，登录失败了哦。'
 User_Register_Link: '您尚未进行微信绑定, 请<a href="http://topaz.sinaapp.com/nm/v1/reg.html?token={0}">点击这里</a>进行微信绑定操作。'
 User_Query_Link: 'http://topaz.sinaapp.com/nm/v1/list.html?token={0}'
 User_Submit_Link: 'http://topaz.sinaapp.com/nm/v1/rrepair.html?token={0}&name={1}&isp={2}&room={3}&block={4}&phone={5,number,#}'
+User_Profile_Link: 'http://topaz.sinaapp.com/nm/v1/profile.html?token={0}&name={1}&isp={2}&account={3}&block={4}&room={5}&phone={6,number,#}'
 Result_Page: 'http://topaz.sinaapp.com/nm/v1/result.html'
 Operator_Home_Page: '<a href="http://topaz.sinaapp.com/nm/v1/man/home.html?token={0}">CLICK HERE</a>'
+Operator_Login_Page: ''
 
 #Localized
 #Status

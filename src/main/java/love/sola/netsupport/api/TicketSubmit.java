@@ -39,7 +39,7 @@ public class TicketSubmit extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "text/json;charset=utf-8");
+		response.addHeader("Content-type", "application/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String json = gson.toJson(submit(request));
 		out.println(ParseUtil.parseJsonP(request, json));
