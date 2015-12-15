@@ -77,7 +77,6 @@ public class Register extends HttpServlet {
 	}
 
 	private String register(long sid, String name, ISP isp, String netAccount, int block, int room, long phone, String wechat) {
-		if (wechat == null) return "Illegal_Request";
 		if (sid == -1) return "Invalid_Student_Id";
 		if (name == null) return "Invalid_Name";
 		if (isp == null) return "Invalid_ISP";
@@ -105,7 +104,7 @@ public class Register extends HttpServlet {
 	}
 
 	private void printAuthorizeFailed(HttpServletRequest request, PrintWriter out) {
-		out.println(ParseUtil.parseJsonP(request, gson.toJson(new Response(Response.ResponseCode.AUTHORIZE_FAILED))));
+		out.println(ParseUtil.parseJsonP(request, gson.toJson(new Response(Response.ResponseCode.UNAUTHORIZED))));
 		out.close();
 		return;
 	}
