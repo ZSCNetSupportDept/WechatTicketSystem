@@ -36,7 +36,7 @@ public class Register extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "text/json;charset=utf-8");
+		response.addHeader("Content-type", "application/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
 
 		WxSession session = Checker.isAuthorized(request, Command.REGISTER);
