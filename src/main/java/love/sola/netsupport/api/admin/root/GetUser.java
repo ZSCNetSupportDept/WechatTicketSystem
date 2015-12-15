@@ -1,4 +1,4 @@
-package love.sola.netsupport.api.admin;
+package love.sola.netsupport.api.admin.root;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;

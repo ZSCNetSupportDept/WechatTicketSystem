@@ -1,6 +1,9 @@
-package love.sola.netsupport.api.admin;
+package love.sola.netsupport.api.admin.root;
 
 import com.google.gson.Gson;
+import love.sola.netsupport.enums.Access;
+import love.sola.netsupport.enums.Attribute;
+import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.wechat.Command;
@@ -24,7 +27,7 @@ import java.util.Enumeration;
  * ***********************************************
  */
 
-@WebServlet(name = "dashboard", urlPatterns = "/api/admin/dashboard", loadOnStartup = 41)
+@WebServlet(name = "Dashboard", urlPatterns = "/api/admin/dashboard", loadOnStartup = 41)
 public class DashBoard extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;
@@ -49,6 +52,13 @@ public class DashBoard extends HttpServlet {
 			out.println("Unauthorized");
 			return;
 		}
+
+		Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
+		if (op.getAccess() != Access.ROOT) {
+			out.println("Unauthorized");
+			return;
+		}
+
 		for (InternalSession s : WechatSession.list()) {
 			out.println("=====" + s.getIdInternal() + "=====");
 			WxSession ws = s.getSession();

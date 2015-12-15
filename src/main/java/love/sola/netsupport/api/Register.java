@@ -26,7 +26,7 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "Register", urlPatterns = "/api/register", loadOnStartup = 22)
+@WebServlet(name = "Register", urlPatterns = "/api/register", loadOnStartup = 21)
 public class Register extends HttpServlet {
 
 	public static final String STUDENT_ID_REGEX = "^(2010|2012|2013|2014|2015)[0-9]{9}$";
