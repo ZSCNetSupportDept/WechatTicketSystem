@@ -1,8 +1,13 @@
 package love.sola.netsupport.api;
 
 import com.google.gson.Gson;
+import love.sola.netsupport.enums.Attribute;
+import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
+import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
+import love.sola.netsupport.wechat.Command;
+import me.chanjar.weixin.common.session.WxSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,6 +43,17 @@ public class ProfileModify extends HttpServlet {
 	}
 
 	private Response process(HttpServletRequest request) {
+		WxSession session = Checker.isAuthorized(request, Command.QUERY);
+		if (session == null) {
+			return new Response(Response.ResponseCode.UNAUTHORIZED);
+		}
+		User u = (User) session.getAttribute(Attribute.USER);
+		if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
+		String isp = request.getParameter("isp");
+		String netaccount = request.getParameter("username");
+		String block = request.getParameter("block");
+		String room = request.getParameter("room");
+		String phone = request.getParameter("phone");
 		return null;
 	}
 

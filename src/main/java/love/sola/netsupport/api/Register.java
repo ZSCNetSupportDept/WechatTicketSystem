@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static love.sola.netsupport.util.Checker.*;
+
 /**
  * ***********************************************
  * Created by Sola on 2015/11/29.
@@ -29,8 +31,6 @@ import java.io.PrintWriter;
 @WebServlet(name = "Register", urlPatterns = "/api/register", loadOnStartup = 21)
 public class Register extends HttpServlet {
 
-	public static final String STUDENT_ID_REGEX = "^(2010|2012|2013|2014|2015)[0-9]{9}$";
-	public static final String PHONE_NUMBER_REGEX = "^1[34578][0-9]{9}$";
 
 	private Gson gson = SQLCore.gson;
 
@@ -103,66 +103,6 @@ public class Register extends HttpServlet {
 			return "Duplicated_" + dupKey.toUpperCase(); // PHONE ACCOUNT WECHAT
 		}
 		return "Register_Success";
-	}
-
-
-	private long checkStudentId(String studentId) {
-		if (studentId == null) return -1;
-		if (studentId.matches(STUDENT_ID_REGEX)) {
-			try {
-				return Long.parseLong(studentId);
-			} catch (NumberFormatException ignored) {
-			}
-		}
-		return -1;
-	}
-
-	private long checkPhoneNumber(String phone) {
-		if (phone == null) return -1;
-		if (phone.matches(PHONE_NUMBER_REGEX)) {
-			try {
-				return Long.parseLong(phone);
-			} catch (NumberFormatException ignored) {
-			}
-		}
-		return -1;
-	}
-
-	private ISP checkISP(String isp) {
-		if (isp == null) return null;
-		try {
-			return ISP.fromId(Integer.parseInt(isp));
-		} catch (NumberFormatException ignored) {
-		}
-		return null;
-	}
-
-	private String checkNetAccount(String account, ISP isp) {
-		if (isp == null) return null;
-		if (account == null) return null;
-		if (!account.matches(isp.accountRegex)) return null;
-		return account;
-	}
-
-	private int checkBlock(String block) {
-		if (block == null) return -1;
-		try {
-			return Integer.parseInt(block);
-		} catch (NumberFormatException ignored) {
-		}
-		return -1;
-	}
-
-	private int checkRoom(String room, int block) {
-		if (block == -1) return -1;
-		if (room == null) return -1;
-		try {
-			Integer i = Integer.parseInt(room);
-			if (i <= 100 || i >= 1300) return -1;
-			return i;
-		} catch (NumberFormatException ignored) {
-		}
-		return -1;
 	}
 
 	private void printAuthorizeFailed(HttpServletRequest request, PrintWriter out) {
