@@ -31,7 +31,6 @@ import static love.sola.netsupport.util.Checker.*;
 @WebServlet(name = "Register", urlPatterns = "/api/register", loadOnStartup = 21)
 public class Register extends HttpServlet {
 
-
 	private Gson gson = SQLCore.gson;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

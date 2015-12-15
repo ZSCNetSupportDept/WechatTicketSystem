@@ -20,6 +20,7 @@ public enum Command {
 	QUERY(1, QueryHandler.class),
 	SUBMIT(2, SubmitHandler.class),
 	CANCEL(3, CancelHandler.class),
+	PROFILE(4, ProfileHandler.class),
 	LOGIN(10, LoginHandler.class),
 	;
 

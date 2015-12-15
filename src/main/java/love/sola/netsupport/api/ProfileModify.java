@@ -2,12 +2,15 @@ package love.sola.netsupport.api;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.enums.Attribute;
+import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
+import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
 import me.chanjar.weixin.common.session.WxSession;
+import org.hibernate.exception.ConstraintViolationException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import static love.sola.netsupport.util.Checker.*;
 
 /**
  * ***********************************************
@@ -43,18 +48,39 @@ public class ProfileModify extends HttpServlet {
 	}
 
 	private Response process(HttpServletRequest request) {
-		WxSession session = Checker.isAuthorized(request, Command.QUERY);
+		WxSession session = Checker.isAuthorized(request, Command.PROFILE);
 		if (session == null) {
 			return new Response(Response.ResponseCode.UNAUTHORIZED);
 		}
 		User u = (User) session.getAttribute(Attribute.USER);
 		if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
-		String isp = request.getParameter("isp");
-		String netaccount = request.getParameter("username");
-		String block = request.getParameter("block");
-		String room = request.getParameter("room");
-		String phone = request.getParameter("phone");
-		return null;
-	}
 
+		ISP isp = checkISP(request.getParameter("isp"));
+		String netAccount = checkNetAccount(request.getParameter("username"), isp);
+		int block = checkBlock(request.getParameter("block"));
+		int room = checkRoom(request.getParameter("room"), block);
+		long phone = checkPhoneNumber(request.getParameter("phone"));
+		if (netAccount != null) {
+			u.setIsp(isp);
+			u.setNetAccount(netAccount);
+		}
+		if (room != -1) {
+			u.setBlock(block);
+			u.setRoom(room);
+		}
+		if (phone != -1) {
+			u.setPhone(phone);
+		}
+		try {
+			TableUser.update(u);
+		} catch (ConstraintViolationException e) {
+			String dupKey = e.getConstraintName();
+			return new Response(Response.ResponseCode.REQUEST_FAILED, "Duplicated_" + dupKey.toUpperCase());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Response(Response.ResponseCode.INTERNAL_ERROR, e.getMessage());
+		}
+		session.invalidate();
+		return new Response(Response.ResponseCode.OK);
+	}
 }
