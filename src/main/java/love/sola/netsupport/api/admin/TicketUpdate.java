@@ -73,10 +73,10 @@ public class TicketUpdate extends HttpServlet {
 			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
 		} catch (HibernateException e) {
 			e.printStackTrace();
-			return new Response(Response.ResponseCode.DATABASE_ERROR, e);
+			return new Response(Response.ResponseCode.DATABASE_ERROR, e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new Response(Response.ResponseCode.INTERNAL_ERROR, e);
+			return new Response(Response.ResponseCode.INTERNAL_ERROR, e.getMessage());
 		}
 	}
 
