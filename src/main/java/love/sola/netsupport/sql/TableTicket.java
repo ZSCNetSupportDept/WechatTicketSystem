@@ -63,6 +63,7 @@ public class TableTicket extends SQLCore {
 	public static List<Ticket> unsolvedByBlock(int b) {
 		try (Session s = SQLCore.sf.openSession()) {
 			return s.createCriteria(Ticket.class)
+					.add(Restrictions.ne(Ticket.PROPERTY_STATUS, Status.SOLVED))
 					.createCriteria(Ticket.PROPERTY_USER)
 					.add(Restrictions.between(User.PROPERTY_BLOCK, b * 10, (b + 1) * 10 - 1))
 					.list();
