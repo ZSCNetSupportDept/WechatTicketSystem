@@ -2,7 +2,8 @@ package love.sola.netsupport.wechat;
 
 import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.wechat.handler.RegisterHandler;
-import love.sola.netsupport.wechat.matcher.CheckSpamMatcher;
+import love.sola.netsupport.wechat.handler.SpamHandler;
+import love.sola.netsupport.wechat.matcher.SpamMatcher;
 import love.sola.netsupport.wechat.matcher.RegisterMatcher;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.api.*;
@@ -31,7 +32,6 @@ public class WxMpServlet extends HttpServlet {
 	protected WxMpInMemoryConfigStorage config;
 	protected WxMpService wxMpService;
 	protected WxMpMessageRouter wxMpMessageRouter;
-	protected CheckSpamMatcher checkSpamMatcher;
 
 	public WxMpServlet() {
 		instance = this;
@@ -50,7 +50,6 @@ public class WxMpServlet extends HttpServlet {
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(config);
 
-		checkSpamMatcher = new CheckSpamMatcher();
 		wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
 		wxMpMessageRouter.rule()
 				.async(false)
@@ -65,12 +64,8 @@ public class WxMpServlet extends HttpServlet {
 		wxMpMessageRouter.rule()
 				.async(false)
 				.msgType("text")
-				.matcher(new CheckSpamMatcher())
-				.handler((wxMessage, context, wxMpService1, sessionManager)
-						-> WxMpXmlOutMessage.TEXT()
-						.fromUser(wxMessage.getToUserName())
-						.toUser(wxMessage.getFromUserName())
-						.content(lang("Message_Spam")).build())
+				.matcher(new SpamMatcher())
+				.handler(new SpamHandler())
 				.end();
 		wxMpMessageRouter.rule()
 				.async(false)

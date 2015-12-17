@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-public class CheckSpamMatcher implements WxMpMessageMatcher {
+public class SpamMatcher implements WxMpMessageMatcher {
 
 	private class ValueLoader extends CacheLoader<String, Long> {
 		@Override
