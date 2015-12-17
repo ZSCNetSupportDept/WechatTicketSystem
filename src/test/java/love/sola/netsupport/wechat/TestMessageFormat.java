@@ -1,9 +1,11 @@
 package love.sola.netsupport.wechat;
 
 import com.google.gson.*;
+import lombok.Data;
 import love.sola.netsupport.config.Lang;
 import love.sola.netsupport.enums.ISP;
 import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
 
 import java.text.MessageFormat;
 import java.util.Date;
@@ -38,6 +40,16 @@ public class TestMessageFormat {
 	@Test
 	public void testLong() {
 		assert "15838838438".equals(MessageFormat.format("{0,number,#}", 15838838438L));
+	}
+
+	@Test
+	public void testYaml() {
+		assert new Yaml().loadAs("array: \n  - \"err\"\n  - \"ee\"", TestArray.class).array.length == 2;
+	}
+
+	@Data
+	public static class TestArray {
+		String[] array;
 	}
 
 }
