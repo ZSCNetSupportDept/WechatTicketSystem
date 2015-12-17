@@ -38,7 +38,7 @@ public class SubmitHandler implements WxMpMessageHandler {
 		}
 		String id = WechatSession.genId();
 		WxSession session = WechatSession.get(id, true);
-		session.setAttribute(Attribute.AUTHORIZED, Command.QUERY);
+		session.setAttribute(Attribute.AUTHORIZED, Command.SUBMIT);
 		session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
 		session.setAttribute(Attribute.USER, u);
 
