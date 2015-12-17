@@ -48,7 +48,7 @@ User_Submit_Link: 'http://topaz.sinaapp.com/nm/v1/rrepair.html?token={0}&name={1
 User_Profile_Link: 'http://topaz.sinaapp.com/nm/v1/profile.html?token={0}&name={1}&isp={2}&account={3}&block={4}&room={5}&phone={6,number,#}'
 Result_Page: 'http://topaz.sinaapp.com/nm/v1/result.html'
 Operator_Home_Page: '<a href="http://topaz.sinaapp.com/nm/v1/man/home.html?token={0}">CLICK HERE</a>'
-Operator_Login_Page: 'http://topaz.sinaapp.com/nm/v1/man/login.html?pkey={1}'
+Operator_Login_Page: 'http://topaz.sinaapp.com/nm/v1/man/login.html?pkey={0}'
 
 #Localized
 #Status
