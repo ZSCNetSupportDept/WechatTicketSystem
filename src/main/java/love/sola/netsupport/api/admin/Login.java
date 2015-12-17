@@ -79,6 +79,7 @@ public class Login extends HttpServlet {
 			if (request.getParameter("bypassuser") != null) {
 				User u = TableUser.getById(Long.parseLong(request.getParameter("bypassuser")));
 				session.setAttribute(Attribute.USER, u);
+				session.setAttribute(Attribute.WECHAT, u.getWechatId());
 			}
 			if (request.getParameter("bypasswechat") != null) {
 				session.setAttribute(Attribute.WECHAT, request.getParameter("bypasswechat"));
