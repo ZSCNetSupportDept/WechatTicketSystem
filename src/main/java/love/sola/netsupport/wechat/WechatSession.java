@@ -1,9 +1,7 @@
 package love.sola.netsupport.wechat;
 
 import love.sola.netsupport.config.Settings;
-import me.chanjar.weixin.common.session.InternalSession;
-import me.chanjar.weixin.common.session.StandardSessionManager;
-import me.chanjar.weixin.common.session.WxSession;
+import me.chanjar.weixin.common.session.*;
 
 import java.util.UUID;
 
@@ -23,11 +21,15 @@ public class WechatSession {
 	}
 
 	public static WxSession get(String id, boolean create) {
-		return manager.getSession(id, create);
+		WxSession session = manager.getSession(id, create);
+		if (session != null) {
+			((StandardSessionFacade) session).getInternalSession().endAccess();
+		}
+		return session;
 	}
 
 	public static WxSession get(String id) {
-		return manager.getSession(id);
+		return get(id, true);
 	}
 
 	public static String genId() {
