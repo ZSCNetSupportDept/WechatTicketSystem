@@ -1,14 +1,19 @@
 package love.sola.netsupport.wechat;
 
 import com.google.gson.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import love.sola.netsupport.config.Lang;
 import love.sola.netsupport.enums.ISP;
 import org.junit.Test;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ***********************************************
@@ -47,7 +52,16 @@ public class TestMessageFormat {
 		assert new Yaml().loadAs("array: \n  - \"err\"\n  - \"ee\"", TestArray.class).array.length == 2;
 	}
 
+	@Test
+	public void testYamlDump() {
+		Map<String, TestArray> map = new HashMap<>();
+		map.put("fuck", new TestArray(new String[]{"one", "two", "three"}));
+		map.put("you", new TestArray(new String[]{"one", "two", "three"}));
+		System.out.println(new Yaml().dumpAs(map, new Tag(map.getClass()), DumperOptions.FlowStyle.BLOCK));
+	}
+
 	@Data
+	@AllArgsConstructor
 	public static class TestArray {
 		String[] array;
 	}
