@@ -60,17 +60,18 @@ public class ProfileModify extends HttpServlet {
 		int block = checkBlock(request.getParameter("block"));
 		int room = checkRoom(request.getParameter("room"), block);
 		long phone = checkPhoneNumber(request.getParameter("phone"));
-		if (netAccount != null) {
-			u.setIsp(isp);
-			u.setNetAccount(netAccount);
-		}
-		if (room != -1) {
-			u.setBlock(block);
-			u.setRoom(room);
-		}
-		if (phone != -1) {
-			u.setPhone(phone);
-		}
+		if (room == -1)
+			return new Response(Response.ResponseCode.REQUEST_FAILED, "Invalid_Room");
+		if (phone == -1)
+			return new Response(Response.ResponseCode.REQUEST_FAILED, "Invalid_Phone_Number");
+		if (netAccount == null)
+			return new Response(Response.ResponseCode.REQUEST_FAILED, "Invalid_Account");
+
+		u.setIsp(isp);
+		u.setNetAccount(netAccount);
+		u.setBlock(block);
+		u.setRoom(room);
+		u.setPhone(phone);
 		try {
 			TableUser.update(u);
 		} catch (ConstraintViolationException e) {
