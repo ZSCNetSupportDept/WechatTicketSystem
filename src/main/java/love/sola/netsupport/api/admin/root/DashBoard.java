@@ -36,7 +36,6 @@ public class DashBoard extends HttpServlet {
 		doGet(request, response);
 	}
 
-	@SuppressWarnings("Duplicates")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
