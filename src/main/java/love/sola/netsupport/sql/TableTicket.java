@@ -7,6 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
+import org.hibernate.envers.query.AuditEntity;
 
 import java.util.List;
 
@@ -68,6 +71,23 @@ public class TableTicket extends SQLCore {
 					.add(Restrictions.between(User.PROPERTY_BLOCK, b * 10, (b + 1) * 10 - 1))
 					.list();
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<Object[]> track(int tid) {
+		try (Session s = SQLCore.sf.openSession()) {
+			AuditReader reader = getAuditReader(s);
+			return reader.createQuery()
+					.forRevisionsOfEntity(Ticket.class, false, true)
+					.addOrder(AuditEntity.revisionNumber().desc())
+					.add(AuditEntity.id().eq(tid))
+					.getResultList()
+					;
+		}
+	}
+
+	protected static AuditReader getAuditReader(Session session) {
+		return AuditReaderFactory.get(session);
 	}
 
 }
