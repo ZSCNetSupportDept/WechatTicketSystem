@@ -36,6 +36,8 @@ No_Open_Ticket_Available: '您当前没有未解决的报修表单。'
 Cancel_Title: '报修已取消：'
 User_Cancel_Remark: '用户手动取消报修。'
 Cancel_Failed: '取消失败。'
+#Modify
+Modify_Title: '点此修改资料 >'
 #Login
 Not_Operator: '嘟嘟嘟……'
 No_Login: 'Permission Denied.'

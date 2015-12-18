@@ -12,11 +12,13 @@ import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
-import me.chanjar.weixin.mp.bean.outxmlbuilder.TextBuilder;
+import me.chanjar.weixin.mp.bean.WxMpXmlOutNewsMessage;
+import me.chanjar.weixin.mp.bean.outxmlbuilder.NewsBuilder;
 
 import java.util.Map;
 
 import static love.sola.netsupport.config.Lang.format;
+import static love.sola.netsupport.config.Lang.lang;
 
 /**
  * ***********************************************
@@ -34,8 +36,11 @@ public class ProfileHandler implements WxMpMessageHandler {
 		session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
 		session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
 		session.setAttribute(Attribute.USER, u);
-		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-		out.content(format("User_Profile_Link", id, u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone()));
+		NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
+		WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
+		item.setTitle(lang("Modify_Title"));
+		item.setUrl(format("User_Profile_Link", id, u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone()));
+		out.addArticle(item);
 		return out.build();
 	}
 
