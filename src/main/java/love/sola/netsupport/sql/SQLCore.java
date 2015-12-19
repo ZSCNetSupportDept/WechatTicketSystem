@@ -7,9 +7,12 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import love.sola.netsupport.enums.ISP;
 import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.service.ServiceRegistry;
 
@@ -74,6 +77,10 @@ public class SQLCore {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static AuditReader getAuditReader(Session session) {
+		return AuditReaderFactory.get(session);
 	}
 
 	public static class HibernateProxyTypeAdapter extends TypeAdapter<HibernateProxy> {

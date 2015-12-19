@@ -19,8 +19,8 @@ public class Lang {
 	public static Map<String, MessageFormat> format_cache = new HashMap<>(32);
 
 	static {
-		//noinspection unchecked
 		InputStream in = Lang.class.getClassLoader().getResourceAsStream("lang.yml");
+		//noinspection unchecked
 		messages = new Yaml().loadAs(in, Map.class);
 	}
 

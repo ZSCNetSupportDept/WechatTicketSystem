@@ -8,7 +8,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.envers.AuditReader;
-import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
 
 import java.util.List;
@@ -79,15 +78,11 @@ public class TableTicket extends SQLCore {
 			AuditReader reader = getAuditReader(s);
 			return reader.createQuery()
 					.forRevisionsOfEntity(Ticket.class, false, true)
-					.addOrder(AuditEntity.revisionNumber().desc())
+					.addOrder(AuditEntity.revisionNumber().asc())
 					.add(AuditEntity.id().eq(tid))
 					.getResultList()
 					;
 		}
-	}
-
-	protected static AuditReader getAuditReader(Session session) {
-		return AuditReaderFactory.get(session);
 	}
 
 }
