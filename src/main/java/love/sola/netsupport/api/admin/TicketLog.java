@@ -67,7 +67,7 @@ public class TicketLog extends HttpServlet {
 			first = request.getParameter("first") == null ? 0 : Integer.parseInt(request.getParameter("first"));
 			limit = request.getParameter("limit") == null ? 20 : Integer.parseInt(request.getParameter("limit"));
 			start = request.getParameter("start") == null ? getToday() : dateFormat.parse(request.getParameter("start"));
-			end = request.getParameter("start") == null ? getToday() : dateFormat.parse(request.getParameter("start"));
+			end = request.getParameter("end") == null ? getToday() : dateFormat.parse(request.getParameter("end"));
 			end = DateUtils.addDays(end, 1);
 		} catch (ParseException | NumberFormatException e) {
 			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
