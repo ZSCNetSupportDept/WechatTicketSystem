@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import love.sola.netsupport.enums.ISP;
+import love.sola.netsupport.wechat.Command;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -59,6 +60,8 @@ public class SQLCore {
 			.registerTypeAdapter(Date.class, (JsonSerializer<Date>) (src, typeOfSrc, context) -> new JsonPrimitive(src.getTime()))
 			.registerTypeAdapter(ISP.class, (JsonDeserializer<ISP>) (json, typeOfT, context) -> ISP.fromId(json.getAsJsonPrimitive().getAsInt()))
 			.registerTypeAdapter(ISP.class, (JsonSerializer<ISP>) (src, typeOfSrc, context) -> new JsonPrimitive(src.id))
+			.registerTypeAdapter(Command.class, (JsonDeserializer<Command>) (json, typeOfT, context) -> Command.fromId(json.getAsJsonPrimitive().getAsInt()))
+			.registerTypeAdapter(Command.class, (JsonSerializer<Command>) (src, typeOfSrc, context) -> new JsonPrimitive(src.id))
 			.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY)
 			.create();
 	public static SessionFactory sf;

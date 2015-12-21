@@ -34,13 +34,11 @@ public enum Command {
 		}
 	}
 
-	public final String name;
 	public final String regex;
 	public final Class<? extends WxMpMessageHandler> handler;
 	public final int id;
 
 	Command(int id, Class<? extends WxMpMessageHandler> handler) {
-		this.name = lang("CMD_" + name());
 		this.id = id;
 		this.regex = lang("REGEX_" + name());
 		this.handler = handler;
@@ -52,7 +50,7 @@ public enum Command {
 
 	@Override
 	public String toString() {
-		return name;
+		return name();
 	}
 
 }
