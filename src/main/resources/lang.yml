@@ -12,14 +12,14 @@ REGEX_LOGIN: '^(?i)Authme$'
 REGEX_PROFILE: '^(?i)(EditProfile)|(修改资料)|(xgzl)$'
 
 #Event
-Event_Subscribe: "欢迎使用电子科技大学中山学院网络维护科微信自助报修平台。\n如您在使用中遇到任何问题，请将投诉或建议邮件至loli@sola.love.\n\n请发送'绑定'进行微信绑定"
+Event_Subscribe: "欢迎使用电子科技大学中山学院网络维护科微信自助报修平台。\n若您尚未进行过微信绑定，请发送'绑定'(bd)进行微信绑定"
 Invalid_Operation: 'Whoops，报修姬找不到你想要的东西啦 (╯‵□′)╯︵┻━┻。'
 Message_Spam: '你的打字速度太快了，喝一杯82年的Java压压惊吧。'
 #Register
-Already_Registered: "您已进行过微信绑定。如果需要更改个人信息，请发送 '修改资料' 。"
+Already_Registered: "您已进行过微信绑定。如果需要更改个人信息，请发送 '修改资料'(xgzl) 。"
 #Query
 Query_Title: '最近一次报修记录：'
-More_Details: '查询更早的报修信息，请点击 >'
+More_Details: '>>> 查询更早的报修信息，请点击 <<<'
 No_Ticket_Available: '您尚未提交过任何报修。'
 #Submit
 Already_Opening_Ticket: "您上次提交的报修单仍在处理中. 若需要查询报修单状态，请发送 '查询' 。"
@@ -37,17 +37,17 @@ Cancel_Title: '报修已取消：'
 User_Cancel_Remark: '用户手动取消报修。'
 Cancel_Failed: '取消失败。'
 #Modify
-Modify_Title: '点此修改资料 >'
+Modify_Title: ''
 #Login
 Not_Operator: '嘟嘟嘟……'
 No_Login: 'Permission Denied.'
 Internal_Error: '啊哦，登录失败了哦。'
 
 #URL
-User_Register_Link: '您尚未进行微信绑定, 请<a href="http://topaz.sinaapp.com/nm/v1/reg.html?token={0}">点击这里</a>进行微信绑定操作。'
+User_Register_Link: '您尚未进行微信绑定。\n<a href="http://topaz.sinaapp.com/nm/v1/reg.html?token={0}">> 点击这里进行微信绑定操作 <</a>'
 User_Query_Link: 'http://topaz.sinaapp.com/nm/v1/list.html?token={0}'
 User_Submit_Link: 'http://topaz.sinaapp.com/nm/v1/rrepair.html?token={0}&name={1}&isp={2}&room={3}&block={4}&phone={5,number,#}'
-User_Profile_Link: 'http://topaz.sinaapp.com/nm/v1/modi.html?token={0}&name={1}&isp={2}&username={3}&block={4}&room={5}&phone={6,number,#}'
+User_Profile_Link: '<a href="http://topaz.sinaapp.com/nm/v1/modi.html?token={0}&name={1}&isp={2}&username={3}&block={4}&room={5}&phone={6,number,#}">> 点此修改资料 <</a>'
 Result_Page: 'http://topaz.sinaapp.com/nm/v1/result.html'
 Operator_Home_Page: '<a href="http://topaz.sinaapp.com/nm/v1/man/home.html?token={0}">CLICK HERE</a>'
 Operator_Login_Page: 'http://topaz.sinaapp.com/nm/v1/man/login.html?pkey={0}'
