@@ -6,10 +6,10 @@ Unknown_Encrypt_Type: 'Unknown encrypt-type.'
 #Command Regex
 REGEX_QUERY: '^(?i)(Query)|(查询)|(cx)$'
 REGEX_REGISTER: '^(?i)(Reg(ister)?)|(注册)|(绑定)|(zc)|(bd)$'
-REGEX_SUBMIT: '^(?i)(Submit)|(报修)|(bx)$'
+REGEX_SUBMIT: '^(?i)(Submit)|(报修)|(保修)|(bx)$'
 REGEX_CANCEL: '^(?i)(Cancel)|(取消)|(撤销)|(qx)|(cx)$'
 REGEX_LOGIN: '^(?i)Authme$'
-REGEX_PROFILE: '^(?i)(EditProfile)|(修改资料)|(xgzl)$'
+REGEX_PROFILE: '^(?i)(EditProfile)|(修改资料)|(修改信息)|(xgzl)|(xgxx)$'
 
 #Event
 Event_Subscribe: "欢迎使用电子科技大学中山学院网络维护科微信自助报修平台。\n\n若您尚未进行过微信绑定，请发送'绑定'(bd)进行微信绑定"
@@ -58,7 +58,7 @@ STATUS_UNCHECKED: '待处理'
 STATUS_SOLVED: '已解决'
 #Ticket
 Ticket_Info_Id: '报修单号: '
-Ticket_Info_Desc: '报修描述: '
+Ticket_Info_Desc: ''
 Ticket_Info_Submit_Time: '提交时间: '
 Ticket_Info_Operator: '操作员: '
 Ticket_Info_Remark: '维修描述: '
