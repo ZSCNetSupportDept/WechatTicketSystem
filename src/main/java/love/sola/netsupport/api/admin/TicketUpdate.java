@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 /**
  * ***********************************************
@@ -64,6 +65,7 @@ public class TicketUpdate extends HttpServlet {
 			t.setOperator(op);
 			t.setRemark(remark);
 			t.setStatus(Integer.parseInt(status));
+			t.setUpdateTime(new Date());
 			s.beginTransaction();
 			s.update(t);
 			s.getTransaction().commit();
