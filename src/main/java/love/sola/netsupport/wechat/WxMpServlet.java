@@ -45,7 +45,7 @@ public class WxMpServlet extends HttpServlet {
 		config.setAppId(Settings.I.Wechat_AppId);
 		config.setSecret(Settings.I.Wechat_Secret);
 		config.setToken(Settings.I.Wechat_Token);
-		config.setAesKey(Settings.I.Wechat_Token);
+		config.setAesKey(Settings.I.Wechat_AesKey);
 
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(config);
