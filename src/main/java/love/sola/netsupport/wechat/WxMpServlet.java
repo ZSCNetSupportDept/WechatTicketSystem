@@ -24,7 +24,7 @@ import static love.sola.netsupport.config.Lang.lang;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "WxMpServlet", urlPatterns = "/wechattest", loadOnStartup = 99)
+@WebServlet(name = "WxMpServlet", urlPatterns = "/wechat", loadOnStartup = 99)
 public class WxMpServlet extends HttpServlet {
 
 	public static WxMpServlet instance;
@@ -45,7 +45,7 @@ public class WxMpServlet extends HttpServlet {
 		config.setAppId(Settings.I.Wechat_AppId);
 		config.setSecret(Settings.I.Wechat_Secret);
 		config.setToken(Settings.I.Wechat_Token);
-		config.setAesKey(Settings.I.Wechat_Token);
+		config.setAesKey(Settings.I.Wechat_AesKey);
 
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(config);

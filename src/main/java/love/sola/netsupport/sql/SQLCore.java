@@ -6,10 +6,14 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import love.sola.netsupport.enums.ISP;
+import love.sola.netsupport.wechat.Command;
 import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.service.ServiceRegistry;
 
@@ -56,6 +60,8 @@ public class SQLCore {
 			.registerTypeAdapter(Date.class, (JsonSerializer<Date>) (src, typeOfSrc, context) -> new JsonPrimitive(src.getTime()))
 			.registerTypeAdapter(ISP.class, (JsonDeserializer<ISP>) (json, typeOfT, context) -> ISP.fromId(json.getAsJsonPrimitive().getAsInt()))
 			.registerTypeAdapter(ISP.class, (JsonSerializer<ISP>) (src, typeOfSrc, context) -> new JsonPrimitive(src.id))
+			.registerTypeAdapter(Command.class, (JsonDeserializer<Command>) (json, typeOfT, context) -> Command.fromId(json.getAsJsonPrimitive().getAsInt()))
+			.registerTypeAdapter(Command.class, (JsonSerializer<Command>) (src, typeOfSrc, context) -> new JsonPrimitive(src.id))
 			.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY)
 			.create();
 	public static SessionFactory sf;
@@ -74,6 +80,10 @@ public class SQLCore {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static AuditReader getAuditReader(Session session) {
+		return AuditReaderFactory.get(session);
 	}
 
 	public static class HibernateProxyTypeAdapter extends TypeAdapter<HibernateProxy> {
