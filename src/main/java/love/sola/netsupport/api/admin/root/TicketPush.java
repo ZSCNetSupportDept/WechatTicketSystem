@@ -1,12 +1,15 @@
-package love.sola.netsupport.api;
+package love.sola.netsupport.api.admin.root;
 
 import com.google.gson.Gson;
+import love.sola.netsupport.api.Response;
 import love.sola.netsupport.config.Settings;
+import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
+import love.sola.netsupport.enums.Status;
+import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.SQLCore;
-import love.sola.netsupport.sql.TableTicket;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
@@ -24,12 +27,12 @@ import java.io.PrintWriter;
 
 /**
  * ***********************************************
- * Created by Sola on 2015/12/6.
+ * Created by Sola on 2015/12/22.
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "TicketSubmit", urlPatterns = "/api/ticketsubmit", loadOnStartup = 23)
-public class TicketSubmit extends HttpServlet {
+@WebServlet(name = "TicketPush",urlPatterns = "/api/admin/ticketpush",loadOnStartup = 44)
+public class TicketPush extends HttpServlet{
 
 	private Gson gson = SQLCore.gson;
 
@@ -42,42 +45,39 @@ public class TicketSubmit extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "application/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		String json = gson.toJson(submit(request));
+		String json = gson.toJson(push(request));
 		out.println(ParseUtil.parseJsonP(request, json));
 		out.close();
 	}
 
-	private Response submit(HttpServletRequest request) {
+	private Response push(HttpServletRequest request) {
+		String uid = request.getParameter("uid");
 		String desc = request.getParameter("desc");
-		if (desc == null || desc.isEmpty()) {
+		if (Checker.hasNull(uid, desc)) {
 			return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
 		}
 		if (desc.length() > Settings.MAX_DESC_LENGTH) {
 			return new Response(Response.ResponseCode.LENGTH_LIMIT_EXCEEDED);
 		}
 
+		WxSession session = Checker.isAuthorized(request, Command.LOGIN);
+		if (session == null) {
+			return new Response(Response.ResponseCode.UNAUTHORIZED);
+		}
+		Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
+		if (op.getAccess() > Access.LEADER) {
+			return new Response(Response.ResponseCode.PERMISSION_DENIED);
+		}
+
 		try (Session s = SQLCore.sf.openSession()) {
-
-			WxSession session = Checker.isAuthorized(request, Command.SUBMIT);
-			if (session == null) {
-				return new Response(Response.ResponseCode.UNAUTHORIZED);
-			}
-			User u = (User) session.getAttribute(Attribute.USER);
-			if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
-
-			if (TableTicket.hasOpen(u)) {
-				session.invalidate();
-				return new Response(Response.ResponseCode.ALREADY_SUBMITTED);
-			}
-
-			Ticket t = new Ticket();
-			t.setUser(u);
-			t.setDescription(desc);
-			t.setStatus(0);
 			s.beginTransaction();
+			User u = s.get(User.class, Long.parseLong(uid));
+			if (u == null) {
+				return new Response(Response.ResponseCode.USER_NOT_FOUND);
+			}
+			Ticket t = new Ticket(null, u, desc, null, "Pushed By Admin", null, op, Status.UNCHECKED);
 			s.save(t);
 			s.getTransaction().commit();
-			session.invalidate();
 			return new Response(Response.ResponseCode.OK, t);
 		} catch (NumberFormatException e) {
 			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
@@ -89,6 +89,5 @@ public class TicketSubmit extends HttpServlet {
 			return new Response(Response.ResponseCode.INTERNAL_ERROR, e.getMessage());
 		}
 	}
-
 
 }

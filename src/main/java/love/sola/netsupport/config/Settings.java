@@ -12,6 +12,8 @@ import love.sola.netsupport.sql.TableConfig;
 @ToString
 public class Settings {
 
+	public static final int MAX_DESC_LENGTH = 255;
+
 	public static Settings I;
 
 	static {
@@ -28,8 +30,6 @@ public class Settings {
 
 	public int Check_Spam_Cache_Expire_Time;
 	public int Check_Spam_Interval;
-
-	public int User_Caching_Time;
 
 	public int User_Session_Max_Inactive;
 

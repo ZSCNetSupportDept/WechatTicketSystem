@@ -76,6 +76,7 @@ public class SQLCore {
 			sr = new StandardServiceRegistryBuilder().configure().build();
 			sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
 
+			TableUser.init();
 			TableOperator.init();
 		} catch (Exception e) {
 			e.printStackTrace();

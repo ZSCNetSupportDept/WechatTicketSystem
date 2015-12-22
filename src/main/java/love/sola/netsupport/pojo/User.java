@@ -42,4 +42,10 @@ public class User {
 	private Integer room;
 	private Long phone;
 
+
+	//System Accounts
+	public static User OFFICIAL_CHINA_UNICOM_XH;
+	public static User OFFICIAL_CHINA_MOBILE_XH;
+	public static User OFFICIAL_CHINA_MOBILE_FX;
+
 }

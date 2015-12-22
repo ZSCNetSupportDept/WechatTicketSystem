@@ -50,4 +50,12 @@ public class TableUser extends SQLCore {
 		}
 	}
 
+	protected static void init() {
+		try (Session s = SQLCore.sf.openSession()) {
+			User.OFFICIAL_CHINA_UNICOM_XH = s.get(User.class, 100104L);
+			User.OFFICIAL_CHINA_MOBILE_XH = s.get(User.class, 100864L);
+			User.OFFICIAL_CHINA_MOBILE_FX = s.get(User.class, 100865L);
+		}
+	}
+
 }
