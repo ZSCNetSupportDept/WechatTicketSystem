@@ -12,7 +12,7 @@ REGEX_LOGIN: '^(?i)Authme$'
 REGEX_PROFILE: '^(?i)(EditProfile)|(修改资料)|(xgzl)$'
 
 #Event
-Event_Subscribe: "欢迎使用电子科技大学中山学院网络维护科微信自助报修平台。\n若您尚未进行过微信绑定，请发送'绑定'(bd)进行微信绑定"
+Event_Subscribe: "欢迎使用电子科技大学中山学院网络维护科微信自助报修平台。\n\n若您尚未进行过微信绑定，请发送'绑定'(bd)进行微信绑定"
 Invalid_Operation: 'Whoops，报修姬找不到你想要的东西啦 (╯‵□′)╯︵┻━┻。'
 Message_Spam: '你的打字速度太快了，喝一杯82年的Java压压惊吧。'
 #Register
@@ -44,7 +44,7 @@ No_Login: 'Permission Denied.'
 Internal_Error: '啊哦，登录失败了哦。'
 
 #URL
-User_Register_Link: "您尚未进行微信绑定。\n<a href=\"http://topaz.sinaapp.com/nm/v1/reg.html?token={0}\">> 点击这里进行微信绑定操作 <</a>"
+User_Register_Link: "您尚未进行微信绑定。\n<a href=\"http://topaz.sinaapp.com/nm/v1/reg.html?token={0}\">>点击这里进行微信绑定操作<</a>"
 User_Query_Link: 'http://topaz.sinaapp.com/nm/v1/list.html?token={0}'
 User_Submit_Link: 'http://topaz.sinaapp.com/nm/v1/rrepair.html?token={0}&name={1}&isp={2}&room={3}&block={4}&phone={5,number,#}'
 User_Profile_Link: '<a href="http://topaz.sinaapp.com/nm/v1/modi.html?token={0}&name={1}&isp={2}&username={3}&block={4}&room={5}&phone={6,number,#}">> 点此修改资料 <</a>'
