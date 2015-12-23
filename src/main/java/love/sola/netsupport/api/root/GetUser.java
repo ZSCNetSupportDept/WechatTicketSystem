@@ -1,4 +1,4 @@
-package love.sola.netsupport.api.admin.root;
+package love.sola.netsupport.api.root;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
@@ -28,7 +28,7 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "GetUser",urlPatterns = "/api/admin/getuser",loadOnStartup = 42)
+@WebServlet(name = "GetUser",urlPatterns = "/api/admin/getuser",loadOnStartup = 52)
 public class GetUser extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;

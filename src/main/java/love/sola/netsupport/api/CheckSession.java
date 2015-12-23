@@ -1,7 +1,6 @@
-package love.sola.netsupport.api.admin;
+package love.sola.netsupport.api;
 
 import com.google.gson.Gson;
-import love.sola.netsupport.api.Response;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.ParseUtil;
@@ -24,7 +23,7 @@ import java.util.Map;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "CheckSession", urlPatterns = "/api/checksession", loadOnStartup = 43)
+@WebServlet(name = "CheckSession", urlPatterns = "/api/checksession", loadOnStartup = 20)
 public class CheckSession extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;

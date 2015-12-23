@@ -1,4 +1,4 @@
-package love.sola.netsupport.api.admin.root;
+package love.sola.netsupport.api.root;
 
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
@@ -24,7 +24,7 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "SetPassword",urlPatterns = "/api/admin/setpass",loadOnStartup = 43)
+@WebServlet(name = "SetPassword",urlPatterns = "/api/admin/setpass",loadOnStartup = 53)
 public class SetPassword extends HttpServlet{
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

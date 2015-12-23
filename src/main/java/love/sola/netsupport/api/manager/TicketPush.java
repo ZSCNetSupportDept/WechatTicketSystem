@@ -1,4 +1,4 @@
-package love.sola.netsupport.api.admin.root;
+package love.sola.netsupport.api.manager;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
@@ -31,7 +31,7 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "TicketPush",urlPatterns = "/api/admin/ticketpush",loadOnStartup = 44)
+@WebServlet(name = "TicketPush",urlPatterns = "/api/admin/ticketpush",loadOnStartup = 41)
 public class TicketPush extends HttpServlet{
 
 	private Gson gson = SQLCore.gson;

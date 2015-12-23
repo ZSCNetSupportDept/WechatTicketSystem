@@ -1,10 +1,7 @@
-package love.sola.netsupport.api.admin;
+package love.sola.netsupport.api.stuff;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
-import love.sola.netsupport.enums.Attribute;
-import love.sola.netsupport.pojo.Operator;
-import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableTicket;
 import love.sola.netsupport.util.Checker;
@@ -20,16 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * ***********************************************
- * Created by Sola on 2015/12/13.
+ * Created by Sola on 2015/12/18.
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "TicketLookup", urlPatterns = "/api/admin/ticketlookup", loadOnStartup = 33)
-public class TicketLookup extends HttpServlet {
+
+@WebServlet(name = "TicketTrack", urlPatterns = "/api/admin/tickettrack", loadOnStartup = 34)
+public class TicketTrack extends HttpServlet{
 
 	private Gson gson = SQLCore.gson;
 
@@ -42,26 +39,22 @@ public class TicketLookup extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "application/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		String json = gson.toJson(lookup(request));
+		String json = gson.toJson(track(request));
 		out.println(ParseUtil.parseJsonP(request, json));
 		out.close();
 	}
 
-	private Response lookup(HttpServletRequest request) {
+	private Response track(HttpServletRequest request) {
+		String tid = request.getParameter("id");
+		if (tid == null) {
+			return new Response(Response.ResponseCode.PARAMETER_REQUIRED);
+		}
 		WxSession session = Checker.isAuthorized(request, Command.LOGIN);
 		if (session == null) {
 			return new Response(Response.ResponseCode.UNAUTHORIZED);
 		}
 		try {
-			Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
-			int block;
-			if (request.getParameter("block") != null) {
-				block = Integer.parseInt(request.getParameter("block"));
-			} else {
-				block = op.getBlock();
-			}
-			List<Ticket> list = TableTicket.unsolvedByBlock(block);
-			return new Response(Response.ResponseCode.OK, list);
+			return new Response(Response.ResponseCode.OK, TableTicket.track(Integer.parseInt(tid)));
 		} catch (NumberFormatException e) {
 			return new Response(Response.ResponseCode.ILLEGAL_PARAMETER);
 		} catch (HibernateException e) {
@@ -72,5 +65,6 @@ public class TicketLookup extends HttpServlet {
 			return new Response(Response.ResponseCode.INTERNAL_ERROR, e.getMessage());
 		}
 	}
+
 
 }

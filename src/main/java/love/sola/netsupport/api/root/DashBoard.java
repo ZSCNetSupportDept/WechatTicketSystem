@@ -1,4 +1,4 @@
-package love.sola.netsupport.api.admin.root;
+package love.sola.netsupport.api.root;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.enums.Access;
@@ -27,7 +27,7 @@ import java.util.Enumeration;
  * ***********************************************
  */
 
-@WebServlet(name = "Dashboard", urlPatterns = "/api/admin/dashboard", loadOnStartup = 41)
+@WebServlet(name = "Dashboard", urlPatterns = "/api/admin/dashboard", loadOnStartup = 51)
 public class DashBoard extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;
