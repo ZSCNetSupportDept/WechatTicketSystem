@@ -35,7 +35,7 @@ public class ProfileHandler implements WxMpMessageHandler {
 		session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
 		session.setAttribute(Attribute.USER, u);
 		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-		out.content(format("User_Profile_Link", id, u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone()));
+		out.content(format("Profile_Modify", format("User_Profile_Link", id, u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone())));
 		return out.build();
 	}
 
