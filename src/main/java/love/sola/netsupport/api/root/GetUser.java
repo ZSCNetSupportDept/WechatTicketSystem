@@ -59,7 +59,7 @@ public class GetUser extends HttpServlet {
 			return new Response(Response.ResponseCode.UNAUTHORIZED);
 		}
 		Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
-		if (op.getAccess() != Access.ROOT) {
+		if (op.getAccess() > Access.LEADER) {
 			return new Response(Response.ResponseCode.PERMISSION_DENIED);
 		}
 

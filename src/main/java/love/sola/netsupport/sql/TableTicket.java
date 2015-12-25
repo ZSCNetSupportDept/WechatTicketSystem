@@ -73,6 +73,16 @@ public class TableTicket extends SQLCore {
 	}
 
 	@SuppressWarnings("unchecked")
+	public static List<Ticket> unsolved() {
+		try (Session s = SQLCore.sf.openSession()) {
+			return s.createCriteria(Ticket.class)
+					.add(Restrictions.ne(Ticket.PROPERTY_STATUS, Status.SOLVED))
+					.createCriteria(Ticket.PROPERTY_USER)
+					.list();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	public static List<Object[]> track(int tid) {
 		try (Session s = SQLCore.sf.openSession()) {
 			AuditReader reader = getAuditReader(s);

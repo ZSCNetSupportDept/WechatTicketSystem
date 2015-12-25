@@ -32,6 +32,7 @@ public class Settings {
 	public int Check_Spam_Interval;
 
 	public int User_Session_Max_Inactive;
+	public int User_Wechat_Cache_Expire_Time;
 
 	//No arg constructor for Yaml.loadAs
 	public Settings() { I = this; }
