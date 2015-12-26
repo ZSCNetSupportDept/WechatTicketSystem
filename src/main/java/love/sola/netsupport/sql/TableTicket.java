@@ -78,7 +78,8 @@ public class TableTicket extends SQLCore {
 	public static List<Ticket> unsolved() {
 		try (Session s = SQLCore.sf.openSession()) {
 			return s.createCriteria(Ticket.class)
-					.addOrder(Order.asc(Ticket.PROPERTY_USER + "." + User.PROPERTY_BLOCK))
+					.createAlias(Ticket.PROPERTY_USER, "u")
+					.addOrder(Order.asc("u." + User.PROPERTY_BLOCK))
 					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))
 					.add(Restrictions.ne(Ticket.PROPERTY_STATUS, Status.SOLVED))
 					.createCriteria(Ticket.PROPERTY_USER)
