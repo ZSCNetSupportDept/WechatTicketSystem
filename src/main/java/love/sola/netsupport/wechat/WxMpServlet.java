@@ -2,6 +2,7 @@ package love.sola.netsupport.wechat;
 
 import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.wechat.handler.RegisterHandler;
+import love.sola.netsupport.wechat.handler.SignHandler;
 import love.sola.netsupport.wechat.handler.SubscribeHandler;
 import love.sola.netsupport.wechat.matcher.CheckSpamMatcher;
 import love.sola.netsupport.wechat.matcher.RegisterMatcher;
@@ -80,6 +81,7 @@ public class WxMpServlet extends HttpServlet {
 		} catch (IllegalAccessException | InstantiationException e) {
 			throw new ServletException(e);
 		}
+		wxMpMessageRouter.rule().async(false).msgType("text").rContent("(?i)^Auth \\d{4}").handler(new SignHandler()).end();
 	}
 
 	public static void registerCommands(WxMpMessageRouter router) throws IllegalAccessException, InstantiationException {
