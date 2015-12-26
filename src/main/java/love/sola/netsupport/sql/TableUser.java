@@ -43,7 +43,8 @@ public class TableUser extends SQLCore {
 
 	public static User getByWechat(String wechat) {
 		try {
-			return cache.get(wechat);
+			User u = cache.get(wechat);
+			return u == NULL_USER ? null : u;
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 			return null;
@@ -55,6 +56,7 @@ public class TableUser extends SQLCore {
 			s.beginTransaction();
 			s.update(user);
 			s.getTransaction().commit();
+			cache.put(user.getWechatId(), user);
 			return 1;
 		}
 	}
@@ -76,9 +78,12 @@ public class TableUser extends SQLCore {
 	private static class ValueLoader extends CacheLoader<String, User> {
 		@Override
 		public User load(String key) throws Exception {
-			return TableUser.getByWechat0(key);
+			User u = TableUser.getByWechat0(key);
+			return u == null ? NULL_USER : u;
 		}
 	}
+
+	private static final User NULL_USER = new User();
 
 	private static User getByWechat0(String wechat) {
 		try (Session s = sf.openSession()) {
