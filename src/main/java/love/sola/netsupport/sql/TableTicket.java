@@ -63,8 +63,10 @@ public class TableTicket extends SQLCore {
 
 	@SuppressWarnings("unchecked")
 	public static List<Ticket> unsolvedByBlock(int b) {
+		if (b == 0) return unsolved();
 		try (Session s = SQLCore.sf.openSession()) {
 			return s.createCriteria(Ticket.class)
+					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))
 					.add(Restrictions.ne(Ticket.PROPERTY_STATUS, Status.SOLVED))
 					.createCriteria(Ticket.PROPERTY_USER)
 					.add(Restrictions.between(User.PROPERTY_BLOCK, b * 10, (b + 1) * 10 - 1))
@@ -76,6 +78,8 @@ public class TableTicket extends SQLCore {
 	public static List<Ticket> unsolved() {
 		try (Session s = SQLCore.sf.openSession()) {
 			return s.createCriteria(Ticket.class)
+					.addOrder(Order.asc(Ticket.PROPERTY_USER + "." + User.PROPERTY_BLOCK))
+					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))
 					.add(Restrictions.ne(Ticket.PROPERTY_STATUS, Status.SOLVED))
 					.createCriteria(Ticket.PROPERTY_USER)
 					.list();
