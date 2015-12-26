@@ -68,7 +68,7 @@ public class Block {
 		AVAILABLE[BM_8]     =   new int[]{100, 221, 321, 421, 521, 621, 721};
 		AVAILABLE[BM_9]     =   new int[]{100, 221, 321, 421, 521, 621};
 		AVAILABLE[BM_10]    =   new int[]{111, 239, 339, 439, 558, 658, 758, 858};
-		AVAILABLE[BM_11]    =   new int[]{100, 220, 320, 420, 520, 620, 720, 820};
+		AVAILABLE[BM_11]    =   new int[]{100, 213, 321, 421, 521, 621, 721, 821};
 		AVAILABLE[DM_12]    =   new int[]{119, 221, 321, 421, 521, 621, 720};
 		AVAILABLE[DM_13]    =   new int[]{120, 222, 322, 422, 522, 622, 722};
 		AVAILABLE[DM_14]    =   new int[]{100, 230, 330, 430, 530, 630, 730};
