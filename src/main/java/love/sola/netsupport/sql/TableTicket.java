@@ -82,7 +82,6 @@ public class TableTicket extends SQLCore {
 					.addOrder(Order.asc("u." + User.PROPERTY_BLOCK))
 					.addOrder(Order.desc(Ticket.PROPERTY_SUBMIT_TIME))
 					.add(Restrictions.ne(Ticket.PROPERTY_STATUS, Status.SOLVED))
-					.createCriteria(Ticket.PROPERTY_USER)
 					.list();
 		}
 	}
