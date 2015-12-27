@@ -92,7 +92,7 @@ public class TableTicket extends SQLCore {
 			AuditReader reader = getAuditReader(s);
 			return reader.createQuery()
 					.forRevisionsOfEntity(Ticket.class, false, true)
-					.addOrder(AuditEntity.revisionNumber().asc())
+					.addOrder(AuditEntity.revisionNumber().desc())
 					.add(AuditEntity.id().eq(tid))
 					.getResultList()
 					;
