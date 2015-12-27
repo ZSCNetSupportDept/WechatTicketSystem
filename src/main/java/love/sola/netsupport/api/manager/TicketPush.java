@@ -31,7 +31,7 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "TicketPush",urlPatterns = "/api/admin/ticketpush",loadOnStartup = 41)
+@WebServlet(name = "TicketPush",urlPatterns = "/api/admin/ticketpush",loadOnStartup = 42)
 public class TicketPush extends HttpServlet{
 
 	private Gson gson = SQLCore.gson;

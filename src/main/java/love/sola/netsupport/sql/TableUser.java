@@ -85,6 +85,10 @@ public class TableUser extends SQLCore {
 
 	private static final User NULL_USER = new User();
 
+	public static void flushCache() {
+		cache.invalidateAll();
+	}
+
 	private static User getByWechat0(String wechat) {
 		try (Session s = sf.openSession()) {
 			return (User) s.createCriteria(User.class).add(Restrictions.eq(User.PROPERTY_WECHAT, wechat)).uniqueResult();

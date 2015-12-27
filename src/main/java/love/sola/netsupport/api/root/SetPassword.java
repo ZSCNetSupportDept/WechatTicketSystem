@@ -24,13 +24,14 @@ import java.io.PrintWriter;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "SetPassword",urlPatterns = "/api/admin/setpass",loadOnStartup = 53)
+@WebServlet(name = "SetPassword",urlPatterns = "/api/root/setpass",loadOnStartup = 53)
 public class SetPassword extends HttpServlet{
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
+	@SuppressWarnings("Duplicates")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");

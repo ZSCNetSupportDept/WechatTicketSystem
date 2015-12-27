@@ -1,6 +1,7 @@
-package love.sola.netsupport.api;
+package love.sola.netsupport.api.user;
 
 import com.google.gson.Gson;
+import love.sola.netsupport.api.Response;
 import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Ticket;

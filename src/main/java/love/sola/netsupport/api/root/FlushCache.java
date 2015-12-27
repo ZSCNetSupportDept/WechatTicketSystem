@@ -3,10 +3,9 @@ package love.sola.netsupport.api.root;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
+import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.wechat.Command;
-import love.sola.netsupport.wechat.WechatSession;
-import me.chanjar.weixin.common.session.InternalSession;
 import me.chanjar.weixin.common.session.WxSession;
 
 import javax.servlet.ServletException;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
 /**
  * ***********************************************
@@ -25,8 +23,8 @@ import java.util.Enumeration;
  * ***********************************************
  */
 
-@WebServlet(name = "Dashboard", urlPatterns = "/api/root/dashboard", loadOnStartup = 51)
-public class DashBoard extends HttpServlet {
+@WebServlet(name = "FlushCache", urlPatterns = "/api/root/flushcache", loadOnStartup = 52)
+public class FlushCache extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
@@ -54,16 +52,8 @@ public class DashBoard extends HttpServlet {
 			out.println("Unauthorized");
 			return;
 		}
-
-		for (InternalSession s : WechatSession.list()) {
-			out.println("=====" + s.getIdInternal() + "=====");
-			WxSession ws = s.getSession();
-			Enumeration<String> e = ws.getAttributeNames();
-			while (e.hasMoreElements()) {
-				String key = e.nextElement();
-				out.println(key + ": " + ws.getAttribute(key));
-			}
-		}
+		TableUser.flushCache();
+		out.println("Flushed wechat cache");
 	}
 
 }

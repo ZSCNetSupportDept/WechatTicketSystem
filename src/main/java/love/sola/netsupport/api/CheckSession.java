@@ -23,7 +23,7 @@ import java.util.Map;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "CheckSession", urlPatterns = "/api/checksession", loadOnStartup = 20)
+@WebServlet(name = "CheckSession", urlPatterns = "/api/checksession", loadOnStartup = 11)
 public class CheckSession extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;
