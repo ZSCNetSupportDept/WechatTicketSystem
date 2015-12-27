@@ -40,4 +40,9 @@ public class TestMessageFormat {
 		assert "15838838438".equals(MessageFormat.format("{0,number,#}", 15838838438L));
 	}
 
+	@Test
+	public void testOpInfo() {
+		assert !Lang.format("Operator_Info", 1541, "Sola", 0, 0, 4).isEmpty();
+	}
+
 }
