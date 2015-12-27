@@ -1,10 +1,8 @@
-package love.sola.netsupport.api.admin.root;
+package love.sola.netsupport.api.root;
 
-import com.google.gson.Gson;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
-import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.wechat.Command;
 import love.sola.netsupport.wechat.WechatSession;
@@ -27,25 +25,24 @@ import java.util.Enumeration;
  * ***********************************************
  */
 
-@WebServlet(name = "Dashboard", urlPatterns = "/api/admin/dashboard", loadOnStartup = 41)
+@WebServlet(name = "Dashboard", urlPatterns = "/api/root/dashboard", loadOnStartup = 51)
 public class DashBoard extends HttpServlet {
-
-	private Gson gson = SQLCore.gson;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
+	@SuppressWarnings("Duplicates")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		print(request, out);
+		process(request, out);
 		out.close();
 	}
 
-	private void print(HttpServletRequest request, PrintWriter out) {
+	private void process(HttpServletRequest request, PrintWriter out) {
 		WxSession session = Checker.isAuthorized(request, Command.LOGIN);
 		if (session == null) {
 			out.println("Unauthorized");

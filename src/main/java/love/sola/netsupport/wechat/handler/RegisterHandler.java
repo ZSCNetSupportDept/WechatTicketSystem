@@ -17,7 +17,6 @@ import me.chanjar.weixin.mp.bean.outxmlbuilder.TextBuilder;
 import java.util.Map;
 
 import static love.sola.netsupport.config.Lang.format;
-import static love.sola.netsupport.config.Lang.lang;
 
 /**
  * ***********************************************
@@ -33,14 +32,17 @@ public class RegisterHandler implements WxMpMessageHandler {
 		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
 		String fromUser = wxMessage.getFromUserName();
 		User u = TableUser.getByWechat(fromUser);
+		String id = WechatSession.genId();
+		WxSession session = WechatSession.get(id, true);
 		if (u != null) {
-			out.content(lang("Already_Registered"));
+			session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
+			session.setAttribute(Attribute.WECHAT, fromUser);
+			session.setAttribute(Attribute.USER, u);
+			out.content(format("Already_Registered", format("User_Profile_Link", id, u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone())));
 		} else {
-			String id = WechatSession.genId();
-			WxSession session = WechatSession.get(id, true);
 			session.setAttribute(Attribute.AUTHORIZED, Command.REGISTER);
-			session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
-			out.content(format("User_Register_Link", id));
+			session.setAttribute(Attribute.WECHAT, fromUser);
+			out.content(format("User_Register", format("User_Register_Link", id)));
 		}
 		return out.build();
 	}

@@ -20,23 +20,29 @@ import static love.sola.netsupport.config.Lang.format;
 
 /**
  * ***********************************************
- * Created by Sola on 2015/12/15.
+ * Created by Sola on 2015/12/25.
  * Don't modify this source without my agreement
  * ***********************************************
  */
-public class ProfileHandler implements WxMpMessageHandler {
+public class SubscribeHandler implements WxMpMessageHandler {
 
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		User u = TableUser.getByWechat(wxMessage.getFromUserName());
+		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
+		String fromUser = wxMessage.getFromUserName();
+		User u = TableUser.getByWechat(fromUser);
 		String id = WechatSession.genId();
 		WxSession session = WechatSession.get(id, true);
-		session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
-		session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
-		session.setAttribute(Attribute.USER, u);
-		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-		out.content(format("Profile_Modify", format("User_Profile_Link", id, u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone())));
+		if (u != null) {
+			session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
+			session.setAttribute(Attribute.WECHAT, fromUser);
+			session.setAttribute(Attribute.USER, u);
+			out.content(format("Event_Subscribe", format("Already_Registered", format("User_Profile_Link", id, u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone()))));
+		} else {
+			session.setAttribute(Attribute.AUTHORIZED, Command.REGISTER);
+			session.setAttribute(Attribute.WECHAT, fromUser);
+			out.content(format("Event_Subscribe", format("User_Register", format("User_Register_Link", id))));
+		}
 		return out.build();
 	}
-
 }

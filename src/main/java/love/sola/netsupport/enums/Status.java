@@ -17,6 +17,8 @@ public class Status {
 	public static final int UNCHECKED = 0;
 	public static final int ARRANGED = 1;
 	public static final int PUTOFF = 2;
+	public static final int REPORTED = 4;
+	public static final int ISP_HANDLED = 7;
 	public static final int SOLVED = 9;
 
 	public static final Map<Integer, String> inverseMap = new HashMap<>();

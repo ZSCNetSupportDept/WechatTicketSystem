@@ -1,14 +1,12 @@
-package love.sola.netsupport.api.admin.root;
+package love.sola.netsupport.api.root;
 
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
-import love.sola.netsupport.sql.SQLCore;
+import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.util.Checker;
-import love.sola.netsupport.util.Crypto;
 import love.sola.netsupport.wechat.Command;
 import me.chanjar.weixin.common.session.WxSession;
-import org.hibernate.Session;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,17 +18,19 @@ import java.io.PrintWriter;
 
 /**
  * ***********************************************
- * Created by Sola on 2015/12/20.
+ * Created by Sola on 2015/12/15.
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "SetPassword",urlPatterns = "/api/admin/setpass",loadOnStartup = 43)
-public class SetPassword extends HttpServlet{
+
+@WebServlet(name = "FlushCache", urlPatterns = "/api/root/flushcache", loadOnStartup = 52)
+public class FlushCache extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
+	@SuppressWarnings("Duplicates")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
@@ -52,28 +52,8 @@ public class SetPassword extends HttpServlet{
 			out.println("Unauthorized");
 			return;
 		}
-
-		String id = request.getParameter("id");
-		String pass = request.getParameter("pass");
-		if (pass == null || pass.length() < 8) {
-			out.println("Invalid pass");
-			return;
-		}
-		try (Session s = SQLCore.sf.openSession()) {
-			s.beginTransaction();
-			op = s.get(Operator.class, Integer.parseInt(id));
-			if (op == null) {
-				out.println("Invalid user");
-				return;
-			}
-			op.setPassword(Crypto.hash(pass));
-			s.update(op);
-			s.getTransaction().commit();
-			out.println("Operation success");
-		} catch (NumberFormatException e) {
-			out.println("Invalid id");
-			return;
-		}
+		TableUser.flushCache();
+		out.println("Flushed wechat cache");
 	}
 
 }

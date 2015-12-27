@@ -1,7 +1,6 @@
-package love.sola.netsupport.api.admin;
+package love.sola.netsupport.api;
 
 import com.google.gson.Gson;
-import love.sola.netsupport.api.Response;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
@@ -31,7 +30,7 @@ import java.io.PrintWriter;
  * ***********************************************
  */
 
-@WebServlet(name = "Login", urlPatterns = "/api/admin/login", loadOnStartup = 31)
+@WebServlet(name = "Login", urlPatterns = "/api/admin/login", loadOnStartup = 12)
 public class Login extends HttpServlet {
 
 	private Gson gson = SQLCore.gson;

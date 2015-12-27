@@ -26,7 +26,6 @@ public class CheckSpamMatcher implements WxMpMessageMatcher {
 
 	private LoadingCache<String, Long> cache = CacheBuilder.newBuilder()
 			.concurrencyLevel(4)
-			.weakKeys()
 			.maximumSize(4096)
 			.expireAfterWrite(Settings.I.Check_Spam_Cache_Expire_Time, TimeUnit.SECONDS)
 			.build(new ValueLoader());

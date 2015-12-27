@@ -2,6 +2,8 @@ package love.sola.netsupport.wechat;
 
 import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.wechat.handler.RegisterHandler;
+import love.sola.netsupport.wechat.handler.SignHandler;
+import love.sola.netsupport.wechat.handler.SubscribeHandler;
 import love.sola.netsupport.wechat.matcher.CheckSpamMatcher;
 import love.sola.netsupport.wechat.matcher.RegisterMatcher;
 import me.chanjar.weixin.common.util.StringUtils;
@@ -56,11 +58,7 @@ public class WxMpServlet extends HttpServlet {
 				.async(false)
 				.msgType("event")
 				.event("subscribe")
-				.handler((wxMessage, context, wxMpService1, sessionManager)
-						-> WxMpXmlOutMessage.TEXT()
-						.fromUser(wxMessage.getToUserName())
-						.toUser(wxMessage.getFromUserName())
-						.content(lang("Event_Subscribe")).build())
+				.handler(new SubscribeHandler())
 				.end();
 		wxMpMessageRouter.rule()
 				.async(false)
@@ -83,6 +81,7 @@ public class WxMpServlet extends HttpServlet {
 		} catch (IllegalAccessException | InstantiationException e) {
 			throw new ServletException(e);
 		}
+		wxMpMessageRouter.rule().async(false).msgType("text").rContent("(?i)^Auth \\d{4}").handler(new SignHandler()).end();
 	}
 
 	public static void registerCommands(WxMpMessageRouter router) throws IllegalAccessException, InstantiationException {
