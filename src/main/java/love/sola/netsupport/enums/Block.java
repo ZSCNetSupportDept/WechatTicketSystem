@@ -25,6 +25,8 @@ public class Block {
 	public static final int DM_13 = 31;
 	public static final int DM_14 = 32;
 	public static final int DM_15 = 33;
+	public static final int DM_20 = 34;
+	public static final int DM_21 = 35;
 	public static final int XH_A = 40;
 	public static final int XH_B = 41;
 	public static final int XH_C = 42;
@@ -35,8 +37,6 @@ public class Block {
 	public static final int FX_4 = 53;
 	public static final int FX_5 = 54;
 	public static final int FX_6 = 55;
-	public static final int DM_20 = 60;
-	public static final int DM_21 = 61;
 
 	public static final Map<Integer, String> inverseMap = new HashMap<>();
 
