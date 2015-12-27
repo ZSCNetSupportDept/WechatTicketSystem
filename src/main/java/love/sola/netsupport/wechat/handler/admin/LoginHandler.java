@@ -1,4 +1,4 @@
-package love.sola.netsupport.wechat.handler;
+package love.sola.netsupport.wechat.handler.admin;
 
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
