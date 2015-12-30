@@ -70,7 +70,8 @@ public class WxMpServlet extends HttpServlet {
 						.content(lang("Message_Spam")).build())
 				.end();
 		wxMpMessageRouter.rule()
-				.async(true)
+				.async(false)
+				.msgType("text")
 				.matcher(new RegisterMatcher())
 				.handler(new RegisterHandler())
 				.end();
