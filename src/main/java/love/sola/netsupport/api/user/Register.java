@@ -126,7 +126,7 @@ public class Register extends HttpServlet {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				String old = rs.getString(1);
-				ps = conn.prepareStatement("UPDATE `convert` SET wechat=? WHERE wechat=?");
+				ps = conn.prepareStatement("UPDATE `operators` SET wechat=? WHERE wechat=?");
 				ps.setString(1, u.getWechatId());
 				ps.setString(2, old);
 				if (ps.executeUpdate() == 1) {
