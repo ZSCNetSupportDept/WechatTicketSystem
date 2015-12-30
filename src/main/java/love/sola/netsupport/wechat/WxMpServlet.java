@@ -30,7 +30,7 @@ public class WxMpServlet extends HttpServlet {
 
 	public static WxMpServlet instance;
 	protected WxMpInMemoryConfigStorage config;
-	protected WxMpService wxMpService;
+	public WxMpService wxMpService;
 	protected WxMpMessageRouter wxMpMessageRouter;
 	protected CheckSpamMatcher checkSpamMatcher;
 
@@ -58,7 +58,7 @@ public class WxMpServlet extends HttpServlet {
 				.msgType("event")
 				.event("subscribe")
 				.handler(new SubscribeHandler())
-				.end();
+				.next();
 		wxMpMessageRouter.rule()
 				.async(false)
 				.msgType("text")
@@ -70,8 +70,7 @@ public class WxMpServlet extends HttpServlet {
 						.content(lang("Message_Spam")).build())
 				.end();
 		wxMpMessageRouter.rule()
-				.async(false)
-				.msgType("text")
+				.async(true)
 				.matcher(new RegisterMatcher())
 				.handler(new RegisterHandler())
 				.end();
@@ -86,6 +85,7 @@ public class WxMpServlet extends HttpServlet {
 		for (Command c : Command.values()) {
 			WxMpMessageHandler handler = c.handler.newInstance();
 			router.rule().async(false).msgType("text").rContent(c.regex).handler(handler).end();
+			router.rule().async(false).msgType("event").event("CLICK").eventKey(c.name()).handler(handler).end();
 		}
 	}
 
@@ -115,19 +115,19 @@ public class WxMpServlet extends HttpServlet {
 
 		String encryptType = StringUtils.isBlank(request.getParameter("encrypt_type")) ? "raw" : request.getParameter("encrypt_type");
 
-		if ("raw".equals(encryptType)) {
-			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
-			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-			if (outMessage == null) {
-				outMessage = WxMpXmlOutMessage.TEXT()
-						.fromUser(inMessage.getToUserName())
-						.toUser(inMessage.getFromUserName())
-						.content(lang("Invalid_Operation"))
-						.build();
-			}
-			response.getWriter().write(outMessage.toXml());
-			return;
-		}
+//		if ("raw".equals(encryptType)) {
+//			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
+//			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+//			if (outMessage == null) {
+//				outMessage = WxMpXmlOutMessage.TEXT()
+//						.fromUser(inMessage.getToUserName())
+//						.toUser(inMessage.getFromUserName())
+//						.content(lang("Invalid_Operation"))
+//						.build();
+//			}
+//			response.getWriter().write(outMessage.toXml());
+//			return;
+//		}
 
 		if ("aes".equals(encryptType)) {
 			String msgSignature = request.getParameter("msg_signature");
