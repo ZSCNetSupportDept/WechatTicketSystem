@@ -129,10 +129,11 @@ public class Register extends HttpServlet {
 				ps = conn.prepareStatement("UPDATE `operators` SET wechat=? WHERE wechat=?");
 				ps.setString(1, u.getWechatId());
 				ps.setString(2, old);
-				if (ps.executeUpdate() == 1) {
-					WxMpServlet.instance.wxMpService.customMessageSend(WxMpCustomMessage.TEXT().toUser(u.getWechatId()).content("数据转换成功").build());
-					return;
-				}
+				ps.executeUpdate();
+				WxMpServlet.instance.wxMpService
+						.userUpdateGroup(u.getWechatId(), 100L);
+				WxMpServlet.instance.wxMpService.customMessageSend(WxMpCustomMessage.TEXT().toUser(u.getWechatId()).content("数据转换成功").build());
+				return;
 			}
 		} catch (SQLException | WxErrorException e) {
 			e.printStackTrace();
