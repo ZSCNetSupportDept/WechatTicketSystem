@@ -5,6 +5,7 @@ import love.sola.netsupport.wechat.handler.RegisterHandler;
 import love.sola.netsupport.wechat.handler.SubscribeHandler;
 import love.sola.netsupport.wechat.matcher.CheckSpamMatcher;
 import love.sola.netsupport.wechat.matcher.RegisterMatcher;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
@@ -55,13 +56,12 @@ public class WxMpServlet extends HttpServlet {
 		wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
 		wxMpMessageRouter.rule()
 				.async(false)
-				.msgType("event")
-				.event("subscribe")
+				.msgType(WxConsts.XML_MSG_EVENT)
+				.event(WxConsts.EVT_SUBSCRIBE)
 				.handler(new SubscribeHandler())
 				.next();
 		wxMpMessageRouter.rule()
 				.async(false)
-				.msgType("text")
 				.matcher(new CheckSpamMatcher())
 				.handler((wxMessage, context, wxMpService1, sessionManager)
 						-> WxMpXmlOutMessage.TEXT()
@@ -71,7 +71,6 @@ public class WxMpServlet extends HttpServlet {
 				.end();
 		wxMpMessageRouter.rule()
 				.async(false)
-				.msgType("text")
 				.matcher(new RegisterMatcher())
 				.handler(new RegisterHandler())
 				.end();
@@ -85,8 +84,8 @@ public class WxMpServlet extends HttpServlet {
 	public static void registerCommands(WxMpMessageRouter router) throws IllegalAccessException, InstantiationException {
 		for (Command c : Command.values()) {
 			WxMpMessageHandler handler = c.handler.newInstance();
-			router.rule().async(false).msgType("text").rContent(c.regex).handler(handler).end();
-			router.rule().async(false).msgType("event").event("CLICK").eventKey(c.name()).handler(handler).end();
+			router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).rContent(c.regex).handler(handler).end();
+			router.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_CLICK).eventKey(c.name()).handler(handler).end();
 		}
 	}
 
