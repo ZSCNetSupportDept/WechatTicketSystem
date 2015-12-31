@@ -1,0 +1,47 @@
+{
+  "button": [
+    {
+      "name": "我要",
+      "sub_button": [
+        {
+          "type": "click",
+          "name": "提交报修",
+          "key": "SUBMIT"
+        },
+        {
+          "type": "click",
+          "name": "查询报修",
+          "key": "QUERY"
+        },
+        {
+          "type": "click",
+          "name": "撤销报修",
+          "key": "CANCEL"
+        },
+        {
+          "type": "click",
+          "name": "修改资料",
+          "key": "PROFILE"
+        }
+      ]
+    },
+    {
+      "name": "OP",
+      "sub_button": [
+        {
+          "type": "click",
+          "name": "网维资料",
+          "key": "OPERATOR_INFO"
+        },
+        {
+          "type": "click",
+          "name": "后台登录",
+          "key": "LOGIN"
+        }
+      ]
+    }
+  ],
+  "matchrule": {
+    "group_id": "100",
+  }
+}

@@ -134,6 +134,8 @@ public class Register extends HttpServlet {
 						.userUpdateGroup(u.getWechatId(), 100L);
 				WxMpServlet.instance.wxMpService.customMessageSend(WxMpCustomMessage.TEXT().toUser(u.getWechatId()).content("数据转换成功").build());
 				return;
+			} else {
+				return;
 			}
 		} catch (SQLException | WxErrorException e) {
 			e.printStackTrace();
