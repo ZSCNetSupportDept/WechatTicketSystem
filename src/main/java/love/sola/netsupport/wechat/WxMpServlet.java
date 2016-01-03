@@ -59,7 +59,7 @@ public class WxMpServlet extends HttpServlet {
 				.msgType(WxConsts.XML_MSG_EVENT)
 				.event(WxConsts.EVT_SUBSCRIBE)
 				.handler(new SubscribeHandler())
-				.next();
+				.end();
 		wxMpMessageRouter.rule()
 				.async(false)
 				.matcher(new CheckSpamMatcher())

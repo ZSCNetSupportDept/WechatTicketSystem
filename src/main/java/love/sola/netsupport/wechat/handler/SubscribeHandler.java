@@ -1,5 +1,6 @@
 package love.sola.netsupport.wechat.handler;
 
+import love.sola.netsupport.api.user.Register;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.TableUser;
@@ -38,6 +39,7 @@ public class SubscribeHandler implements WxMpMessageHandler {
 			session.setAttribute(Attribute.WECHAT, fromUser);
 			session.setAttribute(Attribute.USER, u);
 			out.content(format("Event_Subscribe", format("Already_Registered", format("User_Profile_Link", id, u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone()))));
+			Register.converterWithRetry(u);
 		} else {
 			session.setAttribute(Attribute.AUTHORIZED, Command.REGISTER);
 			session.setAttribute(Attribute.WECHAT, fromUser);
@@ -45,4 +47,5 @@ public class SubscribeHandler implements WxMpMessageHandler {
 		}
 		return out.build();
 	}
+
 }
