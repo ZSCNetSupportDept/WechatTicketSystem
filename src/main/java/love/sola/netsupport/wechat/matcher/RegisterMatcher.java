@@ -1,12 +1,8 @@
 package love.sola.netsupport.wechat.matcher;
 
-import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.sql.TableUser;
 import me.chanjar.weixin.mp.api.WxMpMessageMatcher;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * ***********************************************
@@ -16,18 +12,9 @@ import java.util.Set;
  */
 public class RegisterMatcher implements WxMpMessageMatcher {
 
-	public static Set<String> registered = new HashSet<>();
-
 	@Override
 	public boolean match(WxMpXmlMessage message) {
-		String fromUser = message.getFromUserName();
-		if (registered.contains(fromUser)) {
-			return false;
-		} else {
-			User u = TableUser.getByWechat(fromUser);
-			if (u != null) registered.add(u.getWechatId());
-			return u == null;
-		}
+		return TableUser.getByWechat(message.getFromUserName()) == null;
 	}
 
 }

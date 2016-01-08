@@ -2,10 +2,10 @@ package love.sola.netsupport.wechat;
 
 import love.sola.netsupport.config.Settings;
 import love.sola.netsupport.wechat.handler.RegisterHandler;
-import love.sola.netsupport.wechat.handler.SignHandler;
 import love.sola.netsupport.wechat.handler.SubscribeHandler;
 import love.sola.netsupport.wechat.matcher.CheckSpamMatcher;
 import love.sola.netsupport.wechat.matcher.RegisterMatcher;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
@@ -31,7 +31,7 @@ public class WxMpServlet extends HttpServlet {
 
 	public static WxMpServlet instance;
 	protected WxMpInMemoryConfigStorage config;
-	protected WxMpService wxMpService;
+	public WxMpService wxMpService;
 	protected WxMpMessageRouter wxMpMessageRouter;
 	protected CheckSpamMatcher checkSpamMatcher;
 
@@ -56,13 +56,12 @@ public class WxMpServlet extends HttpServlet {
 		wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
 		wxMpMessageRouter.rule()
 				.async(false)
-				.msgType("event")
-				.event("subscribe")
+				.msgType(WxConsts.XML_MSG_EVENT)
+				.event(WxConsts.EVT_SUBSCRIBE)
 				.handler(new SubscribeHandler())
 				.end();
 		wxMpMessageRouter.rule()
 				.async(false)
-				.msgType("text")
 				.matcher(new CheckSpamMatcher())
 				.handler((wxMessage, context, wxMpService1, sessionManager)
 						-> WxMpXmlOutMessage.TEXT()
@@ -72,7 +71,6 @@ public class WxMpServlet extends HttpServlet {
 				.end();
 		wxMpMessageRouter.rule()
 				.async(false)
-				.msgType("text")
 				.matcher(new RegisterMatcher())
 				.handler(new RegisterHandler())
 				.end();
@@ -81,13 +79,13 @@ public class WxMpServlet extends HttpServlet {
 		} catch (IllegalAccessException | InstantiationException e) {
 			throw new ServletException(e);
 		}
-		wxMpMessageRouter.rule().async(false).msgType("text").rContent("(?i)^Auth \\d{4}").handler(new SignHandler()).end();
 	}
 
 	public static void registerCommands(WxMpMessageRouter router) throws IllegalAccessException, InstantiationException {
 		for (Command c : Command.values()) {
 			WxMpMessageHandler handler = c.handler.newInstance();
-			router.rule().async(false).msgType("text").rContent(c.regex).handler(handler).end();
+			router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).rContent(c.regex).handler(handler).end();
+			router.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_CLICK).eventKey(c.name()).handler(handler).end();
 		}
 	}
 
@@ -117,19 +115,19 @@ public class WxMpServlet extends HttpServlet {
 
 		String encryptType = StringUtils.isBlank(request.getParameter("encrypt_type")) ? "raw" : request.getParameter("encrypt_type");
 
-		if ("raw".equals(encryptType)) {
-			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
-			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-			if (outMessage == null) {
-				outMessage = WxMpXmlOutMessage.TEXT()
-						.fromUser(inMessage.getToUserName())
-						.toUser(inMessage.getFromUserName())
-						.content(lang("Invalid_Operation"))
-						.build();
-			}
-			response.getWriter().write(outMessage.toXml());
-			return;
-		}
+//		if ("raw".equals(encryptType)) {
+//			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
+//			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+//			if (outMessage == null) {
+//				outMessage = WxMpXmlOutMessage.TEXT()
+//						.fromUser(inMessage.getToUserName())
+//						.toUser(inMessage.getFromUserName())
+//						.content(lang("Invalid_Operation"))
+//						.build();
+//			}
+//			response.getWriter().write(outMessage.toXml());
+//			return;
+//		}
 
 		if ("aes".equals(encryptType)) {
 			String msgSignature = request.getParameter("msg_signature");

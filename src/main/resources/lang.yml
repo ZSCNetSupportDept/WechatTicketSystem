@@ -10,6 +10,7 @@ REGEX_SUBMIT: '^(?i)(Submit)|(报修)|(保修)|(bx)$'
 REGEX_CANCEL: '^(?i)(Cancel)|(取消)|(撤销)|(qx)|(cx)$'
 REGEX_LOGIN: '^(?i)Authme$'
 REGEX_PROFILE: '^(?i)(EditProfile)|(修改资料)|(修改信息)|(xgzl)|(xgxx)$'
+REGEX_OPERATOR_INFO: '^(?i)(OpInfo)|(网维资料)|(wwzl)$'
 
 #Misc
 Invalid_Operation: 'Whoops，报修姬找不到你想要的东西啦 (╯‵□′)╯︵┻━┻。'
@@ -45,7 +46,16 @@ Profile_Modify: '<a href="{0}">> 点此修改资料 <</a>'
 Not_Operator: '嘟嘟嘟……'
 No_Login: 'Permission Denied.'
 Internal_Error: '啊哦，登录失败了哦。'
+#Operator_Info
+Operator_Info: |
+                  网维成员资料:
+                  网维ID: {0,number,#}
+                  姓名: {1}
+                  岗位: {2,choice,0#'Administrator >ω<'|3#值班组长|6#正式成员|7#实习成员|}
+                  值班片区: {3,choice,0#'全图 >ω<'|1#岐头片区|2#北门片区|3#东门片区|4#香灰片区|5#凤翔片区}
+                  值班日: {4,choice,0#'2月30日 >ω<'|1#周一|2#周二|3#周三|4#周四|5#周五|6#周六|7#周日}
 
+                  若以上信息有误，请及时联系@15-排污-沙子森。
 #URL
 User_Register_Link: 'http://topaz.sinaapp.com/nm/v1/reg.html?token={0}'
 User_Query_Link: 'http://topaz.sinaapp.com/nm/v1/list.html?token={0}'

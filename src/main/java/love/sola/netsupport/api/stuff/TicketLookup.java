@@ -2,6 +2,7 @@ package love.sola.netsupport.api.stuff;
 
 import com.google.gson.Gson;
 import love.sola.netsupport.api.Response;
+import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.Ticket;
@@ -59,6 +60,9 @@ public class TicketLookup extends HttpServlet {
 				block = Integer.parseInt(request.getParameter("block"));
 			} else {
 				block = op.getBlock();
+			}
+			if (block == 0 && op.getAccess() > Access.LEADER) {
+				return new Response(Response.ResponseCode.PERMISSION_DENIED);
 			}
 			List<Ticket> list = TableTicket.unsolvedByBlock(block);
 			return new Response(Response.ResponseCode.OK, list);

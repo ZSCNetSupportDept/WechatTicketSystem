@@ -76,7 +76,7 @@ public class TicketLog extends HttpServlet {
 			AuditReader reader = TableTicket.getAuditReader(s);
 			Object obj = reader.createQuery()
 					.forRevisionsOfEntity(Ticket.class, false, true)
-					.addOrder(AuditEntity.revisionNumber().asc())
+					.addOrder(AuditEntity.revisionNumber().desc())
 					.add(AuditEntity.revisionProperty("timestamp").between(start.getTime(), end.getTime()))
 					.setFirstResult(first)
 					.setMaxResults(limit)
