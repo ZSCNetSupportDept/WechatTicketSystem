@@ -26,7 +26,7 @@ public class Index extends HttpServlet {
 		response.addHeader("Content-type", "text/plain;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-		out.println("Wechat Ticket System (WTS) 0.1 Copyright 2015 Sola & LiuYue all rights reserved. | Commercial license for ZSC Network Support Department (ZSCNSD).");
+		out.println("Wechat Ticket System (WTS) 0.1 Copyright 2015-2016 Sola & LiuYue all rights reserved. | Commercial license for ZSC Network Support Department (ZSCNSD).");
 		out.println("For any problem, Please contact loli@sola.love.");
 		if (response.getStatus() == HttpServletResponse.SC_NOT_FOUND) {
 			out.println("\nError 404: Page not found.");
