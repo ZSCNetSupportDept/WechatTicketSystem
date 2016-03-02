@@ -14,6 +14,7 @@ import static love.sola.netsupport.config.Lang.lang;
  */
 public class Access {
 
+	public static final int GOD_MODE = -1;
 	public static final int ROOT = 0;
 	public static final int MANAGER = 1;
 	public static final int CO_MANAGER = 2;
@@ -23,7 +24,9 @@ public class Access {
 	public static final int ELDER = 6;
 	public static final int MEMBER = 7;
 	public static final int PRE_MEMBER = 8;
-	public static final int NOLOGIN = 9;
+	public static final int NO_LOGIN = 9;
+	public static final int USER = 10;
+	public static final int GUEST = 11;
 
 	public static final Map<Integer, String> inverseMap = new HashMap<>();
 

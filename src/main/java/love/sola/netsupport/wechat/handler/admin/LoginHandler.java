@@ -35,7 +35,7 @@ public class LoginHandler implements WxMpMessageHandler {
 			Operator operator = TableOperator.get(wxMessage.getFromUserName());
 			if (operator == null)
 				out.content(lang("Not_Operator"));
-			else if (operator.getAccess() == Access.NOLOGIN) {
+			else if (operator.getAccess() >= Access.NO_LOGIN) {
 				out.content(lang("No_Login"));
 			} else {
 				String id = WechatSession.genId();

@@ -49,19 +49,19 @@ public class Login extends HttpServlet {
 		out.close();
 	}
 
-	private Response login(HttpServletRequest request) {
+	private Object login(HttpServletRequest request) {
 		try {
 			int oid = Integer.parseInt(request.getParameter("id"));
 			String password = request.getParameter("pass");
 			boolean bypass = request.getParameter("bypass") != null;
 			Operator op = TableOperator.get(oid);
 			if (op == null)
-				return new Response(Response.ResponseCode.OPERATOR_NOT_FOUND);
-			else if (op.getAccess() == Access.NOLOGIN)
-				return new Response(Response.ResponseCode.PERMISSION_DENIED);
+				return Error.OPERATOR_NOT_FOUND;
+			else if (op.getAccess() >= Access.NO_LOGIN)
+				return Error.PERMISSION_DENIED;
 
 			if (!Crypto.check(bypass ? password : RSAUtil.decrypt(password), op.getPassword())) {
-				return new Response(Response.ResponseCode.WRONG_PASSWORD);
+				return Error.WRONG_PASSWORD;
 			}
 
 			String sid = WechatSession.genId();
@@ -83,10 +83,10 @@ public class Login extends HttpServlet {
 			if (request.getParameter("bypasswechat") != null) {
 				session.setAttribute(Attribute.WECHAT, request.getParameter("bypasswechat"));
 			}
-
-			return new Response(Response.ResponseCode.OK, sid);
+			return sid;
 		} catch (Exception e) {
-			return new Response(Response.ResponseCode.REQUEST_FAILED, e);
+			e.printStackTrace();
+			return Error.REQUEST_FAILED;
 		}
 	}
 }
