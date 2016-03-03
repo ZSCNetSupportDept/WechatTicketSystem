@@ -61,7 +61,7 @@ public class TicketLookup extends HttpServlet {
 			} else {
 				block = op.getBlock();
 			}
-			if (block == 0 && op.getAccess() > Access.LEADER) {
+			if (block == 0 && op.getAccess() > Access.MEMBER) {
 				return new Response(Response.ResponseCode.PERMISSION_DENIED);
 			}
 			List<Ticket> list = TableTicket.unsolvedByBlock(block);
