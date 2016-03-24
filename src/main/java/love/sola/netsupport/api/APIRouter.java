@@ -67,7 +67,8 @@ public class APIRouter extends HttpServlet {
 		try {
 			API api = nodes.get(req.getPathInfo());
 			if (api == null) {
-				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+				obj = nodes;
+//				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return;
 			}
 			WxSession session = getSession(req);
