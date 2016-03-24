@@ -70,13 +70,18 @@ public class APIRouter extends HttpServlet {
 			if (api == null) {
 //				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 //				obj = nodes;
+
+				ClassPath path = ClassPath.from(getServletContext().getClassLoader());
 				obj = new Object[]{
 						Thread.currentThread().getContextClassLoader().toString(),
 						getServletContext().getClassLoader().toString(),
 						getClass().getClassLoader().toString(),
 						getClass().getPackage().getName(),
 						API.class.getClassLoader().toString(),
-						CheckSession.class.getClassLoader().toString()
+						CheckSession.class.getClassLoader().toString(),
+						path.getResources().toString(),
+						path.getTopLevelClassesRecursive(getClass().getPackage().getName()),
+						path.getAllClasses()
 				};
 				return;
 			}
