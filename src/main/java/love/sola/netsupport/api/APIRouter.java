@@ -75,7 +75,8 @@ public class APIRouter extends HttpServlet {
 						getServletContext().getClassLoader().toString(),
 						getClass().getClassLoader().toString(),
 						getClass().getPackage().getName(),
-						API.class.getClassLoader().toString()
+						API.class.getClassLoader().toString(),
+						CheckSession.class.getClassLoader().toString()
 				};
 				return;
 			}
