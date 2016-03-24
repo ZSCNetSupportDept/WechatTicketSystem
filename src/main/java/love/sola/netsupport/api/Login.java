@@ -43,6 +43,7 @@ public class Login extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.addHeader("Content-type", "application/json;charset=utf-8");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		PrintWriter out = response.getWriter();
 		String json = gson.toJson(login(request));
 		out.println(ParseUtil.parseJsonP(request, json));
