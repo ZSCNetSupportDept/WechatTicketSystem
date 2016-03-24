@@ -38,7 +38,7 @@ public class APIRouter extends HttpServlet {
 	public APIRouter() {
 		try {
 			ClassPath path = ClassPath.from(getServletContext().getClassLoader());
-			Set<ClassPath.ClassInfo> classes = path.getTopLevelClassesRecursive(getClass().getPackage().getName());
+			Set<ClassPath.ClassInfo> classes = path.getTopLevelClasses();
 			for (ClassPath.ClassInfo info : classes) {
 				Class<?> clz = info.load();
 				if (!API.class.equals(clz) && API.class.isAssignableFrom(clz)) {
