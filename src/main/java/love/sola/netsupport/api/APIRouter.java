@@ -32,6 +32,8 @@ import java.util.Set;
 @WebServlet(name = "APIRouter", urlPatterns = "/api/*", loadOnStartup = 11)
 public class APIRouter extends HttpServlet {
 
+	public static final String PROJECT_PATH = "WechatTicketSystem/";
+
 	protected static Gson gson = SQLCore.gson;
 	private Map<String, API> nodes = new HashMap<>();
 
@@ -66,9 +68,9 @@ public class APIRouter extends HttpServlet {
 		resp.addHeader("Access-Control-Allow-Origin", "*");
 		Object obj = null;
 		try {
-			API api = nodes.get(req.getRequestURI());
+			API api = nodes.get(req.getRequestURI().substring(PROJECT_PATH.length()));
 			if (api == null) {
-				obj = req.getRequestURI();
+				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return;
 			}
 			WxSession session = getSession(req);
