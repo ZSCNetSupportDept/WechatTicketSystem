@@ -37,7 +37,7 @@ public class APIRouter extends HttpServlet {
 
 	public APIRouter() {
 		try {
-			ClassPath path = ClassPath.from(Thread.currentThread().getContextClassLoader());
+			ClassPath path = ClassPath.from(getServletContext().getClassLoader());
 			Set<ClassPath.ClassInfo> classes = path.getTopLevelClasses();
 			for (ClassPath.ClassInfo info : classes) {
 				Class<?> clz = info.load();
@@ -69,7 +69,14 @@ public class APIRouter extends HttpServlet {
 			API api = nodes.get(req.getPathInfo());
 			if (api == null) {
 //				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-				obj = nodes;
+//				obj = nodes;
+				obj = new Object[]{
+						Thread.currentThread().getContextClassLoader().getClass(),
+						getServletContext().getClassLoader().getClass(),
+						getClass().getClassLoader().getClass(),
+						getClass().getPackage().getName(),
+						API.class.getClassLoader().getClass()
+				};
 				return;
 			}
 			WxSession session = getSession(req);
