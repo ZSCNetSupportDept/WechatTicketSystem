@@ -80,8 +80,8 @@ public class APIRouter extends HttpServlet {
 						API.class.getClassLoader().toString(),
 						CheckSession.class.getClassLoader().toString(),
 						path.getResources().toString(),
-						path.getTopLevelClassesRecursive(getClass().getPackage().getName()),
-						path.getAllClasses()
+						path.getTopLevelClassesRecursive(getClass().getPackage().getName()).toString(),
+						path.getAllClasses().toString()
 				};
 				return;
 			}
