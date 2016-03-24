@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -70,7 +71,12 @@ public class APIRouter extends HttpServlet {
 		try {
 			API api = nodes.get(req.getRequestURI().substring(PROJECT_PATH.length()));
 			if (api == null) {
-				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+//				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+				obj = Arrays.asList(
+						req.getContextPath(),
+						req.getPathInfo(),
+						req.getPathTranslated(),
+						req.getServletPath());
 				return;
 			}
 			WxSession session = getSession(req);
