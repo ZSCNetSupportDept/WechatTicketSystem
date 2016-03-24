@@ -86,7 +86,7 @@ public class Login extends HttpServlet {
 			return sid;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Error.REQUEST_FAILED;
+			return Error.INTERNAL_ERROR;
 		}
 	}
 }
