@@ -1,5 +1,18 @@
 package love.sola.netsupport.api;
 
+import love.sola.netsupport.api.manager.GetUser;
+import love.sola.netsupport.api.manager.TicketPush;
+import love.sola.netsupport.api.root.DashBoard;
+import love.sola.netsupport.api.root.FlushCache;
+import love.sola.netsupport.api.root.SetPassword;
+import love.sola.netsupport.api.stuff.TicketLog;
+import love.sola.netsupport.api.stuff.TicketLookup;
+import love.sola.netsupport.api.stuff.TicketTrack;
+import love.sola.netsupport.api.stuff.TicketUpdate;
+import love.sola.netsupport.api.user.ProfileModify;
+import love.sola.netsupport.api.user.Register;
+import love.sola.netsupport.api.user.TicketQuery;
+import love.sola.netsupport.api.user.TicketSubmit;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.wechat.Command;
 import me.chanjar.weixin.common.session.WxSession;
@@ -28,5 +41,22 @@ public abstract class API {
 				", authorize=" + authorize +
 				'}';
 	}
+
+	public static final Class[] LIST = new Class[]{
+			GetUser.class,
+			TicketPush.class,
+			DashBoard.class,
+			FlushCache.class,
+			SetPassword.class,
+			TicketLog.class,
+			TicketLookup.class,
+			TicketTrack.class,
+			TicketUpdate.class,
+			ProfileModify.class,
+			Register.class,
+			TicketQuery.class,
+			TicketSubmit.class,
+			CheckSession.class
+	};
 
 }

@@ -1,6 +1,5 @@
 package love.sola.netsupport.api;
 
-import com.google.common.reflect.ClassPath;
 import com.google.gson.Gson;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
@@ -21,7 +20,6 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * ***********************************************
@@ -37,10 +35,11 @@ public class APIRouter extends HttpServlet {
 
 	public APIRouter() {
 		try {
-			ClassPath path = ClassPath.from(getServletContext().getClassLoader());
-			Set<ClassPath.ClassInfo> classes = path.getTopLevelClasses();
-			for (ClassPath.ClassInfo info : classes) {
-				Class<?> clz = info.load();
+//			ClassPath path = ClassPath.from(getServletContext().getClassLoader());
+//			Set<ClassPath.ClassInfo> classes = path.getTopLevelClasses();
+//			for (ClassPath.ClassInfo info : classes) {
+			for (Class<?> clz : API.LIST) {
+//				Class<?> clz = info.load();
 				if (!API.class.equals(clz) && API.class.isAssignableFrom(clz)) {
 					try {
 						System.out.print("Loading API: " + clz.getName());
@@ -68,21 +67,7 @@ public class APIRouter extends HttpServlet {
 		try {
 			API api = nodes.get(req.getPathInfo());
 			if (api == null) {
-//				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-//				obj = nodes;
-
-				ClassPath path = ClassPath.from(getServletContext().getClassLoader().getParent());
-				obj = new Object[]{
-						Thread.currentThread().getContextClassLoader().toString(),
-						getServletContext().getClassLoader().toString(),
-						getClass().getClassLoader().toString(),
-						getClass().getPackage().getName(),
-						API.class.getClassLoader().toString(),
-						CheckSession.class.getClassLoader().toString(),
-						path.getResources().toString(),
-						path.getTopLevelClassesRecursive(getClass().getPackage().getName()).toString(),
-						path.getAllClasses().toString()
-				};
+				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return;
 			}
 			WxSession session = getSession(req);
