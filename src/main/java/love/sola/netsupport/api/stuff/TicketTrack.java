@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TicketTrack extends API {
 
 	public TicketTrack() {
-		url = "/api/admin/tickettrack";
+		url = "/admin/tickettrack";
 		access = Access.MEMBER;
 		authorize = Command.LOGIN;
 	}

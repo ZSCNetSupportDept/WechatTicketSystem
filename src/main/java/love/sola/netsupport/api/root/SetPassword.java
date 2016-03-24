@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SetPassword extends API {
 
 	public SetPassword() {
-		url = "/api/root/setpass";
+		url = "/root/setpass";
 		access = Access.ROOT;
 		authorize = Command.LOGIN;
 	}

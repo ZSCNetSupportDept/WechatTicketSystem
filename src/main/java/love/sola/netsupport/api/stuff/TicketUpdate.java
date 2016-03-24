@@ -24,7 +24,7 @@ import java.util.Date;
 public class TicketUpdate extends API {
 
 	public TicketUpdate() {
-		url = "/api/admin/ticketupdate";
+		url = "/admin/ticketupdate";
 		access = Access.MEMBER;
 		authorize = Command.LOGIN;
 	}

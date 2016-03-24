@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TicketSubmit extends API {
 
 	public TicketSubmit() {
-		url = "/api/ticketsubmit";
+		url = "/ticketsubmit";
 		access = Access.USER;
 		authorize = Command.SUBMIT;
 	}

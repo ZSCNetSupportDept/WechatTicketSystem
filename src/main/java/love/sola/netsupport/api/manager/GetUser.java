@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GetUser extends API {
 
 	public GetUser() {
-		url = "/api/admin/getuser";
+		url = "/admin/getuser";
 		access = Access.LEADER;
 		authorize = Command.LOGIN;
 	}

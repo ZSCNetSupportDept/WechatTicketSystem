@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TicketPush extends API {
 
 	public TicketPush() {
-		url = "/api/admin/ticketpush";
+		url = "/admin/ticketpush";
 		access = Access.LEADER;
 		authorize = Command.LOGIN;
 	}

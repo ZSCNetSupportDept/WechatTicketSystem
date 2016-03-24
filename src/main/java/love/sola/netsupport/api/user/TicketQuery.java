@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TicketQuery extends API {
 
 	public TicketQuery() {
-		url = "/api/ticketquery";
+		url = "/ticketquery";
 		access = Access.USER;
 		authorize = Command.QUERY;
 	}

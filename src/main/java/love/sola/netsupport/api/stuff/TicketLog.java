@@ -28,7 +28,7 @@ public class TicketLog extends API {
 	public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
 	public TicketLog() {
-		url = "/api/admin/ticketlog";
+		url = "/admin/ticketlog";
 		access = Access.MEMBER;
 		authorize = Command.LOGIN;
 	}

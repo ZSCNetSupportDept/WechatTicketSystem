@@ -24,7 +24,7 @@ import static love.sola.netsupport.util.Checker.*;
 public class ProfileModify extends API {
 
 	public ProfileModify() {
-		url = "/api/profilemodify";
+		url = "/profilemodify";
 		access = Access.USER;
 		authorize = Command.PROFILE;
 	}

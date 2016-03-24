@@ -17,7 +17,7 @@ import java.util.Map;
 public class CheckSession extends API {
 
 	public CheckSession() {
-		url = "/api/checksession";
+		url = "/checksession";
 		access = Access.GUEST;
 		authorize = null;
 	}

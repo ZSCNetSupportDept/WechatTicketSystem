@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class FlushCache extends API {
 
 	public FlushCache() {
-		url = "/api/root/flushcache";
+		url = "/root/flushcache";
 		access = Access.ROOT;
 		authorize = Command.LOGIN;
 	}

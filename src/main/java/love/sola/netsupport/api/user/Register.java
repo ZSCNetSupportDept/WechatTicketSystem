@@ -32,7 +32,7 @@ import static love.sola.netsupport.util.Checker.*;
 public class Register extends API {
 
 	public Register() {
-		url = "/api/register";
+		url = "/register";
 		access = Access.GUEST;
 		authorize = Command.REGISTER;
 	}

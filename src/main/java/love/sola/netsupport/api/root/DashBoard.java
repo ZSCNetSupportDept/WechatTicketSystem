@@ -19,7 +19,7 @@ import java.util.Enumeration;
 public class DashBoard extends API {
 
 	public DashBoard() {
-		url = "/api/root/dashboard";
+		url = "/root/dashboard";
 		access = Access.ROOT;
 		authorize = Command.LOGIN;
 	}

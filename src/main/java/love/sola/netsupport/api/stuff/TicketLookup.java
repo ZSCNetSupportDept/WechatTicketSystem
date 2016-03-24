@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TicketLookup extends API {
 
 	public TicketLookup() {
-		url = "/api/admin/ticketlookup";
+		url = "/admin/ticketlookup";
 		access = Access.MEMBER;
 		authorize = Command.LOGIN;
 	}
