@@ -2,7 +2,7 @@ package love.sola.netsupport.api;
 
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
-import me.chanjar.weixin.common.session.WxSession;
+import love.sola.netsupport.session.WxSession;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class CheckSession extends API {
 
 	public CheckSession() {
-		url = "/api/checksession";
+		url = "/checksession";
 		access = Access.GUEST;
 		authorize = null;
 	}

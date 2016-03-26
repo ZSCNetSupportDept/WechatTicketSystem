@@ -9,5 +9,4 @@ out/
 .DS_Store
 .classpath
 /target
-/src/main/webapp/META-INF/context.xml
 .project

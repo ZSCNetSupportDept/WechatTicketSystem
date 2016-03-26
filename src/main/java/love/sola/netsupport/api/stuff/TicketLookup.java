@@ -4,9 +4,9 @@ import love.sola.netsupport.api.API;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.TableTicket;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,14 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 public class TicketLookup extends API {
 
 	public TicketLookup() {
-		url = "/api/admin/ticketlookup";
+		url = "/admin/ticketlookup";
 		access = Access.MEMBER;
 		authorize = Command.LOGIN;
 	}
 
 	@Override
 	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
+		Operator op = session.getAttribute(Attribute.OPERATOR);
 		int block;
 		if (req.getParameter("block") != null) {
 			block = Integer.parseInt(req.getParameter("block"));

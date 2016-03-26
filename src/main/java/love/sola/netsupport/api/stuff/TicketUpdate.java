@@ -6,10 +6,10 @@ import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.Ticket;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.Session;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import java.util.Date;
 public class TicketUpdate extends API {
 
 	public TicketUpdate() {
-		url = "/api/admin/ticketupdate";
+		url = "/admin/ticketupdate";
 		access = Access.MEMBER;
 		authorize = Command.LOGIN;
 	}
@@ -36,7 +36,7 @@ public class TicketUpdate extends API {
 		String status = req.getParameter("status");
 		if (Checker.hasNull(ticket, remark, status)) return Error.PARAMETER_REQUIRED;
 		try (Session s = SQLCore.sf.openSession()) {
-			Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
+			Operator op = session.getAttribute(Attribute.OPERATOR);
 			Ticket t = s.get(Ticket.class, Integer.parseInt(ticket));
 			if (t == null) {
 				return Error.TICKET_NOT_FOUND;

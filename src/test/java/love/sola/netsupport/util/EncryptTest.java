@@ -1,6 +1,5 @@
-package love.sola.netsupport.wechat;
+package love.sola.netsupport.util;
 
-import love.sola.netsupport.util.RSAUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 import org.mindrot.jbcrypt.BCrypt;
@@ -16,7 +15,7 @@ import java.security.spec.X509EncodedKeySpec;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-public class TestEncrypt {
+public class EncryptTest {
 
 	@Test
 	public void testBCrypt() {

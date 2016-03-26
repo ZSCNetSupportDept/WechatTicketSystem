@@ -7,10 +7,10 @@ import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableTicket;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.Session;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TicketSubmit extends API {
 
 	public TicketSubmit() {
-		url = "/api/ticketsubmit";
+		url = "/ticketsubmit";
 		access = Access.USER;
 		authorize = Command.SUBMIT;
 	}
@@ -40,7 +40,7 @@ public class TicketSubmit extends API {
 		}
 
 		try (Session s = SQLCore.sf.openSession()) {
-			User u = (User) session.getAttribute(Attribute.USER);
+			User u = session.getAttribute(Attribute.USER);
 			if (TableTicket.hasOpen(u)) {
 				session.invalidate();
 				return Error.ALREADY_SUBMITTED;

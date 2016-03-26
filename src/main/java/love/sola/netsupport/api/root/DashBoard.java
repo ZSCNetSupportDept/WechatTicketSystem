@@ -2,13 +2,12 @@ package love.sola.netsupport.api.root;
 
 import love.sola.netsupport.api.API;
 import love.sola.netsupport.enums.Access;
+import love.sola.netsupport.session.WechatSession;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.wechat.Command;
-import love.sola.netsupport.wechat.WechatSession;
-import me.chanjar.weixin.common.session.InternalSession;
-import me.chanjar.weixin.common.session.WxSession;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
+import java.util.Set;
 
 /**
  * ***********************************************
@@ -19,7 +18,7 @@ import java.util.Enumeration;
 public class DashBoard extends API {
 
 	public DashBoard() {
-		url = "/api/root/dashboard";
+		url = "/root/dashboard";
 		access = Access.ROOT;
 		authorize = Command.LOGIN;
 	}
@@ -27,13 +26,11 @@ public class DashBoard extends API {
 	@Override
 	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
 		StringBuilder sb = new StringBuilder();
-		for (InternalSession s : WechatSession.list()) {
-			sb.append("=====").append(s.getIdInternal()).append("=====\n");
-			WxSession ws = s.getSession();
-			Enumeration<String> e = ws.getAttributeNames();
-			while (e.hasMoreElements()) {
-				String key = e.nextElement();
-				sb.append(key).append(": ").append(ws.getAttribute(key)).append("\n");
+		for (love.sola.netsupport.session.WxSession ws : WechatSession.list()) {
+			sb.append("=====").append(ws.getId()).append("=====\n");
+			Set<String> e = ws.getAttributeNames();
+			for (String key : e) {
+				sb.append(key).append(": ").append(ws.getAttribute(key).toString()).append("\n");
 			}
 		}
 		return sb.toString();

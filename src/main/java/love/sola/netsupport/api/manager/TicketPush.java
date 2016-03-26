@@ -9,10 +9,10 @@ import love.sola.netsupport.enums.Status;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Checker;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.Session;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TicketPush extends API {
 
 	public TicketPush() {
-		url = "/api/admin/ticketpush";
+		url = "/admin/ticketpush";
 		access = Access.LEADER;
 		authorize = Command.LOGIN;
 	}
@@ -41,7 +41,7 @@ public class TicketPush extends API {
 		if (desc.length() > Settings.MAX_DESC_LENGTH) {
 			return Error.LENGTH_LIMIT_EXCEEDED;
 		}
-		Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
+		Operator op = session.getAttribute(Attribute.OPERATOR);
 		try (Session s = SQLCore.sf.openSession()) {
 			s.beginTransaction();
 			User u = s.get(User.class, Long.parseLong(uid));

@@ -1,15 +1,15 @@
 package love.sola.netsupport.api;
 
-import com.google.common.reflect.ClassPath;
 import com.google.gson.Gson;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.session.WechatSession;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.SQLCore;
-import love.sola.netsupport.wechat.WechatSession;
-import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.HibernateException;
+import org.reflections.Reflections;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,21 +35,20 @@ public class APIRouter extends HttpServlet {
 	protected static Gson gson = SQLCore.gson;
 	private Map<String, API> nodes = new HashMap<>();
 
-	public APIRouter() {
+	@Override
+	public void init() throws ServletException {
+		super.init();
 		try {
-			ClassPath path = ClassPath.from(getClass().getClassLoader());
-			Set<ClassPath.ClassInfo> classes = path.getTopLevelClassesRecursive(getClass().getPackage().getName());
-			for (ClassPath.ClassInfo info : classes) {
-				Class<?> clz = info.load();
-				if (!API.class.equals(clz) && API.class.isAssignableFrom(clz)) {
-					try {
-						System.out.print("Loading API: " + clz.getName());
-						API obj = (API) clz.newInstance();
-						System.out.println("Registered API: " + obj);
-						nodes.put(obj.url, obj);
-					} catch (InstantiationException | IllegalAccessException e) {
-						e.printStackTrace();
-					}
+			Reflections reflections = new Reflections(getClass().getPackage().getName());
+			Set<Class<? extends API>> set = reflections.getSubTypesOf(API.class);
+			for (Class<? extends API> clz : set) {
+				try {
+					System.out.println("Loading API: " + clz.getName());
+					API obj = clz.newInstance();
+					System.out.println("Registered API: " + obj);
+					nodes.put(obj.url, obj);
+				} catch (InstantiationException | IllegalAccessException e) {
+					e.printStackTrace();
 				}
 			}
 		} catch (Exception e) {
@@ -66,7 +65,7 @@ public class APIRouter extends HttpServlet {
 		resp.addHeader("Access-Control-Allow-Origin", "*");
 		Object obj = null;
 		try {
-			API api = nodes.get(req.getRequestURI());
+			API api = nodes.get(req.getPathInfo());
 			if (api == null) {
 				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return;
@@ -82,14 +81,14 @@ public class APIRouter extends HttpServlet {
 					return;
 				}
 				if (api.access == Access.USER) {
-					User u = (User) session.getAttribute(Attribute.USER);
+					User u = session.getAttribute(Attribute.USER);
 					if (u == null) {
 						obj = Error.UNAUTHORIZED;
 						return;
 					}
 				}
 				if (api.access < Access.USER) {
-					Operator op = (Operator) session.getAttribute(Attribute.OPERATOR);
+					Operator op = session.getAttribute(Attribute.OPERATOR);
 					if (op == null) {
 						obj = Error.UNAUTHORIZED;
 						return;
@@ -121,7 +120,7 @@ public class APIRouter extends HttpServlet {
 	private static WxSession getSession(HttpServletRequest req) {
 		String t = req.getParameter("token");
 		if (t == null || t.isEmpty()) return null;
-		return WechatSession.get(t, false);
+		return WechatSession.get(t);
 	}
 
 }

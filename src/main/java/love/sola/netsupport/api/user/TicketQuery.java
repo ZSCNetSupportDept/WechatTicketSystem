@@ -5,9 +5,9 @@ import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TicketQuery extends API {
 
 	public TicketQuery() {
-		url = "/api/ticketquery";
+		url = "/ticketquery";
 		access = Access.USER;
 		authorize = Command.QUERY;
 	}
@@ -32,7 +32,7 @@ public class TicketQuery extends API {
 	@Override
 	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
 		try (Session s = SQLCore.sf.openSession()) {
-			User u = (User) session.getAttribute(Attribute.USER);
+			User u = session.getAttribute(Attribute.USER);
 			Criteria c = s.createCriteria(Ticket.class);
 			int first = req.getParameter("offset") == null ? 0 : Integer.parseInt(req.getParameter("offset"));
 			int limit = req.getParameter("limit") == null ? 5 : Integer.parseInt(req.getParameter("limit"));

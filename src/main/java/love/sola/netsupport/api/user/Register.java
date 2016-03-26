@@ -6,12 +6,12 @@ import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.wechat.Command;
 import love.sola.netsupport.wechat.WxMpServlet;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -32,14 +32,14 @@ import static love.sola.netsupport.util.Checker.*;
 public class Register extends API {
 
 	public Register() {
-		url = "/api/register";
+		url = "/register";
 		access = Access.GUEST;
 		authorize = Command.REGISTER;
 	}
 
 	@Override
 	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		String wechat = (String) session.getAttribute(Attribute.WECHAT);
+		String wechat = session.getAttribute(Attribute.WECHAT);
 		if (wechat == null) {
 			return Error.UNAUTHORIZED;
 		}

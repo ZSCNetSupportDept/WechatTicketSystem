@@ -1,8 +1,8 @@
 package love.sola.netsupport.api;
 
 import love.sola.netsupport.enums.Access;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 
 import javax.servlet.http.HttpServletRequest;
 

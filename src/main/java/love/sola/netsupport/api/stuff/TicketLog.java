@@ -3,10 +3,10 @@ package love.sola.netsupport.api.stuff;
 import love.sola.netsupport.api.API;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.pojo.Ticket;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableTicket;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Session;
 import org.hibernate.envers.AuditReader;
@@ -28,7 +28,7 @@ public class TicketLog extends API {
 	public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
 	public TicketLog() {
-		url = "/api/admin/ticketlog";
+		url = "/admin/ticketlog";
 		access = Access.MEMBER;
 		authorize = Command.LOGIN;
 	}

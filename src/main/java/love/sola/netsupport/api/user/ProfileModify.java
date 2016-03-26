@@ -6,9 +6,9 @@ import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.exception.ConstraintViolationException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,14 +24,14 @@ import static love.sola.netsupport.util.Checker.*;
 public class ProfileModify extends API {
 
 	public ProfileModify() {
-		url = "/api/profilemodify";
+		url = "/profilemodify";
 		access = Access.USER;
 		authorize = Command.PROFILE;
 	}
 
 	@Override
 	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		User u = (User) session.getAttribute(Attribute.USER);
+		User u = session.getAttribute(Attribute.USER);
 		ISP isp = checkISP(req.getParameter("isp"));
 		String netAccount = checkNetAccount(req.getParameter("username"), isp);
 		int block = checkBlock(req.getParameter("block"));

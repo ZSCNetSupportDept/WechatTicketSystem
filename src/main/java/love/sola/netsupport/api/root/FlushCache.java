@@ -3,9 +3,9 @@ package love.sola.netsupport.api.root;
 import love.sola.netsupport.api.API;
 import love.sola.netsupport.api.Error;
 import love.sola.netsupport.enums.Access;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class FlushCache extends API {
 
 	public FlushCache() {
-		url = "/api/root/flushcache";
+		url = "/root/flushcache";
 		access = Access.ROOT;
 		authorize = Command.LOGIN;
 	}

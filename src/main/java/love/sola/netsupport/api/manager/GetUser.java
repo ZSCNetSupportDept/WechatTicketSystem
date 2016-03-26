@@ -4,9 +4,9 @@ import love.sola.netsupport.api.API;
 import love.sola.netsupport.api.Error;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.pojo.User;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GetUser extends API {
 
 	public GetUser() {
-		url = "/api/admin/getuser";
+		url = "/admin/getuser";
 		access = Access.LEADER;
 		authorize = Command.LOGIN;
 	}

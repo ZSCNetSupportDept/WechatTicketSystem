@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.wechat.Command;
 import org.hibernate.Hibernate;
@@ -18,6 +19,7 @@ import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.service.ServiceRegistry;
 
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Date;
@@ -30,7 +32,10 @@ import java.util.Date;
  */
 public class SQLCore {
 
+	public static InitialContext ic;
 	public static DataSource ds;
+	public static SessionFactory sf;
+	public static ServiceRegistry sr;
 	public static Gson gson = new GsonBuilder()
 			.addSerializationExclusionStrategy(new ExclusionStrategy() {
 				@Override
@@ -64,12 +69,10 @@ public class SQLCore {
 			.registerTypeAdapter(Command.class, (JsonSerializer<Command>) (src, typeOfSrc, context) -> new JsonPrimitive(src.id))
 			.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY)
 			.create();
-	public static SessionFactory sf;
-	public static ServiceRegistry sr;
 
 	static {
 		try {
-			InitialContext ic = new InitialContext();
+			ic = new InitialContext();
 			ds = (DataSource) ic.lookup("java:comp/env/jdbc/netsupport");
 			ds.setLoginTimeout(3);
 
@@ -79,6 +82,16 @@ public class SQLCore {
 			TableUser.init();
 			TableOperator.init();
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void destroy() {
+		try {
+			SQLCore.sf.close();
+			((ComboPooledDataSource) SQLCore.ds).close();
+			SQLCore.ic.close();
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}

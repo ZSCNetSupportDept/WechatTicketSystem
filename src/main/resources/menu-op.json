@@ -34,9 +34,9 @@
           "key": "OPERATOR_INFO"
         },
         {
-          "type": "click",
+          "type": "view",
           "name": "后台登录",
-          "key": "LOGIN"
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb7a8b799e494b053&redirect_uri=http%3a%2f%2fwcs.sola.love%2foauth2%2fcallback&response_type=code&scope=snsapi_base&state=LOGIN#wechat_redirect"
         }
       ]
     }

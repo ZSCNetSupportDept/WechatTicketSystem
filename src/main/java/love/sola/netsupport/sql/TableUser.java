@@ -72,7 +72,7 @@ public class TableUser extends SQLCore {
 	private static LoadingCache<String, User> cache = CacheBuilder.newBuilder()
 			.concurrencyLevel(4)
 			.maximumSize(4096)
-			.expireAfterWrite(Settings.I.User_Wechat_Cache_Expire_Time, TimeUnit.SECONDS)
+			.expireAfterAccess(Settings.I.User_Wechat_Cache_Expire_Time, TimeUnit.SECONDS)
 			.build(new ValueLoader());
 
 	private static class ValueLoader extends CacheLoader<String, User> {
