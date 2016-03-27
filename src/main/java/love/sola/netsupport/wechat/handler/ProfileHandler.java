@@ -52,7 +52,7 @@ public class ProfileHandler implements WxMpMessageHandler, OAuth2Handler {
 				session.setAttribute(Attribute.WECHAT, user);
 				Redirect.error().icon(Redirect.WeUIIcon.INFO).noButton()
 						.title(lang("Need_Register_Title")).msg(lang("Need_Register"))
-						.to(format(lang("User_Register_Link"), session.getId())).go(resp);
+						.to(format("User_Register_Link", session.getId())).go(resp);
 				return;
 			}
 			session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
