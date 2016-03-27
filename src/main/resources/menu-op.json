@@ -19,9 +19,9 @@
           "key": "CANCEL"
         },
         {
-          "type": "click",
+          "type": "view",
           "name": "修改资料",
-          "key": "PROFILE"
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb7a8b799e494b053&redirect_uri=http%3a%2f%2fwcs.sola.love%2foauth2%2fcallback&response_type=code&scope=snsapi_base&state=PROFILE#wechat_redirect"
         }
       ]
     },
