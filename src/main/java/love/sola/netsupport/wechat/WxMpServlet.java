@@ -1,6 +1,9 @@
 package love.sola.netsupport.wechat;
 
+import love.sola.netsupport.auth.OAuth2;
+import love.sola.netsupport.auth.OAuth2Handler;
 import love.sola.netsupport.config.Settings;
+import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.wechat.handler.RegisterHandler;
 import love.sola.netsupport.wechat.handler.SubscribeHandler;
 import love.sola.netsupport.wechat.matcher.CheckSpamMatcher;
@@ -86,6 +89,9 @@ public class WxMpServlet extends HttpServlet {
 			WxMpMessageHandler handler = c.handler.newInstance();
 			router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).rContent(c.regex).handler(handler).end();
 			router.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_CLICK).eventKey(c.name()).handler(handler).end();
+			if (handler instanceof OAuth2Handler) {
+				OAuth2.registerOAuth2Handler(c.name(), (OAuth2Handler) handler);
+			}
 		}
 	}
 
@@ -153,4 +159,8 @@ public class WxMpServlet extends HttpServlet {
 		doPost(req, resp);
 	}
 
+	@Override
+	public void destroy() {
+		SQLCore.destroy();
+	}
 }

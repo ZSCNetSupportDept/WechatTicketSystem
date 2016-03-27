@@ -3,7 +3,6 @@ package love.sola.netsupport.util;
 import love.sola.netsupport.enums.Status;
 import love.sola.netsupport.pojo.Ticket;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 
 import static love.sola.netsupport.config.Lang.lang;
@@ -30,11 +29,4 @@ public class ParseUtil {
 		return sb.toString();
 	}
 
-	public static String parseJsonP(HttpServletRequest request, String json) {
-		String jsonp = request.getParameter("jsonp");
-		if (jsonp == null || jsonp.isEmpty())
-			return json;
-		else
-			return jsonp.replace("{0}", json);
-	}
 }

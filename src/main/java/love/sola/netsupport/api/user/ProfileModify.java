@@ -1,25 +1,17 @@
 package love.sola.netsupport.api.user;
 
-import com.google.gson.Gson;
-import love.sola.netsupport.api.Response;
+import love.sola.netsupport.api.API;
+import love.sola.netsupport.api.Error;
+import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
-import love.sola.netsupport.sql.SQLCore;
+import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.TableUser;
-import love.sola.netsupport.util.Checker;
-import love.sola.netsupport.util.ParseUtil;
 import love.sola.netsupport.wechat.Command;
-import me.chanjar.weixin.common.session.WxSession;
 import org.hibernate.exception.ConstraintViolationException;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 import static love.sola.netsupport.util.Checker.*;
 
@@ -29,44 +21,28 @@ import static love.sola.netsupport.util.Checker.*;
  * Don't modify this source without my agreement
  * ***********************************************
  */
-@WebServlet(name = "ProfileModify", urlPatterns = "/api/profilemodify", loadOnStartup = 22)
-public class ProfileModify extends HttpServlet {
+public class ProfileModify extends API {
 
-	private Gson gson = SQLCore.gson;
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+	public ProfileModify() {
+		url = "/profilemodify";
+		access = Access.USER;
+		authorize = Command.PROFILE;
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "application/json;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		String json = gson.toJson(process(request));
-		out.println(ParseUtil.parseJsonP(request, json));
-		out.close();
-	}
-
-	private Response process(HttpServletRequest request) {
-		WxSession session = Checker.isAuthorized(request, Command.PROFILE);
-		if (session == null) {
-			return new Response(Response.ResponseCode.UNAUTHORIZED);
-		}
-		User u = (User) session.getAttribute(Attribute.USER);
-		if (u == null) return new Response(Response.ResponseCode.UNAUTHORIZED);
-
-		ISP isp = checkISP(request.getParameter("isp"));
-		String netAccount = checkNetAccount(request.getParameter("username"), isp);
-		int block = checkBlock(request.getParameter("block"));
-		int room = checkRoom(request.getParameter("room"), block);
-		long phone = checkPhoneNumber(request.getParameter("phone"));
+	@Override
+	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+		User u = session.getAttribute(Attribute.USER);
+		ISP isp = checkISP(req.getParameter("isp"));
+		String netAccount = checkNetAccount(req.getParameter("username"), isp);
+		int block = checkBlock(req.getParameter("block"));
+		int room = checkRoom(req.getParameter("room"), block);
+		long phone = checkPhoneNumber(req.getParameter("phone"));
 		if (room == -1)
-			return new Response(Response.ResponseCode.REQUEST_FAILED, "Invalid_Room");
+			return Error.INVALID_PARAMETER.withMsg("Invalid_Room");
 		if (phone == -1)
-			return new Response(Response.ResponseCode.REQUEST_FAILED, "Invalid_Phone_Number");
+			return Error.INVALID_PARAMETER.withMsg("Invalid_Phone_Number");
 		if (netAccount == null)
-			return new Response(Response.ResponseCode.REQUEST_FAILED, "Invalid_Account");
+			return Error.INVALID_PARAMETER.withMsg("Invalid_Account");
 
 		u.setIsp(isp);
 		u.setNetAccount(netAccount);
@@ -77,12 +53,9 @@ public class ProfileModify extends HttpServlet {
 			TableUser.update(u);
 		} catch (ConstraintViolationException e) {
 			String dupKey = e.getConstraintName();
-			return new Response(Response.ResponseCode.REQUEST_FAILED, "Duplicated_" + dupKey.toUpperCase());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Response(Response.ResponseCode.INTERNAL_ERROR, e.getMessage());
+			return Error.INVALID_PARAMETER.withMsg("Duplicated_" + dupKey.toUpperCase());
 		}
 		session.invalidate();
-		return new Response(Response.ResponseCode.OK);
+		return Error.OK;
 	}
 }

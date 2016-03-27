@@ -1,6 +1,5 @@
 package love.sola.netsupport.wechat.handler.admin;
 
-import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.sql.TableOperator;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -29,10 +28,10 @@ public class OperatorInfoHandler implements WxMpMessageHandler {
 		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
 		try {
 			Operator op = TableOperator.get(wxMessage.getFromUserName());
-			if (op == null)
+			if (op == null) {
 				out.content(lang("Not_Operator"));
-			else if (op.getAccess() == Access.NOLOGIN) {
-				out.content(lang("No_Login"));
+//			} else if (op.getAccess() >= Access.NO_LOGIN) {
+//				out.content(lang("No_Login"));
 			} else {
 				out.content(format("Operator_Info", op.getId(), op.getName(), op.getAccess(), op.getBlock(), op.getWeek()));
 			}

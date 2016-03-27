@@ -42,28 +42,34 @@ User_Cancel_Remark: '用户手动取消报修。'
 Cancel_Failed: '取消失败。'
 #Modify
 Profile_Modify: '<a href="{0}">> 点此修改资料 <</a>'
+Need_Register_Title: '尚未进行微信绑定'
+Need_Register: '您尚未进行微信绑定，3秒后将自动跳转至微信绑定页面。'
 #Login
+Home_Page_Msg: '<a href="{0}">CLICK HERE</a>'
 Not_Operator: '嘟嘟嘟……'
+Not_Operator_OAuth2: '看起来你并不是我们网维大家族的一员，但我们随时都欢迎你的加入哦！'
 No_Login: 'Permission Denied.'
+Left_Operator_Title: '一路上有你'
+Left_Operator: '网络维护科的茁壮成长离不开每一位成员的陪伴。一路上有你，感谢你对网络维护科的贡献！'
 Internal_Error: '啊哦，登录失败了哦。'
 #Operator_Info
 Operator_Info: |
                   网维成员资料:
                   网维ID: {0,number,#}
                   姓名: {1}
-                  岗位: {2,choice,0#'Administrator >ω<'|3#值班组长|6#正式成员|7#实习成员|}
+                  岗位: {2,choice,0#'Administrator >ω<'|3#值班组长|6#正式成员|7#实习成员|9#'曾经的一员(TдT)'}
                   值班片区: {3,choice,0#'全图 >ω<'|1#岐头片区|2#北门片区|3#东门片区|4#香灰片区|5#凤翔片区}
                   值班日: {4,choice,0#'2月30日 >ω<'|1#周一|2#周二|3#周三|4#周四|5#周五|6#周六|7#周日}
 
-                  若以上信息有误，请及时联系@15-排污-沙子森。
+                  若以上信息有误，请及时联系@15-沙子森。
 #URL
-User_Register_Link: 'http://topaz.sinaapp.com/nm/v1/reg.html?token={0}'
-User_Query_Link: 'http://topaz.sinaapp.com/nm/v1/list.html?token={0}'
-User_Submit_Link: 'http://topaz.sinaapp.com/nm/v1/rrepair.html?token={0}&name={1}&isp={2}&room={3}&block={4}&phone={5,number,#}'
-User_Profile_Link: 'http://topaz.sinaapp.com/nm/v1/modi.html?token={0}&name={1}&isp={2}&username={3}&block={4}&room={5}&phone={6,number,#}'
-Result_Page: 'http://topaz.sinaapp.com/nm/v1/result.html'
-Operator_Home_Page: '<a href="http://topaz.sinaapp.com/nm/v1/man/home.html?token={0}">CLICK HERE</a>'
-Operator_Login_Page: 'http://topaz.sinaapp.com/nm/v1/man/login.html?pkey={0}'
+User_Register_Link: 'http://topaz.sinaapp.com/nm/v2/user/reg.html?token={0}'
+User_Query_Link: 'http://topaz.sinaapp.com/nm/v2/user/list.html?token={0}'
+User_Submit_Link: 'http://topaz.sinaapp.com/nm/v2/user/rrepair.html?token={0}&name={1}&isp={2}&room={3}&block={4}&phone={5,number,#}'
+User_Profile_Link: 'http://topaz.sinaapp.com/nm/v2/user/modi.html?token={0}&name={1}&isp={2}&username={3}&block={4}&room={5}&phone={6,number,#}'
+Result_Page: 'http://topaz.sinaapp.com/nm/v2/result.html'
+Operator_Home_Page: 'http://topaz.sinaapp.com/nm/v2/man/home.html?token={0}'
+Operator_Login_Page: 'http://topaz.sinaapp.com/nm/v2/man/login.html?pkey={0}'
 
 #Localized
 #Status

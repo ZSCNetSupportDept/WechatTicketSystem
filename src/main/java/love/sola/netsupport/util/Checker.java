@@ -1,13 +1,7 @@
 package love.sola.netsupport.util;
 
-import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.enums.Block;
 import love.sola.netsupport.enums.ISP;
-import love.sola.netsupport.wechat.Command;
-import love.sola.netsupport.wechat.WechatSession;
-import me.chanjar.weixin.common.session.WxSession;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * ***********************************************
@@ -23,13 +17,6 @@ public class Checker {
 	public static boolean hasNull(Object... v) {
 		for (Object o : v) if (o == null) return true;
 		return false;
-	}
-
-	public static WxSession isAuthorized(HttpServletRequest r, Command c) {
-		String t = r.getParameter("token");
-		if (t == null || t.isEmpty()) return null;
-		WxSession s = WechatSession.get(t, false);
-		return s == null ? null : s.getAttribute(Attribute.AUTHORIZED) == c ? s : null;
 	}
 
 	public static long checkStudentId(String studentId) {
