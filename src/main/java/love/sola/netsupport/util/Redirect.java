@@ -45,12 +45,12 @@ public class Redirect {
 		}
 
 		public RedirectBuilder msg(String msg) {
-			sb.append("msg=").append(i18nThenEscape(msg)).append("&");
+			sb.append("msg=").append(escape(msg)).append("&");
 			return this;
 		}
 
 		public RedirectBuilder title(String title) {
-			sb.append("title=").append(i18nThenEscape(title)).append("&");
+			sb.append("title=").append(escape(title)).append("&");
 			return this;
 		}
 
@@ -60,7 +60,7 @@ public class Redirect {
 		}
 
 		public RedirectBuilder button(String text) {
-			sb.append("btn=").append(i18nThenEscape(text)).append("&");
+			sb.append("btn=").append(escape(text)).append("&");
 			return this;
 		}
 
@@ -70,7 +70,7 @@ public class Redirect {
 		}
 
 		public RedirectBuilder to(String url) {
-			sb.append("redirect=").append(i18nThenEscape(url)).append("&");
+			sb.append("redirect=").append(escape(url)).append("&");
 			return this;
 		}
 
@@ -82,8 +82,8 @@ public class Redirect {
 			return sb.toString();
 		}
 
-		private static String i18nThenEscape(String str) {
-			return UrlEscapers.urlFragmentEscaper().escape(lang(str));
+		private static String escape(String str) {
+			return UrlEscapers.urlFragmentEscaper().escape(str);
 		}
 
 	}

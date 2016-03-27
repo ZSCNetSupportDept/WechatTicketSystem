@@ -62,12 +62,12 @@ public class LoginHandler implements WxMpMessageHandler, OAuth2Handler {
 			Operator operator = TableOperator.get(user);
 			if (operator == null) {
 				Redirect.error().icon(Redirect.WeUIIcon.WARN_SAFE).noButton()
-						.title("Not_Operator").msg("Not_Operator_OAuth2").go(resp);
+						.title(lang("Not_Operator")).msg(lang("Not_Operator_OAuth2")).go(resp);
 				return;
 			}
 			if (operator.getAccess() >= Access.NO_LOGIN) {
 				Redirect.error().icon(Redirect.WeUIIcon.WAITING).noButton()
-						.title("Left_Operator_Title").msg("Left_Operator").go(resp);
+						.title(lang("Left_Operator_Title")).msg(lang("Left_Operator")).go(resp);
 				return;
 			}
 			session.setAttribute(Attribute.AUTHORIZED, Command.LOGIN);
