@@ -39,7 +39,7 @@ public class OAuth2 extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		AsyncContext acxt = req.startAsync();
+		AsyncContext actx = req.startAsync();
 		String code = req.getParameter("code");
 		String state = req.getParameter("state");
 		if (Checker.hasNull(code, state)) {
@@ -51,14 +51,14 @@ public class OAuth2 extends HttpServlet {
 			resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
 			return;
 		}
-		acxt.start(() -> {
+		actx.start(() -> {
 			try {
 				WxMpService wxMpService = WxMpServlet.instance.wxMpService;
 				WxMpOAuth2AccessToken token = wxMpService.oauth2getAccessToken(code);
 				String wechat = token.getOpenId();
 				WxSession session = WechatSession.create();
-				handler.onOAuth2(acxt, (HttpServletResponse) acxt.getResponse(), wechat, session);
-				acxt.complete();
+				handler.onOAuth2(actx, (HttpServletResponse) actx.getResponse(), wechat, session);
+				actx.complete();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -57,7 +57,7 @@ public class LoginHandler implements WxMpMessageHandler, OAuth2Handler {
 
 
 	@Override
-	public void onOAuth2(AsyncContext acxt, HttpServletResponse resp, String user, WxSession session) {
+	public void onOAuth2(AsyncContext actx, HttpServletResponse resp, String user, WxSession session) {
 		try {
 			Operator operator = TableOperator.get(user);
 			if (operator == null) {

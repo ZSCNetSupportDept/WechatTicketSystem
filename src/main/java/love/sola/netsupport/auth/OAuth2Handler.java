@@ -13,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface OAuth2Handler {
 
-	void onOAuth2(AsyncContext acxt, HttpServletResponse resp, String user, WxSession session);
+	void onOAuth2(AsyncContext actx, HttpServletResponse resp, String user, WxSession session);
 
 }
