@@ -23,10 +23,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/12/12.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 
 @WebServlet(name = "Login", urlPatterns = "/api/admin/login", loadOnStartup = 12)

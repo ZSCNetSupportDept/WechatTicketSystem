@@ -10,10 +10,7 @@ import love.sola.netsupport.enums.ISPConverter;
 import javax.persistence.*;
 
 /**
- * ***********************************************
- * Created by Sola on 2014/8/20.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 @Data
 @AllArgsConstructor

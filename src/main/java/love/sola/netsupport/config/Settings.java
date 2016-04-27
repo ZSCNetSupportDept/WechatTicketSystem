@@ -4,10 +4,7 @@ import lombok.ToString;
 import love.sola.netsupport.sql.TableConfig;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/11/23.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 @ToString
 public class Settings {

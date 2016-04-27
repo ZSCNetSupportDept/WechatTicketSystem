@@ -5,11 +5,11 @@ import org.junit.Test;
 /**
  * @author Sola {@literal <dev@sola.love>}
  */
-public class ReflectionTest {
+public class CortanaTest {
 
 	@Test
-	public void testLang() {
-		assert Lang.messages != null;
+	public void load() throws Exception {
+		Cortana.load();
 	}
 
 }

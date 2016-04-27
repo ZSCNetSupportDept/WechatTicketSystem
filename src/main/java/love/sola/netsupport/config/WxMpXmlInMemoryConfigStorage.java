@@ -8,6 +8,9 @@ import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 
 import java.io.InputStream;
 
+/**
+ * @author chanjarster
+ */
 @XStreamAlias("wechat-config")
 @ToString
 public class WxMpXmlInMemoryConfigStorage extends WxMpInMemoryConfigStorage {

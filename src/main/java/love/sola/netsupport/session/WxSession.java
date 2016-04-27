@@ -3,7 +3,7 @@ package love.sola.netsupport.session;
 import java.util.Set;
 
 /**
- * @author Sola
+ * @author Sola {@literal <dev@sola.love>}
  */
 public interface WxSession {
 

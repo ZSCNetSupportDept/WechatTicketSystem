@@ -18,10 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ***********************************************
- * Created by Sola on 2014/8/20.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 @WebServlet(name = "OAuth2", urlPatterns = "/oauth2/callback", loadOnStartup = 21, asyncSupported = true)
 public class OAuth2 extends HttpServlet {

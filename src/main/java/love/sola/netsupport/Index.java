@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * ***********************************************
- * Created by Sola on 2014/8/4.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 @WebServlet(name = "Index",urlPatterns = "/index",loadOnStartup = 1)
 public class Index extends HttpServlet {

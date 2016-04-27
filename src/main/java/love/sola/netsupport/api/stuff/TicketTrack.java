@@ -10,10 +10,7 @@ import love.sola.netsupport.wechat.Command;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/12/18.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class TicketTrack extends API {
 

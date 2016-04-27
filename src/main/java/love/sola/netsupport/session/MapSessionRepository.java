@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Sola
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class MapSessionRepository {
 

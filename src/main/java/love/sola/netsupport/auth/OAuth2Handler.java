@@ -6,10 +6,7 @@ import javax.servlet.AsyncContext;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * ***********************************************
- * Created by Sola on 2016/3/26.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public interface OAuth2Handler {
 

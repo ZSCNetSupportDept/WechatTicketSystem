@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * @author Sola
+ * @author Sola {@literal <dev@sola.love>}
  */
 @EqualsAndHashCode(of = "id")
 public final class MapSession implements WxSession, Serializable {

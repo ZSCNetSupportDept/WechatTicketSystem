@@ -8,6 +8,9 @@ import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
+/**
+ * @author Sola {@literal <dev@sola.love>}
+ */
 public class RSAUtil {
 
 
