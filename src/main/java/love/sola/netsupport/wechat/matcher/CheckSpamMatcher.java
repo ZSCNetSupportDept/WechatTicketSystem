@@ -10,10 +10,7 @@ import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import java.util.concurrent.TimeUnit;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/11/4.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class CheckSpamMatcher implements WxMpMessageMatcher {
 

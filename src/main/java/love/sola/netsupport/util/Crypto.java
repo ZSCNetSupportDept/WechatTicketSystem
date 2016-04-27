@@ -3,10 +3,7 @@ package love.sola.netsupport.util;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/12/6.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class Crypto {
 

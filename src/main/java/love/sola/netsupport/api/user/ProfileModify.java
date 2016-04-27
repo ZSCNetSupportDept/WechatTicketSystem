@@ -16,10 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import static love.sola.netsupport.util.Checker.*;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/12/15.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class ProfileModify extends API {
 

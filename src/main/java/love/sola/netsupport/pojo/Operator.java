@@ -12,10 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/12/6.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 
 @Data

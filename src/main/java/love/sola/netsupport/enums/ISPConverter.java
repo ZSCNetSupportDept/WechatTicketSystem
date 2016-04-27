@@ -3,6 +3,9 @@ package love.sola.netsupport.enums;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+/**
+ * @author Sola {@literal <dev@sola.love>}
+ */
 @Converter
 public class ISPConverter implements AttributeConverter<ISP, Integer> {
 

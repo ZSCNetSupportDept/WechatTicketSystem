@@ -24,10 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * ***********************************************
- * Created by Sola on 2016/2/27.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 @WebServlet(name = "APIRouter", urlPatterns = "/api/*", loadOnStartup = 11)
 public class APIRouter extends HttpServlet {

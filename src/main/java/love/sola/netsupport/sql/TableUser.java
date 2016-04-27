@@ -12,10 +12,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/11/10.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 @SuppressWarnings("Duplicates")
 public class TableUser extends SQLCore {

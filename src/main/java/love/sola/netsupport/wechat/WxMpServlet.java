@@ -24,10 +24,7 @@ import java.io.IOException;
 import static love.sola.netsupport.config.Lang.lang;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/11/2.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 @WebServlet(name = "WxMpServlet", urlPatterns = "/wechat", loadOnStartup = 99)
 public class WxMpServlet extends HttpServlet {

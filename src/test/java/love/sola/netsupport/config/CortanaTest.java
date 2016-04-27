@@ -3,10 +3,7 @@ package love.sola.netsupport.config;
 import org.junit.Test;
 
 /**
- * ***********************************************
- * Created by Sola on 2016/4/18.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class CortanaTest {
 

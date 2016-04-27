@@ -24,10 +24,7 @@ import java.sql.SQLException;
 import static love.sola.netsupport.util.Checker.*;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/11/29.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class Register extends API {
 

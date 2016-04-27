@@ -6,10 +6,7 @@ import org.reflections.Reflections;
 import java.util.Set;
 
 /**
- * ***********************************************
- * Created by Sola on 2016/3/26.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class ReflectionTest {
 

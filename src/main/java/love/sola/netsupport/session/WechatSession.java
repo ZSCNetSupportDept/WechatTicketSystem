@@ -4,10 +4,7 @@ package love.sola.netsupport.session;
 import java.util.Collection;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/12/14.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class WechatSession {
 

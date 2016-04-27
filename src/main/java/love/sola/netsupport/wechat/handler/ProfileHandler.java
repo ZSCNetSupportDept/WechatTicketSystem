@@ -24,10 +24,7 @@ import static love.sola.netsupport.config.Lang.format;
 import static love.sola.netsupport.config.Lang.lang;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/12/15.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class ProfileHandler implements WxMpMessageHandler, OAuth2Handler {
 
