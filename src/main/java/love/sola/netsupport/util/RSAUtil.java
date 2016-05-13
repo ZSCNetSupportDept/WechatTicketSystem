@@ -19,9 +19,9 @@ public class RSAUtil {
 	public static String publicKey_s;
 	public static String privateKey_s;
 
-    static {
-	    genKeyPair();
-    }
+	static {
+		genKeyPair();
+	}
 
 	public static void genKeyPair() {
 		try {
@@ -38,27 +38,27 @@ public class RSAUtil {
 	}
 
 	public static String encrypt(String value) {
-        try {
-	        Cipher cipher = Cipher.getInstance("RSA");
-	        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-	        byte[] encrypted = cipher.doFinal(value.getBytes(StandardCharsets.UTF_8));
-	        return Base64.encodeBase64String(encrypted);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
+		try {
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+			byte[] encrypted = cipher.doFinal(value.getBytes(StandardCharsets.UTF_8));
+			return Base64.encodeBase64String(encrypted);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
 
-    public static String decrypt(String encrypted) {
-        try {
-            Cipher cipher = Cipher.getInstance("RSA");
-	        cipher.init(Cipher.DECRYPT_MODE, privateKey);
-            byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
-	        return new String(original, StandardCharsets.UTF_8);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
+	public static String decrypt(String encrypted) {
+		try {
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.DECRYPT_MODE, privateKey);
+			byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
+			return new String(original, StandardCharsets.UTF_8);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
 
 }

@@ -7,7 +7,7 @@ import java.sql.*;
 /**
  * @author Sola {@literal <dev@sola.love>}
  */
-public class TableConfig extends SQLCore{
+public class TableConfig extends SQLCore {
 
 	public static final String KEY_SYS = "sys";
 
@@ -18,7 +18,8 @@ public class TableConfig extends SQLCore{
 			if (rs.next()) {
 				return gson.fromJson(rs.getString("data"), Settings.class);
 			}
-		} catch (SQLException e) { }
+		} catch (SQLException e) {
+		}
 		return null;
 	}
 

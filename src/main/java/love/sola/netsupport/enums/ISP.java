@@ -13,8 +13,7 @@ public enum ISP {
 	TELECOM(1, "^1[3|4|5|7|8][0-9]{9}$"),
 	UNICOM(2, "ZSZJLAN[0-9]{10}@16900\\.gd"),
 	CHINAMOBILE(3, "^1[3|4|5|7|8][0-9]{9}@139\\.gd$"),
-	OTHER(4, ".*"),
-	;
+	OTHER(4, ".*"),;
 
 	private static final Map<String, ISP> NAME_MAP = new HashMap<>();
 	private static final Map<Integer, ISP> ID_MAP = new HashMap<>();
@@ -52,6 +51,8 @@ public enum ISP {
 	}
 
 	@Override
-	public String toString() { return name; }
+	public String toString() {
+		return name;
+	}
 
 }

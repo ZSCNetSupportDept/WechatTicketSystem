@@ -27,7 +27,7 @@ public class Access {
 
 	public static final Map<Integer, String> inverseMap = new HashMap<>();
 
-	static{
+	static {
 		System.out.println("Loading Access...");
 		for (Field field : Access.class.getDeclaredFields()) {
 			if (field.getType().isAssignableFrom(Integer.TYPE)) {

@@ -20,7 +20,7 @@ public class Status {
 
 	public static final Map<Integer, String> inverseMap = new HashMap<>();
 
-	static{
+	static {
 		System.out.println("Loading Status...");
 		for (Field field : Status.class.getDeclaredFields()) {
 			if (field.getType().isAssignableFrom(Integer.TYPE)) {

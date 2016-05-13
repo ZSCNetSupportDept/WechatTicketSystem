@@ -32,6 +32,8 @@ public class Settings {
 	public int User_Wechat_Cache_Expire_Time;
 
 	//No arg constructor for Yaml.loadAs
-	public Settings() { I = this; }
+	public Settings() {
+		I = this;
+	}
 
 }

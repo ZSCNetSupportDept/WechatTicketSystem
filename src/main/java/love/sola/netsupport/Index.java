@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 /**
  * @author Sola {@literal <dev@sola.love>}
  */
-@WebServlet(name = "Index",urlPatterns = "/index",loadOnStartup = 1)
+@WebServlet(name = "Index", urlPatterns = "/index", loadOnStartup = 1)
 public class Index extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

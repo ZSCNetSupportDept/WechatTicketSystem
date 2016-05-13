@@ -19,9 +19,11 @@ public class ParseUtil {
 				.append(lang("Ticket_Info_Id")).append(t.getId()).append("\n")
 				.append(lang("Ticket_Info_Desc")).append(t.getDescription()).append("\n")
 				.append(lang("Ticket_Info_Submit_Time")).append(dateFormat.format(t.getSubmitTime())).append("\n");
-		if (t.getOperator() != null) sb.append(lang("Ticket_Info_Operator")).append(t.getOperator().getId()).append("\n");
+		if (t.getOperator() != null)
+			sb.append(lang("Ticket_Info_Operator")).append(t.getOperator().getId()).append("\n");
 		if (t.getRemark() != null) sb.append(lang("Ticket_Info_Remark")).append(t.getRemark()).append("\n");
-		if (t.getUpdateTime() != null) sb.append(lang("Ticket_Info_Update_Time")).append(dateFormat.format(t.getUpdateTime())).append("\n");
+		if (t.getUpdateTime() != null)
+			sb.append(lang("Ticket_Info_Update_Time")).append(dateFormat.format(t.getUpdateTime())).append("\n");
 		sb.append(lang("Ticket_Info_Status")).append(Status.getLocalized(t.getStatus()));
 		return sb.toString();
 	}

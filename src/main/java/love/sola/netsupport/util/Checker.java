@@ -32,7 +32,8 @@ public class Checker {
 		if (!phone.matches(PHONE_NUMBER_REGEX)) return -1;
 		try {
 			return Long.parseLong(phone);
-		} catch (NumberFormatException ignored) { }
+		} catch (NumberFormatException ignored) {
+		}
 		return -1;
 	}
 
@@ -40,7 +41,8 @@ public class Checker {
 		if (isp == null) return null;
 		try {
 			return ISP.fromId(Integer.parseInt(isp));
-		} catch (NumberFormatException ignored) { }
+		} catch (NumberFormatException ignored) {
+		}
 		return null;
 	}
 
@@ -59,7 +61,8 @@ public class Checker {
 				return b;
 			else
 				return -1;
-		} catch (NumberFormatException ignored) { }
+		} catch (NumberFormatException ignored) {
+		}
 		return -1;
 	}
 
@@ -72,7 +75,8 @@ public class Checker {
 				return i;
 			else
 				return -1;
-		} catch (NumberFormatException ignored) { }
+		} catch (NumberFormatException ignored) {
+		}
 		return -1;
 	}
 

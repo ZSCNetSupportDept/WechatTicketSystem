@@ -27,7 +27,8 @@ public class OAuth2 extends HttpServlet {
 
 	/**
 	 * for {@link love.sola.netsupport.wechat.WxMpServlet#registerCommands}
-	 * @param state the state key from open platform callback.
+	 *
+	 * @param state   the state key from open platform callback.
 	 * @param handler handler
 	 */
 	public static void registerOAuth2Handler(String state, OAuth2Handler handler) {

@@ -15,12 +15,12 @@ import java.io.InputStream;
 @ToString
 public class WxMpXmlInMemoryConfigStorage extends WxMpInMemoryConfigStorage {
 
-    @SuppressWarnings("unchecked")
-    public static <T> T fromXml(Class<T> clazz, InputStream is) {
-        XStream xstream = XStreamInitializer.getInstance();
-        xstream.alias("wechat-config", clazz);
-        xstream.processAnnotations(clazz);
-        return (T) xstream.fromXML(is);
-    }
+	@SuppressWarnings("unchecked")
+	public static <T> T fromXml(Class<T> clazz, InputStream is) {
+		XStream xstream = XStreamInitializer.getInstance();
+		xstream.alias("wechat-config", clazz);
+		xstream.processAnnotations(clazz);
+		return (T) xstream.fromXML(is);
+	}
 
 }
