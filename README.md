@@ -23,7 +23,7 @@ submit pull requests to `master` branch will be ignored.
 - Before you report a bug, please [search the issue tracker](https://github.com/ZSCNetSupportDept/WechatTicketSystem/issues) to see if someone has already reported the problem.
 - If the issue doesn’t already exist, [create a new issue](https://github.com/ZSCNetSupportDept/WechatTicketSystem/issues/new).
 - Please provide as much information as possible with the issue report, we like to know the version of FYoung4j that you are using, as well as your Operating System and JVM version.
-- If you need to paste code, or include a stack trace use Markdown `` ``` `` escapes before and after your text.
+- If you need to paste code, or include a stack trace use Markdown ```` ``` ```` escapes before and after your text.
 
 ##License
 WechatTicketSystem is distributed under the GNU Lesser General Public License v3.0 (LGPLv3).
