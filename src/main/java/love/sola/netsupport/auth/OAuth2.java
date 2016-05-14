@@ -1,3 +1,20 @@
+/*
+ * This file is part of WechatTicketSystem.
+ *
+ * WechatTicketSystem is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * WechatTicketSystem is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WechatTicketSystem.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package love.sola.netsupport.auth;
 
 import love.sola.netsupport.session.WechatSession;
@@ -18,10 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ***********************************************
- * Created by Sola on 2014/8/20.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 @WebServlet(name = "OAuth2", urlPatterns = "/oauth2/callback", loadOnStartup = 21, asyncSupported = true)
 public class OAuth2 extends HttpServlet {
@@ -30,7 +44,8 @@ public class OAuth2 extends HttpServlet {
 
 	/**
 	 * for {@link love.sola.netsupport.wechat.WxMpServlet#registerCommands}
-	 * @param state the state key from open platform callback.
+	 *
+	 * @param state   the state key from open platform callback.
 	 * @param handler handler
 	 */
 	public static void registerOAuth2Handler(String state, OAuth2Handler handler) {

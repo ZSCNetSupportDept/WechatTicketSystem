@@ -1,3 +1,20 @@
+/*
+ * This file is part of WechatTicketSystem.
+ *
+ * WechatTicketSystem is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * WechatTicketSystem is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WechatTicketSystem.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package love.sola.netsupport.wechat;
 
 import love.sola.netsupport.wechat.handler.*;
@@ -11,10 +28,7 @@ import java.util.Map;
 import static love.sola.netsupport.config.Lang.lang;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/11/26.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public enum Command {
 
@@ -24,8 +38,7 @@ public enum Command {
 	CANCEL(3, CancelHandler.class),
 	PROFILE(4, ProfileHandler.class),
 	LOGIN(10, LoginHandler.class),
-	OPERATOR_INFO(11, OperatorInfoHandler.class),
-	;
+	OPERATOR_INFO(11, OperatorInfoHandler.class),;
 
 	private static final Map<Integer, Command> ID_MAP = new HashMap<>();
 

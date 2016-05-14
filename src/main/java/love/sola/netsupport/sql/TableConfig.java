@@ -1,3 +1,20 @@
+/*
+ * This file is part of WechatTicketSystem.
+ *
+ * WechatTicketSystem is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * WechatTicketSystem is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WechatTicketSystem.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package love.sola.netsupport.sql;
 
 import love.sola.netsupport.config.Settings;
@@ -5,12 +22,9 @@ import love.sola.netsupport.config.Settings;
 import java.sql.*;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/11/10.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
-public class TableConfig extends SQLCore{
+public class TableConfig extends SQLCore {
 
 	public static final String KEY_SYS = "sys";
 
@@ -21,7 +35,8 @@ public class TableConfig extends SQLCore{
 			if (rs.next()) {
 				return gson.fromJson(rs.getString("data"), Settings.class);
 			}
-		} catch (SQLException e) { }
+		} catch (SQLException e) {
+		}
 		return null;
 	}
 

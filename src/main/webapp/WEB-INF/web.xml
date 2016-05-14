@@ -5,22 +5,22 @@
                              http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <!-- General description of your web application -->
+	<!-- General description of your web application -->
 
-    <display-name>Network Support Application</display-name>
-    <description>
-        If you have any problem, please contact loli@sola.love .
-    </description>
+	<display-name>Network Support Application</display-name>
+	<description>
+		If you have any problem, please contact loli@sola.love .
+	</description>
 
-    <welcome-file-list>
-        <welcome-file>index</welcome-file>
-    </welcome-file-list>
-    <error-page>
-        <location>/index</location>
-    </error-page>
+	<welcome-file-list>
+		<welcome-file>index</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<location>/index</location>
+	</error-page>
 
-    <session-config>
-        <session-timeout>10</session-timeout>    <!-- 30 minutes -->
-    </session-config>
+	<session-config>
+		<session-timeout>10</session-timeout>    <!-- 30 minutes -->
+	</session-config>
 
 </web-app>

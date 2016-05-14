@@ -26,6 +26,21 @@
       ]
     },
     {
+      "name": "工具箱",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "电信宽带查余额",
+          "url": "http://util.sola.love/yue.html"
+        },
+        {
+          "type": "view",
+          "name": "四六级成绩查询",
+          "url": "http://util.sola.love/cet.html"
+        }
+      ]
+    },
+    {
       "name": "OP",
       "sub_button": [
         {
@@ -37,6 +52,11 @@
           "type": "view",
           "name": "后台登录",
           "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb7a8b799e494b053&redirect_uri=http%3a%2f%2fwcs.sola.love%2foauth2%2fcallback&response_type=code&scope=snsapi_base&state=LOGIN#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "网维留言板",
+          "url": "http://wcs.sola.love/oauth2/go"
         }
       ]
     }

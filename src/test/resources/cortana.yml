@@ -1,0 +1,16 @@
+rules:
+  rule1:
+    regexp:
+      - 'single test'
+    replies:
+      - 'single test'
+  rule2:
+    regexp: ['inline test', 'inline test']
+    replies: ['inline test', 'inline test']
+  rule3:
+    regexp:
+      - 'multi line test'
+      - 'multi line test'
+    replies:
+      - 'multi line test'
+      - 'multi line test'

@@ -1,3 +1,20 @@
+/*
+ * This file is part of WechatTicketSystem.
+ *
+ * WechatTicketSystem is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * WechatTicketSystem is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WechatTicketSystem.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package love.sola.netsupport.util;
 
 import com.google.common.net.UrlEscapers;
@@ -8,10 +25,7 @@ import java.io.IOException;
 import static love.sola.netsupport.config.Lang.lang;
 
 /**
- * ***********************************************
- * Created by Sola on 2015/12/6.
- * Don't modify this source without my agreement
- * ***********************************************
+ * @author Sola {@literal <dev@sola.love>}
  */
 public class Redirect {
 
@@ -101,8 +115,7 @@ public class Redirect {
 		WARN("weui_icon_warn"),
 		WARN_SAFE("weui_icon_safe_warn"),
 		DOWNLOAD("weui_icon_download"),
-		CANCEL("weui_icon_cancel"),
-		;
+		CANCEL("weui_icon_cancel"),;
 
 		private String value;
 

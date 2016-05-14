@@ -24,6 +24,46 @@
           "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb7a8b799e494b053&redirect_uri=http%3a%2f%2fwcs.sola.love%2foauth2%2fcallback&response_type=code&scope=snsapi_base&state=PROFILE#wechat_redirect"
         }
       ]
+    },
+    {
+      "name": "工具箱",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "电信宽带查余额",
+          "url": "http://util.sola.love/yue.html"
+        },
+        {
+          "type": "view",
+          "name": "四六级成绩查询",
+          "url": "http://util.sola.love/cet.html"
+        }
+      ]
+    },
+    {
+      "name": "关于网维",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "网维留言板",
+          "url": "http://wcs.sola.love/oauth2/go"
+        },
+        {
+          "type": "view",
+          "name": "关于报修系统",
+          "url": "http://topaz.sinaapp.com/nm/v2/"
+        },
+        {
+          "type": "view",
+          "name": "联系我们",
+          "url": "http://topaz.sinaapp.com/nm/v2/404.html"
+        },
+        {
+          "type": "view",
+          "name": "关于网维",
+          "url": "http://topaz.sinaapp.com/nm/v2/404.html"
+        }
+      ]
     }
   ]
 }
