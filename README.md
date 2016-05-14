@@ -4,6 +4,7 @@ WechatTicketSystem is a basic ticket system for network maintaining, based on We
 ##Build
 ### Requirements
 - [Apache Maven](https://maven.apache.org/) (latest version recommended)
+
 ### Steps
 1. Clone the git repository `git clone https://github.com/ZSCNetSupportDept/WechatTicketSystem.git`
 2. Change dir to project root (where the `pom.xml` is)
