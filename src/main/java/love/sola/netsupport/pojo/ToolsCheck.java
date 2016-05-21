@@ -15,7 +15,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "toolschk")
+@Table(name = "toolschk", indexes = {
+		@Index(columnList = "block,chktime,status"),
+		@Index(columnList = "block,chktime")
+})
 @DynamicInsert
 public class ToolsCheck {
 
@@ -28,7 +31,6 @@ public class ToolsCheck {
 	private Integer block;
 	@Column(name = "chktime")
 	private Date checkTime = new Date();
-	@OrderColumn
 	private Integer status = 0;
 
 }
