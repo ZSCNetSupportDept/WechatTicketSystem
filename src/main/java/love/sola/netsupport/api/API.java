@@ -20,8 +20,11 @@ package love.sola.netsupport.api;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.wechat.Command;
+import org.apache.commons.lang3.time.DateUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
@@ -41,6 +44,22 @@ public abstract class API {
 				", access=" + Access.inverseMap.get(access) +
 				", authorize=" + authorize +
 				'}';
+	}
+
+	public static String getParameterWithDefault(String obj, String def) {
+		return obj == null ? def : obj;
+	}
+
+	public static Date getParameterAsDate(String obj, Date def) {
+		return obj == null ? def : new Date(Long.valueOf(obj));
+	}
+
+	public static Date getToday() {
+		return DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
+	}
+
+	public static Date getDay(Date date) {
+		return DateUtils.truncate(date, Calendar.DAY_OF_MONTH);
 	}
 
 }

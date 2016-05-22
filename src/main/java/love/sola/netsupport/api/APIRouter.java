@@ -131,6 +131,11 @@ public class APIRouter extends HttpServlet {
 		}
 	}
 
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req, resp);
+	}
+
 	private static WxSession getSession(HttpServletRequest req) {
 		String t = req.getParameter("token");
 		if (t == null || t.isEmpty()) return null;
