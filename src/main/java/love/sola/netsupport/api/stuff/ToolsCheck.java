@@ -82,8 +82,8 @@ public class ToolsCheck extends API {
 
 	private Object query(HttpServletRequest req, WxSession session) {
 		int status = Integer.valueOf(getParameterWithDefault(req.getParameter("status"), "0"));
-		Date after = getParameterAsDate(req.getParameter("after"), getToday());
-		Date before = getParameterAsDate(req.getParameter("before"), getToday());
+		Date after = getDay(getParameterAsDate(req.getParameter("after"), getToday()));
+		Date before = getDay(getParameterAsDate(req.getParameter("before"), getToday()));
 		before = DateUtils.addDays(before, 1);
 		int block = Integer.valueOf(getParameterWithDefault(req.getParameter("block"), "0"));
 		try (Session s = SQLCore.sf.openSession()) {
