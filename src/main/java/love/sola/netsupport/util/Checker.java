@@ -25,7 +25,7 @@ import love.sola.netsupport.enums.ISP;
  */
 public class Checker {
 
-	public static final String STUDENT_ID_REGEX = "^(2010|2012|2013|2014|2015)[0-9]{9}$";
+	public static final String STUDENT_ID_REGEX = "^(2010|2012|2013|2014|2015|2016)[0-9]{9}$";
 	public static final String PHONE_NUMBER_REGEX = "^1[34578][0-9]{9}$";
 
 	public static boolean hasNull(Object... v) {
