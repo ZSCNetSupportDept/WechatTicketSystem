@@ -70,6 +70,7 @@ public class Block {
 	public static final int[][] AVAILABLE = new int[62][0];
 
 	static {
+		// @formatter:off
 		// -------------------------------------------- //
 		// THANKS DATA PROVIDED BY Lai Juncheng
 		// -------------------------------------------- //
@@ -98,6 +99,7 @@ public class Block {
 		AVAILABLE[XH_C]     = new int[]{126, 226, 326, 426, 526, 626, 726, 826, 926, 1026, 1126, 1226};
 		AVAILABLE[XH_D]     = new int[]{128, 228, 328, 428, 528, 628, 728, 828, 928, 1028, 1128, 1228};
 		AVAILABLE[FX_6]     = new int[0];
+		// @formatter:on
 	}
 
 	public static boolean checkRoom(int block, int room) {
