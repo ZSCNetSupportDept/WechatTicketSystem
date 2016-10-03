@@ -51,17 +51,17 @@
         {
           "type": "view",
           "name": "关于报修系统",
-          "url": "http://topaz.sinaapp.com/nm/v2/"
+          "url": "http://s.wts.sola.love/nm/v2/"
         },
         {
           "type": "view",
           "name": "联系我们",
-          "url": "http://topaz.sinaapp.com/nm/v2/404.html"
+          "url": "http://s.wts.sola.love/nm/v2/404.html"
         },
         {
           "type": "view",
           "name": "关于网维",
-          "url": "http://topaz.sinaapp.com/nm/v2/404.html"
+          "url": "http://s.wts.sola.love/nm/v2/404.html"
         }
       ]
     }
