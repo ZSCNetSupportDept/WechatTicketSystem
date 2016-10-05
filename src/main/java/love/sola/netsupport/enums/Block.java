@@ -51,6 +51,15 @@ public class Block {
 	public static final int FX_4 = 53;
 	public static final int FX_5 = 54;
 	public static final int FX_6 = 55;
+	public static final int BS_1 = 60;
+	public static final int BS_2 = 61;
+	public static final int BS_3 = 62;
+	public static final int BS_4 = 63;
+	public static final int BS_5 = 64;
+	public static final int BS_6 = 65;
+	public static final int BS_7 = 66;
+	public static final int BS_8 = 67;
+	public static final int BS_9 = 68;
 
 	public static final Map<Integer, String> inverseMap = new HashMap<>();
 
@@ -67,7 +76,7 @@ public class Block {
 		}
 	}
 
-	public static final int[][] AVAILABLE = new int[62][0];
+	private static final int[][] AVAILABLE = new int[62][0];
 
 	static {
 		// @formatter:off
@@ -99,6 +108,15 @@ public class Block {
 		AVAILABLE[XH_C]     = new int[]{126, 226, 326, 426, 526, 626, 726, 826, 926, 1026, 1126, 1226};
 		AVAILABLE[XH_D]     = new int[]{128, 228, 328, 428, 528, 628, 728, 828, 928, 1028, 1128, 1228};
 		AVAILABLE[FX_6]     = new int[0];
+		AVAILABLE[BS_1]     = new int[]{102, 203, 301};
+		AVAILABLE[BS_2]     = new int[]{102, 203, 301};
+		AVAILABLE[BS_3]     = new int[]{103, 203, 302};
+		AVAILABLE[BS_4]     = new int[]{102, 203, 301};
+		AVAILABLE[BS_5]     = new int[]{102, 203, 301};
+		AVAILABLE[BS_6]     = new int[]{102, 203, 302};
+		AVAILABLE[BS_7]     = new int[]{102, 203, 301};
+		AVAILABLE[BS_8]     = new int[]{102, 203, 301};
+		AVAILABLE[BS_9]     = new int[]{103, 203, 302};
 		// @formatter:on
 	}
 
