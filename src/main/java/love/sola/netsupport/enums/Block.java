@@ -76,7 +76,7 @@ public class Block {
 		}
 	}
 
-	private static final int[][] AVAILABLE = new int[62][0];
+	private static final int[][] AVAILABLE = new int[70][0];
 
 	static {
 		// @formatter:off
