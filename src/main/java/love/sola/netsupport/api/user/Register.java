@@ -94,48 +94,7 @@ public class Register extends API {
 			String dupKey = e.getConstraintName();
 			return Error.INVALID_PARAMETER.withMsg("Duplicated_" + dupKey.toUpperCase()); // PHONE ACCOUNT WECHAT
 		}
-		// FIXME: 2015/12/30 Temporary converter
-		converterWithRetry(user);
 		return Error.OK;
-	}
-
-	public static void converterWithRetry(User u) {
-		Throwable last = null;
-		for (int i = 0; i < 3; i++) {
-			try {
-				converter(u);
-				return;
-			} catch (WxErrorException | SQLException e) {
-				last = e;
-			}
-		}
-		last.printStackTrace();
-		try {
-			WxMpServlet.instance.wxMpService.customMessageSend(WxMpCustomMessage.TEXT().toUser(u.getWechatId()).content("数据转换失败").build());
-		} catch (WxErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void converter(User u) throws WxErrorException, SQLException {
-		try (Connection conn = SQLCore.ds.getConnection()) {
-			PreparedStatement ps = conn.prepareStatement("SELECT wechat FROM `convert` WHERE id=?");
-			ps.setLong(1, u.getId());
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				WxMpServlet.instance.wxMpService
-						.userUpdateGroup(u.getWechatId(), 100L);
-				String old = rs.getString(1);
-				ps = conn.prepareStatement("UPDATE `operators` SET wechat=? WHERE wechat=?");
-				ps.setString(1, u.getWechatId());
-				ps.setString(2, old);
-				if (ps.executeUpdate() == 1) {
-					WxMpServlet.instance.wxMpService.customMessageSend(WxMpCustomMessage.TEXT().toUser(u.getWechatId()).content("数据转换成功").build());
-				} else {
-					WxMpServlet.instance.wxMpService.customMessageSend(WxMpCustomMessage.TEXT().toUser(u.getWechatId()).content("已进行过数据转换").build());
-				}
-			}
-		}
 	}
 
 }
