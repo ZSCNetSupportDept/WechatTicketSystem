@@ -11,6 +11,7 @@ REGEX_CANCEL: '^(?i)(Cancel)|(取消)|(撤销)|(qx)|(cx)$'
 REGEX_LOGIN: '^(?i)Authme$'
 REGEX_PROFILE: '^(?i)(EditProfile)|(修改资料)|(修改信息)|(xgzl)|(xgxx)$'
 REGEX_OPERATOR_INFO: '^(?i)(OpInfo)|(网维资料)|(wwzl)$'
+REGEX_SIGN: '^(?i)Auth (\d{4})$'
 
 #Misc
 Invalid_Operation: 'Whoops，本报修平台暂未开放聊天功能哦，请点击下方菜单选择你想进行的操作。'

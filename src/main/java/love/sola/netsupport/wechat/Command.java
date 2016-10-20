@@ -20,6 +20,7 @@ package love.sola.netsupport.wechat;
 import love.sola.netsupport.wechat.handler.*;
 import love.sola.netsupport.wechat.handler.admin.LoginHandler;
 import love.sola.netsupport.wechat.handler.admin.OperatorInfoHandler;
+import love.sola.netsupport.wechat.handler.admin.SignHandler;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 
 import java.util.HashMap;
@@ -38,7 +39,9 @@ public enum Command {
 	CANCEL(3, CancelHandler.class),
 	PROFILE(4, ProfileHandler.class),
 	LOGIN(10, LoginHandler.class),
-	OPERATOR_INFO(11, OperatorInfoHandler.class),;
+	OPERATOR_INFO(11, OperatorInfoHandler.class),
+	SIGN(12, SignHandler.class), //FIXME
+	;
 
 	private static final Map<Integer, Command> ID_MAP = new HashMap<>();
 

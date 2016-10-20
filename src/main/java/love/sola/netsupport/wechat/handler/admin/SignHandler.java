@@ -35,11 +35,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * @deprecated limited time only
  * @author Sola {@literal <dev@sola.love>}
  */
+@Deprecated
 public class SignHandler implements WxMpMessageHandler {
 
-	public static Pattern pat = Pattern.compile("(?i)^Auth (\\d{4})");
+	public static Pattern pat = Pattern.compile("^(?i)Auth (\\d{4})");
+	public static final int INVALID_ID = -1;
+	public static final int SIGNED_ID = -2;
 
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
@@ -52,10 +56,10 @@ public class SignHandler implements WxMpMessageHandler {
 			int id = Integer.parseInt(mat.group(1));
 			try (Connection conn = SQLCore.ds.getConnection()) {
 				switch (checkID(conn, id)) {
-					case -1:
+					case INVALID_ID:
 						out.content("无效ID。");
 						break root;
-					case -2:
+					case SIGNED_ID:
 						out.content("该ID已登记过。");
 						break root;
 				}
@@ -86,9 +90,9 @@ public class SignHandler implements WxMpMessageHandler {
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			return rs.getString("wechat") != null ? -2 : 0;
+			return rs.getString("wechat") != null ? SIGNED_ID : 0;
 		} else {
-			return -1;
+			return INVALID_ID;
 		}
 	}
 
