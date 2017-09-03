@@ -24,19 +24,11 @@ import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.session.WxSession;
-import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.wechat.Command;
-import love.sola.netsupport.wechat.WxMpServlet;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import org.hibernate.exception.ConstraintViolationException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import static love.sola.netsupport.util.Checker.*;
 
