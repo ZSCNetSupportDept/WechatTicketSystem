@@ -24,7 +24,7 @@ public class URLEncodeTest {
 						.title("Test Title")
 						.msg("Test Message")
 						.toString(),
-				equalTo("http://topaz.sinaapp.com/nm/v2/result.html?type=1&title=Test%20Title&msg=Test%20Message&")
+				equalTo("http://s.wts.sola.love/nm/v2/result.html?type=1&title=Test%20Title&msg=Test%20Message&")
 		);
 	}
 

@@ -131,6 +131,18 @@ public class APIRouter extends HttpServlet {
 		}
 	}
 
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req, resp);
+	}
+
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.addHeader("Access-Control-Allow-Method", "POST, GET, OPTIONS");
+		resp.addHeader("Access-Control-Allow-Origin", "*");
+		resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+	}
+
 	private static WxSession getSession(HttpServletRequest req) {
 		String t = req.getParameter("token");
 		if (t == null || t.isEmpty()) return null;

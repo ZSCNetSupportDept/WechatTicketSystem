@@ -17,7 +17,6 @@
 
 package love.sola.netsupport.wechat.handler;
 
-import love.sola.netsupport.api.user.Register;
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.User;
@@ -58,8 +57,6 @@ public class SubscribeHandler implements WxMpMessageHandler {
 			Operator op = TableOperator.get(fromUser);
 			if (op != null) {
 				wxMpService.userUpdateGroup(fromUser, 100L);
-			} else {
-				Register.converterWithRetry(u); //TODO remove me
 			}
 		} else {
 			session.setAttribute(Attribute.AUTHORIZED, Command.REGISTER);

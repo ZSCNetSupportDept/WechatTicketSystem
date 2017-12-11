@@ -14,7 +14,7 @@ public class ReflectionTest {
 	public void test() {
 		Reflections reflections = new Reflections(getClass().getPackage().getName());
 		Set<Class<? extends API>> set = reflections.getSubTypesOf(API.class);
-		assert set.size() == 14;
+		assert set.size() == 15;
 	}
 
 }

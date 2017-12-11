@@ -1,6 +1,9 @@
 #System Exception
 Access_Denied: 'Access denied.'
-Illegal_Request: "Access denied.\nYou are doing a illegal request, and our system has logged your behaviors.\nYou need to take this seriously, if you do this frequently, you may be banned from our system."
+Illegal_Request: |
+                    Access denied.
+                    You are doing an illegal request, and our system has logged your behaviors.
+                    You have to take this seriously, you may be banned from our system if you do this frequently.
 Unknown_Encrypt_Type: 'Unknown encrypt-type.'
 
 #Command Regex
@@ -11,9 +14,10 @@ REGEX_CANCEL: '^(?i)(Cancel)|(取消)|(撤销)|(qx)|(cx)$'
 REGEX_LOGIN: '^(?i)Authme$'
 REGEX_PROFILE: '^(?i)(EditProfile)|(修改资料)|(修改信息)|(xgzl)|(xgxx)$'
 REGEX_OPERATOR_INFO: '^(?i)(OpInfo)|(网维资料)|(wwzl)$'
+REGEX_SIGN: '^(?i)Auth (\d{4})$'
 
 #Misc
-Invalid_Operation: 'Whoops，报修姬找不到你想要的东西啦 (╯‵□′)╯︵┻━┻。'
+Invalid_Operation: 'Whoops，本报修平台暂未开放聊天功能哦，请点击下方菜单选择你想进行的操作。'
 Message_Spam: '你的打字速度太快了，喝一杯82年的Java压压惊吧。'
 #Subscribe
 Event_Subscribe: "欢迎使用电子科技大学中山学院网络维护科微信自助报修平台。\n\n{0}"
@@ -63,13 +67,13 @@ Operator_Info: |
 
                   若以上信息有误，请及时联系@15-沙子森。
 #URL
-User_Register_Link: 'http://topaz.sinaapp.com/nm/v2/user/reg.html?token={0}'
-User_Query_Link: 'http://topaz.sinaapp.com/nm/v2/user/list.html?token={0}'
-User_Submit_Link: 'http://topaz.sinaapp.com/nm/v2/user/rrepair.html?token={0}&name={1}&isp={2}&room={3}&block={4}&phone={5,number,#}'
-User_Profile_Link: 'http://topaz.sinaapp.com/nm/v2/user/modi.html?token={0}&name={1}&isp={2}&username={3}&block={4}&room={5}&phone={6,number,#}'
-Result_Page: 'http://topaz.sinaapp.com/nm/v2/result.html'
-Operator_Home_Page: 'http://topaz.sinaapp.com/nm/v2/man/home.html?token={0}'
-Operator_Login_Page: 'http://topaz.sinaapp.com/nm/v2/man/login.html?pkey={0}'
+User_Register_Link: 'http://wwbx.zsc.edu.cn/nm/v2/user/reg.html?token={0}'
+User_Query_Link: 'http://wwbx.zsc.edu.cn/nm/v2/user/list.html?token={0}'
+User_Submit_Link: 'http://wwbx.zsc.edu.cn/nm/v2/user/rrepair.html?token={0}&name={1}&isp={2}&room={3}&block={4}&phone={5,number,#}'
+User_Profile_Link: 'http://wwbx.zsc.edu.cn/nm/v2/user/modi.html?token={0}&name={1}&isp={2}&username={3}&block={4}&room={5}&phone={6,number,#}'
+Result_Page: 'http://wwbx.zsc.edu.cn/nm/v2/result.html'
+Operator_Home_Page: 'http://wwbx.zsc.edu.cn/nm/v2/man/home.html?token={0}'
+Operator_Login_Page: 'http://wwbx.zsc.edu.cn/nm/v2/man/login.html?pkey={0}'
 
 #Localized
 #Status

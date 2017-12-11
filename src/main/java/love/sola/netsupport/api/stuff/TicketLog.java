@@ -31,7 +31,6 @@ import org.hibernate.envers.query.AuditEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -68,10 +67,6 @@ public class TicketLog extends API {
 					.setMaxResults(limit)
 					.getResultList();
 		}
-	}
-
-	private static Date getToday() {
-		return DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
 	}
 
 }

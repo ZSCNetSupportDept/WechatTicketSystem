@@ -24,19 +24,11 @@ import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.session.WxSession;
-import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.wechat.Command;
-import love.sola.netsupport.wechat.WxMpServlet;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import org.hibernate.exception.ConstraintViolationException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import static love.sola.netsupport.util.Checker.*;
 
@@ -94,48 +86,7 @@ public class Register extends API {
 			String dupKey = e.getConstraintName();
 			return Error.INVALID_PARAMETER.withMsg("Duplicated_" + dupKey.toUpperCase()); // PHONE ACCOUNT WECHAT
 		}
-		// FIXME: 2015/12/30 Temporary converter
-		converterWithRetry(user);
 		return Error.OK;
-	}
-
-	public static void converterWithRetry(User u) {
-		Throwable last = null;
-		for (int i = 0; i < 3; i++) {
-			try {
-				converter(u);
-				return;
-			} catch (WxErrorException | SQLException e) {
-				last = e;
-			}
-		}
-		last.printStackTrace();
-		try {
-			WxMpServlet.instance.wxMpService.customMessageSend(WxMpCustomMessage.TEXT().toUser(u.getWechatId()).content("数据转换失败").build());
-		} catch (WxErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void converter(User u) throws WxErrorException, SQLException {
-		try (Connection conn = SQLCore.ds.getConnection()) {
-			PreparedStatement ps = conn.prepareStatement("SELECT wechat FROM `convert` WHERE id=?");
-			ps.setLong(1, u.getId());
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				WxMpServlet.instance.wxMpService
-						.userUpdateGroup(u.getWechatId(), 100L);
-				String old = rs.getString(1);
-				ps = conn.prepareStatement("UPDATE `operators` SET wechat=? WHERE wechat=?");
-				ps.setString(1, u.getWechatId());
-				ps.setString(2, old);
-				if (ps.executeUpdate() == 1) {
-					WxMpServlet.instance.wxMpService.customMessageSend(WxMpCustomMessage.TEXT().toUser(u.getWechatId()).content("数据转换成功").build());
-				} else {
-					WxMpServlet.instance.wxMpService.customMessageSend(WxMpCustomMessage.TEXT().toUser(u.getWechatId()).content("已进行过数据转换").build());
-				}
-			}
-		}
 	}
 
 }
