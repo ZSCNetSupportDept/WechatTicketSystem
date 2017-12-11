@@ -60,6 +60,7 @@ public class Block {
 	public static final int BS_7 = 66;
 	public static final int BS_8 = 67;
 	public static final int BS_9 = 68;
+	public static final int ZH = 80;
 
 	public static final Map<Integer, String> inverseMap = new HashMap<>();
 
@@ -76,7 +77,7 @@ public class Block {
 		}
 	}
 
-	private static final int[][] AVAILABLE = new int[70][0];
+	private static final int[][] AVAILABLE = new int[100][0];
 
 	static {
 		// @formatter:off
@@ -117,6 +118,7 @@ public class Block {
 		AVAILABLE[BS_7]     = new int[]{102, 203, 301};
 		AVAILABLE[BS_8]     = new int[]{102, 203, 301};
 		AVAILABLE[BS_9]     = new int[]{103, 203, 302};
+		AVAILABLE[ZH]       = new int[]{199, 299, 399, 499, 599, 699, 799, 899, 999, 1099, 1199, 1299, 1399};
 		// @formatter:on
 	}
 

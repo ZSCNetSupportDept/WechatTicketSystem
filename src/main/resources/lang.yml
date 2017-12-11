@@ -1,6 +1,9 @@
 #System Exception
 Access_Denied: 'Access denied.'
-Illegal_Request: "Access denied.\nYou are doing a illegal request, and our system has logged your behaviors.\nYou need to take this seriously, if you do this frequently, you may be banned from our system."
+Illegal_Request: |
+                    Access denied.
+                    You are doing an illegal request, and our system has logged your behaviors.
+                    You have to take this seriously, you may be banned from our system if you do this frequently.
 Unknown_Encrypt_Type: 'Unknown encrypt-type.'
 
 #Command Regex
