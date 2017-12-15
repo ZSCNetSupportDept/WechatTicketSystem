@@ -43,25 +43,25 @@ import static love.sola.netsupport.config.Lang.lang;
  */
 public class SubmitHandler implements WxMpMessageHandler {
 
-	@Override
-	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		User u = TableUser.getByWechat(wxMessage.getFromUserName());
-		if (TableTicket.hasOpen(u)) {
-			return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
-					.content(lang("Already_Opening_Ticket")).build();
-		}
-		WxSession session = WechatSession.create();
-		session.setAttribute(Attribute.AUTHORIZED, Command.SUBMIT);
-		session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
-		session.setAttribute(Attribute.USER, u);
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+        User u = TableUser.getByWechat(wxMessage.getFromUserName());
+        if (TableTicket.hasOpen(u)) {
+            return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
+                    .content(lang("Already_Opening_Ticket")).build();
+        }
+        WxSession session = WechatSession.create();
+        session.setAttribute(Attribute.AUTHORIZED, Command.SUBMIT);
+        session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
+        session.setAttribute(Attribute.USER, u);
 
-		NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-		WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
-		item.setTitle(lang("Submit_Title"));
-		item.setDescription(lang("Submit_Desc"));
-		item.setUrl(format("User_Submit_Link", session.getId(), u.getName(), u.getIsp().id, u.getRoom(), u.getBlock(), u.getPhone()));
-		out.addArticle(item);
-		return out.build();
-	}
+        NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
+        WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
+        item.setTitle(lang("Submit_Title"));
+        item.setDescription(lang("Submit_Desc"));
+        item.setUrl(format("User_Submit_Link", session.getId(), u.getName(), u.getIsp().id, u.getRoom(), u.getBlock(), u.getPhone()));
+        out.addArticle(item);
+        return out.build();
+    }
 
 }

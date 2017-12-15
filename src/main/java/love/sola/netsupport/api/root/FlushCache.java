@@ -31,16 +31,16 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class FlushCache extends API {
 
-	public FlushCache() {
-		url = "/root/flushcache";
-		access = Access.ROOT;
-		authorize = Command.LOGIN;
-	}
+    public FlushCache() {
+        url = "/root/flushcache";
+        access = Access.ROOT;
+        authorize = Command.LOGIN;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		TableUser.flushCache();
-		return Error.OK;
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        TableUser.flushCache();
+        return Error.OK;
+    }
 
 }

@@ -7,9 +7,9 @@ import org.junit.Test;
  */
 public class ReflectionTest {
 
-	@Test
-	public void testLang() {
-		assert Lang.messages != null;
-	}
+    @Test
+    public void testLang() {
+        assert Lang.messages != null;
+    }
 
 }

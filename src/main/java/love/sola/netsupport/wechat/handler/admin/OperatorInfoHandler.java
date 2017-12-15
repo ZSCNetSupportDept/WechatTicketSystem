@@ -37,23 +37,23 @@ import static love.sola.netsupport.config.Lang.lang;
  */
 public class OperatorInfoHandler implements WxMpMessageHandler {
 
-	@Override
-	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-		try {
-			Operator op = TableOperator.get(wxMessage.getFromUserName());
-			if (op == null) {
-				out.content(lang("Not_Operator"));
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+        TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
+        try {
+            Operator op = TableOperator.get(wxMessage.getFromUserName());
+            if (op == null) {
+                out.content(lang("Not_Operator"));
 //			} else if (op.getAccess() >= Access.NO_LOGIN) {
 //				out.content(lang("No_Login"));
-			} else {
-				out.content(format("Operator_Info", op.getId(), op.getName(), op.getAccess(), op.getBlock(), op.getWeek()));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			out.content(lang("Login_Error"));
-		}
-		return out.build();
-	}
+            } else {
+                out.content(format("Operator_Info", op.getId(), op.getName(), op.getAccess(), op.getBlock(), op.getWeek()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.content(lang("Login_Error"));
+        }
+        return out.build();
+    }
 
 }

@@ -37,32 +37,32 @@ import java.util.Date;
  */
 public class TicketUpdate extends API {
 
-	public TicketUpdate() {
-		url = "/admin/ticketupdate";
-		access = Access.MEMBER;
-		authorize = Command.LOGIN;
-	}
+    public TicketUpdate() {
+        url = "/admin/ticketupdate";
+        access = Access.MEMBER;
+        authorize = Command.LOGIN;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		String ticket = req.getParameter("ticket");
-		String remark = req.getParameter("remark");
-		String status = req.getParameter("status");
-		if (Checker.hasNull(ticket, remark, status)) return Error.PARAMETER_REQUIRED;
-		try (Session s = SQLCore.sf.openSession()) {
-			Operator op = session.getAttribute(Attribute.OPERATOR);
-			Ticket t = s.get(Ticket.class, Integer.parseInt(ticket));
-			if (t == null) {
-				return Error.TICKET_NOT_FOUND;
-			}
-			t.setOperator(op);
-			t.setRemark(remark);
-			t.setStatus(Integer.parseInt(status));
-			t.setUpdateTime(new Date());
-			s.beginTransaction();
-			s.update(t);
-			s.getTransaction().commit();
-			return t;
-		}
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        String ticket = req.getParameter("ticket");
+        String remark = req.getParameter("remark");
+        String status = req.getParameter("status");
+        if (Checker.hasNull(ticket, remark, status)) return Error.PARAMETER_REQUIRED;
+        try (Session s = SQLCore.sf.openSession()) {
+            Operator op = session.getAttribute(Attribute.OPERATOR);
+            Ticket t = s.get(Ticket.class, Integer.parseInt(ticket));
+            if (t == null) {
+                return Error.TICKET_NOT_FOUND;
+            }
+            t.setOperator(op);
+            t.setRemark(remark);
+            t.setStatus(Integer.parseInt(status));
+            t.setUpdateTime(new Date());
+            s.beginTransaction();
+            s.update(t);
+            s.getTransaction().commit();
+            return t;
+        }
+    }
 }

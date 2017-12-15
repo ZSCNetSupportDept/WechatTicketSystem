@@ -32,22 +32,22 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class TicketLookup extends API {
 
-	public TicketLookup() {
-		url = "/admin/ticketlookup";
-		access = Access.MEMBER;
-		authorize = Command.LOGIN;
-	}
+    public TicketLookup() {
+        url = "/admin/ticketlookup";
+        access = Access.MEMBER;
+        authorize = Command.LOGIN;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		Operator op = session.getAttribute(Attribute.OPERATOR);
-		int block;
-		if (req.getParameter("block") != null) {
-			block = Integer.parseInt(req.getParameter("block"));
-		} else {
-			block = op.getBlock();
-		}
-		return TableTicket.unsolvedByBlock(block);
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        Operator op = session.getAttribute(Attribute.OPERATOR);
+        int block;
+        if (req.getParameter("block") != null) {
+            block = Integer.parseInt(req.getParameter("block"));
+        } else {
+            block = op.getBlock();
+        }
+        return TableTicket.unsolvedByBlock(block);
+    }
 
 }

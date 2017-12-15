@@ -47,56 +47,56 @@ import java.util.concurrent.TimeUnit;
  */
 public class MapSessionRepository {
 
-	private final LoadingCache<String, MapSession> sessions;
+    private final LoadingCache<String, MapSession> sessions;
 
-	public MapSessionRepository() {
-		this(CacheBuilder.newBuilder()
-				.concurrencyLevel(4)
-				.maximumSize(65535)
-				.expireAfterAccess(Settings.I.User_Session_Max_Inactive, TimeUnit.SECONDS)
-				.build(new CacheLoader<String, MapSession>() {
-					       @Override
-					       public MapSession load(@Nonnull String key) throws Exception {
-						       return new MapSession(key);
-					       }
-				       }
-				)
-		);
-	}
+    public MapSessionRepository() {
+        this(CacheBuilder.newBuilder()
+                .concurrencyLevel(4)
+                .maximumSize(65535)
+                .expireAfterAccess(Settings.I.User_Session_Max_Inactive, TimeUnit.SECONDS)
+                .build(new CacheLoader<String, MapSession>() {
+                           @Override
+                           public MapSession load(@Nonnull String key) throws Exception {
+                               return new MapSession(key);
+                           }
+                       }
+                )
+        );
+    }
 
-	public MapSessionRepository(LoadingCache<String, MapSession> sessions) {
-		Validate.notNull(sessions);
-		this.sessions = sessions;
-	}
+    public MapSessionRepository(LoadingCache<String, MapSession> sessions) {
+        Validate.notNull(sessions);
+        this.sessions = sessions;
+    }
 
-	public void save(MapSession session) {
-		sessions.put(session.getId(), session);
-	}
+    public void save(MapSession session) {
+        sessions.put(session.getId(), session);
+    }
 
-	public MapSession getSession(String id) {
-		MapSession saved = sessions.getIfPresent(id);
-		if (saved == null) {
-			return null;
-		}
-		if (saved.isInvalidated()) {
-			delete(saved.getId());
-			return null;
-		}
-		return saved;
-	}
+    public MapSession getSession(String id) {
+        MapSession saved = sessions.getIfPresent(id);
+        if (saved == null) {
+            return null;
+        }
+        if (saved.isInvalidated()) {
+            delete(saved.getId());
+            return null;
+        }
+        return saved;
+    }
 
-	public void delete(String id) {
-		sessions.invalidate(id);
-	}
+    public void delete(String id) {
+        sessions.invalidate(id);
+    }
 
-	public MapSession createSession() {
-		MapSession session = new MapSession();
-		save(session);
-		return session;
-	}
+    public MapSession createSession() {
+        MapSession session = new MapSession();
+        save(session);
+        return session;
+    }
 
-	public Map<String, MapSession> asMap() {
-		return sessions.asMap();
-	}
+    public Map<String, MapSession> asMap() {
+        return sessions.asMap();
+    }
 
 }

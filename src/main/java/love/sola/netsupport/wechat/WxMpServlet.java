@@ -46,94 +46,94 @@ import static love.sola.netsupport.config.Lang.lang;
 @WebServlet(name = "WxMpServlet", urlPatterns = "/wechat", loadOnStartup = 99)
 public class WxMpServlet extends HttpServlet {
 
-	public static WxMpServlet instance;
-	protected WxMpInMemoryConfigStorage config;
-	public WxMpService wxMpService;
-	protected WxMpMessageRouter wxMpMessageRouter;
-	protected CheckSpamMatcher checkSpamMatcher;
+    public static WxMpServlet instance;
+    protected WxMpInMemoryConfigStorage config;
+    public WxMpService wxMpService;
+    protected WxMpMessageRouter wxMpMessageRouter;
+    protected CheckSpamMatcher checkSpamMatcher;
 
-	public WxMpServlet() {
-		instance = this;
-	}
+    public WxMpServlet() {
+        instance = this;
+    }
 
-	@Override
-	public void init() throws ServletException {
-		super.init();
+    @Override
+    public void init() throws ServletException {
+        super.init();
 
-		config = new WxMpInMemoryConfigStorage();
-		config.setAppId(Settings.I.Wechat_AppId);
-		config.setSecret(Settings.I.Wechat_Secret);
-		config.setToken(Settings.I.Wechat_Token);
-		config.setAesKey(Settings.I.Wechat_AesKey);
+        config = new WxMpInMemoryConfigStorage();
+        config.setAppId(Settings.I.Wechat_AppId);
+        config.setSecret(Settings.I.Wechat_Secret);
+        config.setToken(Settings.I.Wechat_Token);
+        config.setAesKey(Settings.I.Wechat_AesKey);
 
-		wxMpService = new WxMpServiceImpl();
-		wxMpService.setWxMpConfigStorage(config);
+        wxMpService = new WxMpServiceImpl();
+        wxMpService.setWxMpConfigStorage(config);
 
-		checkSpamMatcher = new CheckSpamMatcher();
-		wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
-		wxMpMessageRouter.rule()
-				.async(false)
-				.msgType(WxConsts.XML_MSG_EVENT)
-				.event(WxConsts.EVT_SUBSCRIBE)
-				.handler(new SubscribeHandler())
-				.end();
-		wxMpMessageRouter.rule()
-				.async(false)
-				.matcher(new CheckSpamMatcher())
-				.handler((wxMessage, context, wxMpService1, sessionManager)
-						-> WxMpXmlOutMessage.TEXT()
-						.fromUser(wxMessage.getToUserName())
-						.toUser(wxMessage.getFromUserName())
-						.content(lang("Message_Spam")).build())
-				.end();
-		wxMpMessageRouter.rule()
-				.async(false)
-				.matcher(new RegisterMatcher())
-				.handler(new RegisterHandler())
-				.end();
-		try {
-			registerCommands(wxMpMessageRouter);
-		} catch (IllegalAccessException | InstantiationException e) {
-			throw new ServletException(e);
-		}
-	}
+        checkSpamMatcher = new CheckSpamMatcher();
+        wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
+        wxMpMessageRouter.rule()
+                .async(false)
+                .msgType(WxConsts.XML_MSG_EVENT)
+                .event(WxConsts.EVT_SUBSCRIBE)
+                .handler(new SubscribeHandler())
+                .end();
+        wxMpMessageRouter.rule()
+                .async(false)
+                .matcher(new CheckSpamMatcher())
+                .handler((wxMessage, context, wxMpService1, sessionManager)
+                        -> WxMpXmlOutMessage.TEXT()
+                        .fromUser(wxMessage.getToUserName())
+                        .toUser(wxMessage.getFromUserName())
+                        .content(lang("Message_Spam")).build())
+                .end();
+        wxMpMessageRouter.rule()
+                .async(false)
+                .matcher(new RegisterMatcher())
+                .handler(new RegisterHandler())
+                .end();
+        try {
+            registerCommands(wxMpMessageRouter);
+        } catch (IllegalAccessException | InstantiationException e) {
+            throw new ServletException(e);
+        }
+    }
 
-	public static void registerCommands(WxMpMessageRouter router) throws IllegalAccessException, InstantiationException {
-		for (Command c : Command.values()) {
-			WxMpMessageHandler handler = c.handler.newInstance();
-			router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).rContent(c.regex).handler(handler).end();
-			router.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_CLICK).eventKey(c.name()).handler(handler).end();
-			if (handler instanceof OAuth2Handler) {
-				OAuth2.registerOAuth2Handler(c.name(), (OAuth2Handler) handler);
-			}
-		}
-	}
+    public static void registerCommands(WxMpMessageRouter router) throws IllegalAccessException, InstantiationException {
+        for (Command c : Command.values()) {
+            WxMpMessageHandler handler = c.handler.newInstance();
+            router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).rContent(c.regex).handler(handler).end();
+            router.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_CLICK).eventKey(c.name()).handler(handler).end();
+            if (handler instanceof OAuth2Handler) {
+                OAuth2.registerOAuth2Handler(c.name(), (OAuth2Handler) handler);
+            }
+        }
+    }
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		response.setContentType("text/html;charset=utf-8");
-		response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("text/html;charset=utf-8");
+        response.setStatus(HttpServletResponse.SC_OK);
 
-		String signature = request.getParameter("signature");
-		String nonce = request.getParameter("nonce");
-		String timestamp = request.getParameter("timestamp");
+        String signature = request.getParameter("signature");
+        String nonce = request.getParameter("nonce");
+        String timestamp = request.getParameter("timestamp");
 
-		if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
-			// Signature fail
-			response.getWriter().println(lang("Access_Denied"));
-			return;
-		}
+        if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
+            // Signature fail
+            response.getWriter().println(lang("Access_Denied"));
+            return;
+        }
 
-		String echostr = request.getParameter("echostr");
-		if (StringUtils.isNotBlank(echostr)) {
-			// validate request
-			response.getWriter().println(echostr);
-			return;
-		}
+        String echostr = request.getParameter("echostr");
+        if (StringUtils.isNotBlank(echostr)) {
+            // validate request
+            response.getWriter().println(echostr);
+            return;
+        }
 
-		String encryptType = StringUtils.isBlank(request.getParameter("encrypt_type")) ? "raw" : request.getParameter("encrypt_type");
+        String encryptType = StringUtils.isBlank(request.getParameter("encrypt_type")) ? "raw" : request.getParameter("encrypt_type");
 
 //		if ("raw".equals(encryptType)) {
 //			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
@@ -149,32 +149,32 @@ public class WxMpServlet extends HttpServlet {
 //			return;
 //		}
 
-		if ("aes".equals(encryptType)) {
-			String msgSignature = request.getParameter("msg_signature");
-			WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(request.getInputStream(), config, timestamp, nonce, msgSignature);
-			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-			if (outMessage == null) {
-				outMessage = WxMpXmlOutMessage.TEXT()
-						.fromUser(inMessage.getToUserName())
-						.toUser(inMessage.getFromUserName())
-						.content(lang("Invalid_Operation"))
-						.build();
-			}
-			response.getWriter().write(outMessage.toEncryptedXml(config));
-			return;
-		}
+        if ("aes".equals(encryptType)) {
+            String msgSignature = request.getParameter("msg_signature");
+            WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(request.getInputStream(), config, timestamp, nonce, msgSignature);
+            WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+            if (outMessage == null) {
+                outMessage = WxMpXmlOutMessage.TEXT()
+                        .fromUser(inMessage.getToUserName())
+                        .toUser(inMessage.getFromUserName())
+                        .content(lang("Invalid_Operation"))
+                        .build();
+            }
+            response.getWriter().write(outMessage.toEncryptedXml(config));
+            return;
+        }
 
-		response.getWriter().println(lang("Unknown_Encrypt_Type"));
-		return;
-	}
+        response.getWriter().println(lang("Unknown_Encrypt_Type"));
+        return;
+    }
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doPost(req, resp);
-	}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
+    }
 
-	@Override
-	public void destroy() {
-		SQLCore.destroy();
-	}
+    @Override
+    public void destroy() {
+        SQLCore.destroy();
+    }
 }

@@ -45,37 +45,37 @@ import static love.sola.netsupport.config.Lang.lang;
  */
 public class ProfileHandler implements WxMpMessageHandler, OAuth2Handler {
 
-	@Override
-	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		User u = TableUser.getByWechat(wxMessage.getFromUserName());
-		WxSession session = WechatSession.create();
-		session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
-		session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
-		session.setAttribute(Attribute.USER, u);
-		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-		out.content(format("Profile_Modify", format("User_Profile_Link", session.getId(), u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone())));
-		return out.build();
-	}
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+        User u = TableUser.getByWechat(wxMessage.getFromUserName());
+        WxSession session = WechatSession.create();
+        session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
+        session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
+        session.setAttribute(Attribute.USER, u);
+        TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
+        out.content(format("Profile_Modify", format("User_Profile_Link", session.getId(), u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone())));
+        return out.build();
+    }
 
-	@Override
-	public void onOAuth2(AsyncContext actx, HttpServletResponse resp, String user, WxSession session) {
-		try {
-			User u = TableUser.getByWechat(user);
-			if (u == null) {
-				session.setAttribute(Attribute.AUTHORIZED, Command.REGISTER);
-				session.setAttribute(Attribute.WECHAT, user);
-				Redirect.error().icon(Redirect.WeUIIcon.INFO).noButton()
-						.title(lang("Need_Register_Title")).msg(lang("Need_Register"))
-						.to(format("User_Register_Link", session.getId())).go(resp);
-				return;
-			}
-			session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
-			session.setAttribute(Attribute.WECHAT, user);
-			session.setAttribute(Attribute.USER, u);
-			resp.sendRedirect(format("User_Profile_Link", session.getId(), u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void onOAuth2(AsyncContext actx, HttpServletResponse resp, String user, WxSession session) {
+        try {
+            User u = TableUser.getByWechat(user);
+            if (u == null) {
+                session.setAttribute(Attribute.AUTHORIZED, Command.REGISTER);
+                session.setAttribute(Attribute.WECHAT, user);
+                Redirect.error().icon(Redirect.WeUIIcon.INFO).noButton()
+                        .title(lang("Need_Register_Title")).msg(lang("Need_Register"))
+                        .to(format("User_Register_Link", session.getId())).go(resp);
+                return;
+            }
+            session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
+            session.setAttribute(Attribute.WECHAT, user);
+            session.setAttribute(Attribute.USER, u);
+            resp.sendRedirect(format("User_Profile_Link", session.getId(), u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

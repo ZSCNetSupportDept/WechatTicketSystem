@@ -24,16 +24,16 @@ import java.util.Set;
  */
 public interface WxSession {
 
-	String getId();
+    String getId();
 
-	<T> T getAttribute(String name);
+    <T> T getAttribute(String name);
 
-	Set<String> getAttributeNames();
+    Set<String> getAttributeNames();
 
-	void setAttribute(String name, Object value);
+    void setAttribute(String name, Object value);
 
-	void removeAttribute(String name);
+    void removeAttribute(String name);
 
-	void invalidate();
+    void invalidate();
 
 }

@@ -40,45 +40,45 @@ import java.util.Map;
 @WebServlet(name = "OAuth2", urlPatterns = "/oauth2/callback", loadOnStartup = 21, asyncSupported = true)
 public class OAuth2 extends HttpServlet {
 
-	private static Map<String, OAuth2Handler> oAuth2HandlerMap = new HashMap<>();
+    private static Map<String, OAuth2Handler> oAuth2HandlerMap = new HashMap<>();
 
-	/**
-	 * for {@link love.sola.netsupport.wechat.WxMpServlet#registerCommands}
-	 *
-	 * @param state   the state key from open platform callback.
-	 * @param handler handler
-	 */
-	public static void registerOAuth2Handler(String state, OAuth2Handler handler) {
-		oAuth2HandlerMap.put(state, handler);
-	}
+    /**
+     * for {@link love.sola.netsupport.wechat.WxMpServlet#registerCommands}
+     *
+     * @param state   the state key from open platform callback.
+     * @param handler handler
+     */
+    public static void registerOAuth2Handler(String state, OAuth2Handler handler) {
+        oAuth2HandlerMap.put(state, handler);
+    }
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		AsyncContext actx = req.startAsync();
-		String code = req.getParameter("code");
-		String state = req.getParameter("state");
-		if (Checker.hasNull(code, state)) {
-			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-			return;
-		}
-		OAuth2Handler handler = oAuth2HandlerMap.get(state);
-		if (handler == null) {
-			resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
-			return;
-		}
-		actx.start(() -> {
-			try {
-				WxMpService wxMpService = WxMpServlet.instance.wxMpService;
-				WxMpOAuth2AccessToken token = wxMpService.oauth2getAccessToken(code);
-				String wechat = token.getOpenId();
-				WxSession session = WechatSession.create();
-				handler.onOAuth2(actx, (HttpServletResponse) actx.getResponse(), wechat, session);
-				actx.complete();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AsyncContext actx = req.startAsync();
+        String code = req.getParameter("code");
+        String state = req.getParameter("state");
+        if (Checker.hasNull(code, state)) {
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+        OAuth2Handler handler = oAuth2HandlerMap.get(state);
+        if (handler == null) {
+            resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
+            return;
+        }
+        actx.start(() -> {
+            try {
+                WxMpService wxMpService = WxMpServlet.instance.wxMpService;
+                WxMpOAuth2AccessToken token = wxMpService.oauth2getAccessToken(code);
+                String wechat = token.getOpenId();
+                WxSession session = WechatSession.create();
+                handler.onOAuth2(actx, (HttpServletResponse) actx.getResponse(), wechat, session);
+                actx.complete();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
-	}
+    }
 
 }

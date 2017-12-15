@@ -35,72 +35,72 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @deprecated limited time only
  * @author Sola {@literal <dev@sola.love>}
+ * @deprecated limited time only
  */
 @Deprecated
 public class SignHandler implements WxMpMessageHandler {
 
-	public static Pattern pat = Pattern.compile("^(?i)Auth (\\d{4})");
-	public static final int INVALID_ID = -1;
-	public static final int SIGNED_ID = -2;
+    public static Pattern pat = Pattern.compile("^(?i)Auth (\\d{4})");
+    public static final int INVALID_ID = -1;
+    public static final int SIGNED_ID = -2;
 
-	@Override
-	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		String msg = wxMessage.getContent();
-		TextBuilder out = WxMpXmlOutMessage.TEXT().toUser(wxMessage.getFromUserName()).fromUser(wxMessage.getToUserName());
-		Matcher mat = pat.matcher(msg);
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+        String msg = wxMessage.getContent();
+        TextBuilder out = WxMpXmlOutMessage.TEXT().toUser(wxMessage.getFromUserName()).fromUser(wxMessage.getToUserName());
+        Matcher mat = pat.matcher(msg);
 
-		root:
-		if (mat.find()) {
-			int id = Integer.parseInt(mat.group(1));
-			try (Connection conn = SQLCore.ds.getConnection()) {
-				switch (checkID(conn, id)) {
-					case INVALID_ID:
-						out.content("无效ID。");
-						break root;
-					case SIGNED_ID:
-						out.content("该ID已登记过。");
-						break root;
-				}
-				if (checkDuplicated(conn, wxMessage.getFromUserName())) {
-					out.content("你的微信已经登记过。");
-					break root;
-				}
-				PreparedStatement ps = conn.prepareStatement("UPDATE auth SET wechat=? WHERE id=?");
-				ps.setString(1, wxMessage.getFromUserName());
-				ps.setInt(2, id);
-				if (ps.executeUpdate() == 1) {
-					out.content("登记成功。");
-				} else {
-					out.content("登记失败，请联系管理员。");
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				out.content("系统异常，请联系管理员。");
-			}
-		} else {
-			out.content("无效ID。");
-		}
-		return out.build();
-	}
+        root:
+        if (mat.find()) {
+            int id = Integer.parseInt(mat.group(1));
+            try (Connection conn = SQLCore.ds.getConnection()) {
+                switch (checkID(conn, id)) {
+                    case INVALID_ID:
+                        out.content("无效ID。");
+                        break root;
+                    case SIGNED_ID:
+                        out.content("该ID已登记过。");
+                        break root;
+                }
+                if (checkDuplicated(conn, wxMessage.getFromUserName())) {
+                    out.content("你的微信已经登记过。");
+                    break root;
+                }
+                PreparedStatement ps = conn.prepareStatement("UPDATE auth SET wechat=? WHERE id=?");
+                ps.setString(1, wxMessage.getFromUserName());
+                ps.setInt(2, id);
+                if (ps.executeUpdate() == 1) {
+                    out.content("登记成功。");
+                } else {
+                    out.content("登记失败，请联系管理员。");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                out.content("系统异常，请联系管理员。");
+            }
+        } else {
+            out.content("无效ID。");
+        }
+        return out.build();
+    }
 
-	private static int checkID(Connection conn, int id) throws SQLException {
-		PreparedStatement ps = conn.prepareStatement("SELECT wechat FROM auth WHERE id=?");
-		ps.setInt(1, id);
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			return rs.getString("wechat") != null ? SIGNED_ID : 0;
-		} else {
-			return INVALID_ID;
-		}
-	}
+    private static int checkID(Connection conn, int id) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("SELECT wechat FROM auth WHERE id=?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getString("wechat") != null ? SIGNED_ID : 0;
+        } else {
+            return INVALID_ID;
+        }
+    }
 
-	private static boolean checkDuplicated(Connection conn, String wechat) throws SQLException {
-		PreparedStatement ps = conn.prepareStatement("SELECT wechat FROM auth WHERE wechat=?");
-		ps.setString(1, wechat);
-		ResultSet rs = ps.executeQuery();
-		return rs.next();
-	}
+    private static boolean checkDuplicated(Connection conn, String wechat) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("SELECT wechat FROM auth WHERE wechat=?");
+        ps.setString(1, wechat);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    }
 
 }

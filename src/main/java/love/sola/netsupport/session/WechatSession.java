@@ -25,22 +25,22 @@ import java.util.Collection;
  */
 public class WechatSession {
 
-	private static MapSessionRepository repository;
+    private static MapSessionRepository repository;
 
-	static {
-		repository = new MapSessionRepository();
-	}
+    static {
+        repository = new MapSessionRepository();
+    }
 
-	public static WxSession get(String id) {
-		return repository.getSession(id);
-	}
+    public static WxSession get(String id) {
+        return repository.getSession(id);
+    }
 
-	public static WxSession create() {
-		return repository.createSession();
-	}
+    public static WxSession create() {
+        return repository.createSession();
+    }
 
-	public static Collection<? extends WxSession> list() {
-		return repository.asMap().values();
-	}
+    public static Collection<? extends WxSession> list() {
+        return repository.asMap().values();
+    }
 
 }

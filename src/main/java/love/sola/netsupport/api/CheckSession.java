@@ -30,26 +30,26 @@ import java.util.Map;
  */
 public class CheckSession extends API {
 
-	public CheckSession() {
-		url = "/checksession";
-		access = Access.GUEST;
-		authorize = null;
-	}
+    public CheckSession() {
+        url = "/checksession";
+        access = Access.GUEST;
+        authorize = null;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		String more = req.getParameter("more");
-		Map<String, Object> result = new HashMap<>();
-		result.put(Attribute.AUTHORIZED, session.getAttribute(Attribute.AUTHORIZED));
-		if (more != null) {
-			switch (more) {
-				case "1":
-					result.put(Attribute.USER, session.getAttribute(Attribute.USER));
-					result.put(Attribute.OPERATOR, session.getAttribute(Attribute.OPERATOR));
-					break;
-			}
-		}
-		return result;
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        String more = req.getParameter("more");
+        Map<String, Object> result = new HashMap<>();
+        result.put(Attribute.AUTHORIZED, session.getAttribute(Attribute.AUTHORIZED));
+        if (more != null) {
+            switch (more) {
+                case "1":
+                    result.put(Attribute.USER, session.getAttribute(Attribute.USER));
+                    result.put(Attribute.OPERATOR, session.getAttribute(Attribute.OPERATOR));
+                    break;
+            }
+        }
+        return result;
+    }
 
 }

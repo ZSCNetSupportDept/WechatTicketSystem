@@ -31,35 +31,35 @@ import java.util.Date;
  */
 public abstract class API {
 
-	public String url = null; //url
-	public int access = Access.GOD_MODE; //operator's permission
-	public Command authorize = null; //session check
+    public String url = null; //url
+    public int access = Access.GOD_MODE; //operator's permission
+    public Command authorize = null; //session check
 
-	protected abstract Object process(HttpServletRequest req, WxSession session) throws Exception;
+    protected abstract Object process(HttpServletRequest req, WxSession session) throws Exception;
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "{" +
-				"url='" + url + '\'' +
-				", access=" + Access.inverseMap.get(access) +
-				", authorize=" + authorize +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" +
+                "url='" + url + '\'' +
+                ", access=" + Access.inverseMap.get(access) +
+                ", authorize=" + authorize +
+                '}';
+    }
 
-	public static String getParameterWithDefault(String obj, String def) {
-		return obj == null ? def : obj;
-	}
+    public static String getParameterWithDefault(String obj, String def) {
+        return obj == null ? def : obj;
+    }
 
-	public static Date getParameterAsDate(String obj, Date def) {
-		return obj == null ? def : new Date(Long.valueOf(obj));
-	}
+    public static Date getParameterAsDate(String obj, Date def) {
+        return obj == null ? def : new Date(Long.valueOf(obj));
+    }
 
-	public static Date getToday() {
-		return DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
-	}
+    public static Date getToday() {
+        return DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
+    }
 
-	public static Date getDay(Date date) {
-		return DateUtils.truncate(date, Calendar.DAY_OF_MONTH);
-	}
+    public static Date getDay(Date date) {
+        return DateUtils.truncate(date, Calendar.DAY_OF_MONTH);
+    }
 
 }

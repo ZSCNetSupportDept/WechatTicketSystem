@@ -31,7 +31,7 @@ public class Settings {
     static {
         I = TableConfig.getSettings();
     }
-    
+
     public String Wechat_AppId;
     public String Wechat_Secret;
     public String Wechat_Token;
