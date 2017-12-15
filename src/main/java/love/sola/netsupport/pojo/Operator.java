@@ -18,10 +18,6 @@
 package love.sola.netsupport.pojo;
 
 import com.google.gson.annotations.Expose;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,16 +27,15 @@ import javax.persistence.Table;
 /**
  * @author Sola {@literal <dev@sola.love>}
  */
-
-@Data
-@ToString(exclude = "password")
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "operators")
 public class Operator {
 
 	public static final String PROPERTY_WECHAT = "wechat";
+
+	//System Accounts
+	public static Operator USER_SELF;
+	public static Operator ADMIN;
 
 	@Id
 	@Column(name = "id", nullable = false, insertable = false, updatable = false)
@@ -57,9 +52,84 @@ public class Operator {
 	@Expose(serialize = false)
 	private String password;
 
+	public Operator(Integer id, String name, Integer access, String wechat, Integer block, Integer week, String password) {
+		this.id = id;
+		this.name = name;
+		this.access = access;
+		this.wechat = wechat;
+		this.block = block;
+		this.week = week;
+		this.password = password;
+	}
 
-	//System Accounts
-	public static Operator USER_SELF;
-	public static Operator ADMIN;
+	public Operator() {
+	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getAccess() {
+		return access;
+	}
+
+	public void setAccess(Integer access) {
+		this.access = access;
+	}
+
+	public String getWechat() {
+		return wechat;
+	}
+
+	public void setWechat(String wechat) {
+		this.wechat = wechat;
+	}
+
+	public Integer getBlock() {
+		return block;
+	}
+
+	public void setBlock(Integer block) {
+		this.block = block;
+	}
+
+	public Integer getWeek() {
+		return week;
+	}
+
+	public void setWeek(Integer week) {
+		this.week = week;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "Operator{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", access=" + access +
+				", wechat='" + wechat + '\'' +
+				", block=" + block +
+				", week=" + week +
+				'}';
+	}
 }
