@@ -42,28 +42,28 @@ import static love.sola.netsupport.config.Lang.format;
  */
 public class SubscribeHandler implements WxMpMessageHandler {
 
-	@Override
-	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-		String fromUser = wxMessage.getFromUserName();
-		User u = TableUser.getByWechat(fromUser);
-		WxSession session = WechatSession.create();
-		if (u != null) {
-			session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
-			session.setAttribute(Attribute.WECHAT, fromUser);
-			session.setAttribute(Attribute.USER, u);
-			out.content(format("Event_Subscribe", format("Already_Registered", format("User_Profile_Link", session.getId(), u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone()))));
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+        TextBuilder out = WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
+        String fromUser = wxMessage.getFromUserName();
+        User u = TableUser.getByWechat(fromUser);
+        WxSession session = WechatSession.create();
+        if (u != null) {
+            session.setAttribute(Attribute.AUTHORIZED, Command.PROFILE);
+            session.setAttribute(Attribute.WECHAT, fromUser);
+            session.setAttribute(Attribute.USER, u);
+            out.content(format("Event_Subscribe", format("Already_Registered", format("User_Profile_Link", session.getId(), u.getName(), u.getIsp().id, u.getNetAccount(), u.getBlock(), u.getRoom(), u.getPhone()))));
 
-			Operator op = TableOperator.get(fromUser);
-			if (op != null) {
-				wxMpService.userUpdateGroup(fromUser, 100L);
-			}
-		} else {
-			session.setAttribute(Attribute.AUTHORIZED, Command.REGISTER);
-			session.setAttribute(Attribute.WECHAT, fromUser);
-			out.content(format("Event_Subscribe", format("User_Register", format("User_Register_Link", session.getId()))));
-		}
-		return out.build();
-	}
+            Operator op = TableOperator.get(fromUser);
+            if (op != null) {
+                wxMpService.userUpdateGroup(fromUser, 100L);
+            }
+        } else {
+            session.setAttribute(Attribute.AUTHORIZED, Command.REGISTER);
+            session.setAttribute(Attribute.WECHAT, fromUser);
+            out.content(format("Event_Subscribe", format("User_Register", format("User_Register_Link", session.getId()))));
+        }
+        return out.build();
+    }
 
 }

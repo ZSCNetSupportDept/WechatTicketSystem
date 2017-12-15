@@ -32,36 +32,36 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class GetUser extends API {
 
-	public GetUser() {
-		url = "/admin/getuser";
-		access = Access.LEADER;
-		authorize = Command.LOGIN;
-	}
+    public GetUser() {
+        url = "/admin/getuser";
+        access = Access.LEADER;
+        authorize = Command.LOGIN;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		String id = req.getParameter("id");
-		String name = req.getParameter("name");
-		if ((id == null || id.isEmpty()) && (name == null || name.isEmpty())) {
-			return Error.PARAMETER_REQUIRED;
-		}
-		if (id != null) {
-			try {
-				User u = TableUser.getById(Long.parseLong(id));
-				if (u == null)
-					return Error.USER_NOT_FOUND;
-				else
-					return u;
-			} catch (NumberFormatException e) {
-				return Error.ILLEGAL_PARAMETER;
-			}
-		} else {
-			User u = TableUser.getByName(name);
-			if (u == null)
-				return Error.USER_NOT_FOUND;
-			else
-				return u;
-		}
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        String id = req.getParameter("id");
+        String name = req.getParameter("name");
+        if ((id == null || id.isEmpty()) && (name == null || name.isEmpty())) {
+            return Error.PARAMETER_REQUIRED;
+        }
+        if (id != null) {
+            try {
+                User u = TableUser.getById(Long.parseLong(id));
+                if (u == null)
+                    return Error.USER_NOT_FOUND;
+                else
+                    return u;
+            } catch (NumberFormatException e) {
+                return Error.ILLEGAL_PARAMETER;
+            }
+        } else {
+            User u = TableUser.getByName(name);
+            if (u == null)
+                return Error.USER_NOT_FOUND;
+            else
+                return u;
+        }
+    }
 
 }

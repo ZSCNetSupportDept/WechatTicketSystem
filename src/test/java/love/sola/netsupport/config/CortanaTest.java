@@ -7,9 +7,9 @@ import org.junit.Test;
  */
 public class CortanaTest {
 
-	@Test
-	public void load() throws Exception {
-		Cortana.load();
-	}
+    @Test
+    public void load() throws Exception {
+        Cortana.load();
+    }
 
 }

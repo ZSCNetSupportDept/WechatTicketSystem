@@ -46,59 +46,59 @@ import java.io.PrintWriter;
 @WebServlet(name = "Login", urlPatterns = "/api/admin/login", loadOnStartup = 12)
 public class Login extends HttpServlet {
 
-	private Gson gson = SQLCore.gson;
+    private Gson gson = SQLCore.gson;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "application/json;charset=utf-8");
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		PrintWriter out = response.getWriter();
-		out.println(gson.toJson(login(request)));
-		out.close();
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
+        response.addHeader("Content-type", "application/json;charset=utf-8");
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        PrintWriter out = response.getWriter();
+        out.println(gson.toJson(login(request)));
+        out.close();
+    }
 
-	private Object login(HttpServletRequest request) {
-		try {
-			int oid = Integer.parseInt(request.getParameter("id"));
-			String password = request.getParameter("pass");
-			boolean bypass = request.getParameter("bypass") != null;
-			Operator op = TableOperator.get(oid);
-			if (op == null)
-				return Error.OPERATOR_NOT_FOUND;
-			else if (op.getAccess() >= Access.NO_LOGIN)
-				return Error.PERMISSION_DENIED;
+    private Object login(HttpServletRequest request) {
+        try {
+            int oid = Integer.parseInt(request.getParameter("id"));
+            String password = request.getParameter("pass");
+            boolean bypass = request.getParameter("bypass") != null;
+            Operator op = TableOperator.get(oid);
+            if (op == null)
+                return Error.OPERATOR_NOT_FOUND;
+            else if (op.getAccess() >= Access.NO_LOGIN)
+                return Error.PERMISSION_DENIED;
 
-			if (!Crypto.check(bypass ? password : RSAUtil.decrypt(password), op.getPassword())) {
-				return Error.WRONG_PASSWORD;
-			}
+            if (!Crypto.check(bypass ? password : RSAUtil.decrypt(password), op.getPassword())) {
+                return Error.WRONG_PASSWORD;
+            }
 
-			WxSession session = WechatSession.create();
-			if (bypass) {
-				session.setAttribute(Attribute.AUTHORIZED, Command.fromId(Integer.parseInt(request.getParameter("bypass"))));
-			} else {
-				session.setAttribute(Attribute.AUTHORIZED, Command.LOGIN);
-			}
+            WxSession session = WechatSession.create();
+            if (bypass) {
+                session.setAttribute(Attribute.AUTHORIZED, Command.fromId(Integer.parseInt(request.getParameter("bypass"))));
+            } else {
+                session.setAttribute(Attribute.AUTHORIZED, Command.LOGIN);
+            }
 
-			session.setAttribute(Attribute.WECHAT, op.getWechat());
-			session.setAttribute(Attribute.OPERATOR, op);
+            session.setAttribute(Attribute.WECHAT, op.getWechat());
+            session.setAttribute(Attribute.OPERATOR, op);
 
-			if (request.getParameter("bypassuser") != null) {
-				User u = TableUser.getById(Long.parseLong(request.getParameter("bypassuser")));
-				session.setAttribute(Attribute.USER, u);
-				session.setAttribute(Attribute.WECHAT, u.getWechatId());
-			}
-			if (request.getParameter("bypasswechat") != null) {
-				session.setAttribute(Attribute.WECHAT, request.getParameter("bypasswechat"));
-			}
-			return session.getId();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Error.INTERNAL_ERROR;
-		}
-	}
+            if (request.getParameter("bypassuser") != null) {
+                User u = TableUser.getById(Long.parseLong(request.getParameter("bypassuser")));
+                session.setAttribute(Attribute.USER, u);
+                session.setAttribute(Attribute.WECHAT, u.getWechatId());
+            }
+            if (request.getParameter("bypasswechat") != null) {
+                session.setAttribute(Attribute.WECHAT, request.getParameter("bypasswechat"));
+            }
+            return session.getId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Error.INTERNAL_ERROR;
+        }
+    }
 }

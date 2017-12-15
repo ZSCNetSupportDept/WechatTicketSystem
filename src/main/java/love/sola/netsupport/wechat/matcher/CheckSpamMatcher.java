@@ -31,27 +31,27 @@ import java.util.concurrent.TimeUnit;
  */
 public class CheckSpamMatcher implements WxMpMessageMatcher {
 
-	private class ValueLoader extends CacheLoader<String, Long> {
-		@Override
-		public Long load(String key) throws Exception {
-			return System.currentTimeMillis() + Settings.I.Check_Spam_Interval;
-		}
-	}
+    private class ValueLoader extends CacheLoader<String, Long> {
+        @Override
+        public Long load(String key) throws Exception {
+            return System.currentTimeMillis() + Settings.I.Check_Spam_Interval;
+        }
+    }
 
-	private LoadingCache<String, Long> cache = CacheBuilder.newBuilder()
-			.concurrencyLevel(4)
-			.maximumSize(4096)
-			.expireAfterWrite(Settings.I.Check_Spam_Cache_Expire_Time, TimeUnit.SECONDS)
-			.build(new ValueLoader());
+    private LoadingCache<String, Long> cache = CacheBuilder.newBuilder()
+            .concurrencyLevel(4)
+            .maximumSize(4096)
+            .expireAfterWrite(Settings.I.Check_Spam_Cache_Expire_Time, TimeUnit.SECONDS)
+            .build(new ValueLoader());
 
-	@Override
-	public boolean match(WxMpXmlMessage wxMessage) {
-		Long l = cache.getIfPresent(wxMessage.getFromUserName());
-		if (l != null && l > System.currentTimeMillis()) {
-			return true;
-		}
-		cache.refresh(wxMessage.getFromUserName());
-		return false;
-	}
+    @Override
+    public boolean match(WxMpXmlMessage wxMessage) {
+        Long l = cache.getIfPresent(wxMessage.getFromUserName());
+        if (l != null && l > System.currentTimeMillis()) {
+            return true;
+        }
+        cache.refresh(wxMessage.getFromUserName());
+        return false;
+    }
 
 }

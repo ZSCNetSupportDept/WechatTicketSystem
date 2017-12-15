@@ -41,64 +41,62 @@ import java.util.Date;
  */
 public class ToolsCheck extends API {
 
-	public ToolsCheck() {
-		url = "/admin/toolscheck";
-		access = Access.MEMBER;
-		authorize = Command.LOGIN;
-	}
+    public ToolsCheck() {
+        url = "/admin/toolscheck";
+        access = Access.MEMBER;
+        authorize = Command.LOGIN;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		if (req.getMethod().equals("GET")) {
-			return query(req, session);
-		} else if (req.getMethod().equals("POST")) {
-			return submit(req, session);
-		}
-		return null;
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        if (req.getMethod().equals("GET")) {
+            return query(req, session);
+        } else if (req.getMethod().equals("POST")) {
+            return submit(req, session);
+        }
+        return null;
+    }
 
-	private Object submit(HttpServletRequest req, WxSession session) {
-		Operator op = session.getAttribute(Attribute.OPERATOR);
-		int status = Integer.valueOf(getParameterWithDefault(req.getParameter("status"), "0"));
-		String remark = req.getParameter("remark");
-		if (status != 0 && StringUtils.isBlank(remark)) {
-			return Error.PARAMETER_REQUIRED;
-		}
-		try (Session s = SQLCore.sf.openSession()) {
-			s.beginTransaction();
-			s.save(new love.sola.netsupport.pojo.ToolsCheck(
-							null,
-							op,
-							op.getBlock(),
-							new Date(),
-							status,
-							remark
-					)
-			);
-			s.getTransaction().commit();
-			return Error.OK;
-		}
-	}
+    private Object submit(HttpServletRequest req, WxSession session) {
+        Operator op = session.getAttribute(Attribute.OPERATOR);
+        int status = Integer.valueOf(getParameterWithDefault(req.getParameter("status"), "0"));
+        String remark = req.getParameter("remark");
+        if (status != 0 && StringUtils.isBlank(remark)) {
+            return Error.PARAMETER_REQUIRED;
+        }
+        try (Session s = SQLCore.sf.openSession()) {
+            s.beginTransaction();
+            s.save(new love.sola.netsupport.pojo.ToolsCheck(
+                    op,
+                    op.getBlock(),
+                    new Date(),
+                    status,
+                    remark
+            ));
+            s.getTransaction().commit();
+            return Error.OK;
+        }
+    }
 
-	private Object query(HttpServletRequest req, WxSession session) {
-		int status = Integer.valueOf(getParameterWithDefault(req.getParameter("status"), "0"));
-		Date after = getDay(getParameterAsDate(req.getParameter("after"), getToday()));
-		Date before = getDay(getParameterAsDate(req.getParameter("before"), getToday()));
-		before = DateUtils.addDays(before, 1);
-		int block = Integer.valueOf(getParameterWithDefault(req.getParameter("block"), "0"));
-		try (Session s = SQLCore.sf.openSession()) {
-			Criteria query = s.createCriteria(love.sola.netsupport.pojo.ToolsCheck.class);
-			query.add(
-					Restrictions.sqlRestriction(
-							"{alias}.status & ? = ?",
-							new Object[]{status, status},
-							new Type[]{IntegerType.INSTANCE, IntegerType.INSTANCE}
-					)
-			);
-			query.add(Restrictions.between("checkTime", after, before));
-			if (block != 0) query.add(Restrictions.eq("block", block));
-			return query.list();
-		}
-	}
+    private Object query(HttpServletRequest req, WxSession session) {
+        int status = Integer.valueOf(getParameterWithDefault(req.getParameter("status"), "0"));
+        Date after = getDay(getParameterAsDate(req.getParameter("after"), getToday()));
+        Date before = getDay(getParameterAsDate(req.getParameter("before"), getToday()));
+        before = DateUtils.addDays(before, 1);
+        int block = Integer.valueOf(getParameterWithDefault(req.getParameter("block"), "0"));
+        try (Session s = SQLCore.sf.openSession()) {
+            Criteria query = s.createCriteria(love.sola.netsupport.pojo.ToolsCheck.class);
+            query.add(
+                    Restrictions.sqlRestriction(
+                            "{alias}.status & ? = ?",
+                            new Object[]{status, status},
+                            new Type[]{IntegerType.INSTANCE, IntegerType.INSTANCE}
+                    )
+            );
+            query.add(Restrictions.between("checkTime", after, before));
+            if (block != 0) query.add(Restrictions.eq("block", block));
+            return query.list();
+        }
+    }
 
 }

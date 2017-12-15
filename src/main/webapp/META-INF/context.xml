@@ -19,31 +19,31 @@
 <!-- Don't swallowOutput for debugging, true for logging(production) -->
 <Context antiResourceLocking="true">
 
-	<!-- Default set of monitored resources -->
-	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
 
-	<!-- Uncomment this to disable session persistence across Tomcat restarts -->
-	<!--
-	<Manager pathname="" />
-	-->
-	<Resource auth="Container"
-	          description="C3P0 database connection pool"
-	          driverClass="com.mysql.jdbc.Driver"
-	          maxPoolSize="10"
-	          minPoolSize="2"
-	          acquireIncrement="1"
-	          maxIdleTime="3600"
-	          idleConnectionTestPeriod="1800"
-	          name="jdbc/netsupport"
-	          user="root"
-	          password=""
-	          factory="org.apache.naming.factory.BeanFactory"
-	          type="com.mchange.v2.c3p0.ComboPooledDataSource"
-	          jdbcUrl="jdbc:mysql://localhost:3306/netsupport?autoReconnect=true&amp;characterEncoding=utf8"/>
-	<!-- Uncomment this to enable Comet connection tacking (provides events
-		 on session expiration as well as webapp lifecycle) -->
-	<!--
-	<Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
-	-->
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />
+    -->
+    <Resource auth="Container"
+              description="C3P0 database connection pool"
+              driverClass="com.mysql.jdbc.Driver"
+              maxPoolSize="10"
+              minPoolSize="2"
+              acquireIncrement="1"
+              maxIdleTime="3600"
+              idleConnectionTestPeriod="1800"
+              name="jdbc/netsupport"
+              user="root"
+              password=""
+              factory="org.apache.naming.factory.BeanFactory"
+              type="com.mchange.v2.c3p0.ComboPooledDataSource"
+              jdbcUrl="jdbc:mysql://localhost:3306/netsupport?autoReconnect=true&amp;characterEncoding=utf8"/>
+    <!-- Uncomment this to enable Comet connection tacking (provides events
+         on session expiration as well as webapp lifecycle) -->
+    <!--
+    <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
+    -->
 
 </Context>

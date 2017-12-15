@@ -17,9 +17,6 @@
 
 package love.sola.netsupport.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import love.sola.netsupport.sql.TableTicket;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
@@ -30,32 +27,119 @@ import java.util.Date;
 /**
  * @author Sola {@literal <dev@sola.love>}
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "tickets")
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class Ticket {
 
-	public static final String PROPERTY_USER = "user";
-	public static final String PROPERTY_STATUS = "status";
-	public static final String PROPERTY_SUBMIT_TIME = "submitTime";
+    public static final String PROPERTY_USER = "user";
+    public static final String PROPERTY_STATUS = "status";
+    public static final String PROPERTY_SUBMIT_TIME = "submitTime";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	@ManyToOne(optional = false)
-	@JoinColumn(name = TableTicket.COLUMN_SID)
-	private User user;
-	private String description;
-	@Column(name = TableTicket.COLUMN_SUBMIT_TIME, insertable = false, updatable = false)
-	private Date submitTime;
-	private String remark;
-	private Date updateTime;
-	@ManyToOne(optional = true)
-	@JoinColumn(name = TableTicket.COLUMN_OPSID)
-	private Operator operator;
-	private Integer status;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = TableTicket.COLUMN_SID)
+    private User user;
+    private String description;
+    @Column(name = TableTicket.COLUMN_SUBMIT_TIME, insertable = false, updatable = false)
+    private Date submitTime;
+    private String remark;
+    private Date updateTime;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = TableTicket.COLUMN_OPSID)
+    private Operator operator;
+    private Integer status;
 
+    public Ticket() {
+    }
+
+    public Ticket(User user, String description, Date submitTime, String remark, Date updateTime, Operator operator, Integer status) {
+        this.user = user;
+        this.description = description;
+        this.submitTime = submitTime;
+        this.remark = remark;
+        this.updateTime = updateTime;
+        this.operator = operator;
+        this.status = status;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(Date submitTime) {
+        this.submitTime = submitTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Operator getOperator() {
+        return operator;
+    }
+
+    public void setOperator(Operator operator) {
+        this.operator = operator;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", user=" + user +
+                ", description='" + description + '\'' +
+                ", submitTime=" + submitTime +
+                ", remark='" + remark + '\'' +
+                ", updateTime=" + updateTime +
+                ", operator=" + operator +
+                ", status=" + status +
+                '}';
+    }
 }

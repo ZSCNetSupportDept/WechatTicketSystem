@@ -26,9 +26,9 @@ import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
  */
 public class RegisterMatcher implements WxMpMessageMatcher {
 
-	@Override
-	public boolean match(WxMpXmlMessage message) {
-		return TableUser.getByWechat(message.getFromUserName()) == null;
-	}
+    @Override
+    public boolean match(WxMpXmlMessage message) {
+        return TableUser.getByWechat(message.getFromUserName()) == null;
+    }
 
 }

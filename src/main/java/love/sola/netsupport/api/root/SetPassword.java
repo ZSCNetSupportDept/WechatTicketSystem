@@ -34,30 +34,30 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SetPassword extends API {
 
-	public SetPassword() {
-		url = "/root/setpass";
-		access = Access.ROOT;
-		authorize = Command.LOGIN;
-	}
+    public SetPassword() {
+        url = "/root/setpass";
+        access = Access.ROOT;
+        authorize = Command.LOGIN;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		String id = req.getParameter("id");
-		String pass = req.getParameter("pass");
-		if (pass == null || pass.length() < 8) {
-			return Error.INVALID_PARAMETER;
-		}
-		try (Session s = SQLCore.sf.openSession()) {
-			s.beginTransaction();
-			Operator op = s.get(Operator.class, Integer.parseInt(id));
-			if (op == null) {
-				return Error.OPERATOR_NOT_FOUND;
-			}
-			op.setPassword(Crypto.hash(pass));
-			s.update(op);
-			s.getTransaction().commit();
-			return Error.OK;
-		}
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        String id = req.getParameter("id");
+        String pass = req.getParameter("pass");
+        if (pass == null || pass.length() < 8) {
+            return Error.INVALID_PARAMETER;
+        }
+        try (Session s = SQLCore.sf.openSession()) {
+            s.beginTransaction();
+            Operator op = s.get(Operator.class, Integer.parseInt(id));
+            if (op == null) {
+                return Error.OPERATOR_NOT_FOUND;
+            }
+            op.setPassword(Crypto.hash(pass));
+            s.update(op);
+            s.getTransaction().commit();
+            return Error.OK;
+        }
+    }
 
 }

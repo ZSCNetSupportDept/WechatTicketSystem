@@ -31,10 +31,10 @@ import java.util.Map;
  */
 public class AutoReplyHandler implements WxMpMessageHandler {
 
-	@Override
-	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		//TODO auto reply
-		return null;
-	}
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+        //TODO auto reply
+        return null;
+    }
 
 }

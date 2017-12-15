@@ -31,23 +31,23 @@ import java.util.Set;
  */
 public class DashBoard extends API {
 
-	public DashBoard() {
-		url = "/root/dashboard";
-		access = Access.ROOT;
-		authorize = Command.LOGIN;
-	}
+    public DashBoard() {
+        url = "/root/dashboard";
+        access = Access.ROOT;
+        authorize = Command.LOGIN;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		StringBuilder sb = new StringBuilder();
-		for (love.sola.netsupport.session.WxSession ws : WechatSession.list()) {
-			sb.append("=====").append(ws.getId()).append("=====\n");
-			Set<String> e = ws.getAttributeNames();
-			for (String key : e) {
-				sb.append(key).append(": ").append(ws.getAttribute(key).toString()).append("\n");
-			}
-		}
-		return sb.toString();
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        for (love.sola.netsupport.session.WxSession ws : WechatSession.list()) {
+            sb.append("=====").append(ws.getId()).append("=====\n");
+            Set<String> e = ws.getAttributeNames();
+            for (String key : e) {
+                sb.append(key).append(": ").append(ws.getAttribute(key).toString()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
 
 }

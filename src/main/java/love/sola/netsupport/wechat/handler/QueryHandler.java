@@ -46,26 +46,26 @@ import static love.sola.netsupport.config.Lang.lang;
 public class QueryHandler implements WxMpMessageHandler {
 
 
-	@Override
-	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		User u = TableUser.getByWechat(wxMessage.getFromUserName());
-		Ticket t = TableTicket.latest(u);
-		if (t == null) {
-			return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
-					.content(lang("No_Ticket_Available")).build();
-		}
-		WxSession session = WechatSession.create();
-		session.setAttribute(Attribute.AUTHORIZED, Command.QUERY);
-		session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
-		session.setAttribute(Attribute.USER, u);
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+        User u = TableUser.getByWechat(wxMessage.getFromUserName());
+        Ticket t = TableTicket.latest(u);
+        if (t == null) {
+            return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
+                    .content(lang("No_Ticket_Available")).build();
+        }
+        WxSession session = WechatSession.create();
+        session.setAttribute(Attribute.AUTHORIZED, Command.QUERY);
+        session.setAttribute(Attribute.WECHAT, wxMessage.getFromUserName());
+        session.setAttribute(Attribute.USER, u);
 
-		NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-		WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
-		item.setTitle(lang("Query_Title"));
-		item.setDescription(ParseUtil.parseTicket(t) + "\n" + lang("More_Details"));
-		item.setUrl(format("User_Query_Link", session.getId()));
-		out.addArticle(item);
-		return out.build();
-	}
+        NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
+        WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
+        item.setTitle(lang("Query_Title"));
+        item.setDescription(ParseUtil.parseTicket(t) + "\n" + lang("More_Details"));
+        item.setUrl(format("User_Query_Link", session.getId()));
+        out.addArticle(item);
+        return out.build();
+    }
 
 }

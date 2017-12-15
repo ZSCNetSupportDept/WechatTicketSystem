@@ -17,7 +17,6 @@
 
 package love.sola.netsupport.config;
 
-import lombok.Data;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
@@ -30,27 +29,31 @@ import java.util.regex.Pattern;
  */
 public class Cortana {
 
-	public static List<Compiled> entries;
+    public static List<Compiled> entries;
 
-	public static void load() {
-		InputStream in = Lang.class.getClassLoader().getResourceAsStream("cortana.yml");
-		RawConfig root = new Yaml().loadAs(in, RawConfig.class);
-	}
+    public static void load() {
+        InputStream in = Lang.class.getClassLoader().getResourceAsStream("cortana.yml");
+        RawConfig root = new Yaml().loadAs(in, RawConfig.class);
+    }
 
-	static class Compiled {
-		Pattern[] patterns;
-		String[] replies;
-	}
+    static class Compiled {
+        Pattern[] patterns;
+        String[] replies;
+    }
 
-	@Data
-	public static class Rule {
-		String[] regexp;
-		String[] replies;
-	}
+    public static class Rule {
+        String[] regexp;
+        String[] replies;
 
-	@Data
-	public static class RawConfig {
-		Map<String, Rule> rules;
-	}
+        public Rule() {
+        }
+    }
+
+    public static class RawConfig {
+        Map<String, Rule> rules;
+
+        public RawConfig() {
+        }
+    }
 
 }

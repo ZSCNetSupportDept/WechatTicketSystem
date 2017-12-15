@@ -22,9 +22,9 @@ package love.sola.netsupport.enums;
  */
 public class Attribute {
 
-	public static final String AUTHORIZED = "authorized";
-	public static final String WECHAT = "wechat";
-	public static final String OPERATOR = "operator";
-	public static final String USER = "user";
+    public static final String AUTHORIZED = "authorized";
+    public static final String WECHAT = "wechat";
+    public static final String OPERATOR = "operator";
+    public static final String USER = "user";
 
 }

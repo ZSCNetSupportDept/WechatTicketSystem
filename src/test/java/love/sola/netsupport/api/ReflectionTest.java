@@ -10,11 +10,11 @@ import java.util.Set;
  */
 public class ReflectionTest {
 
-	@Test
-	public void test() {
-		Reflections reflections = new Reflections(getClass().getPackage().getName());
-		Set<Class<? extends API>> set = reflections.getSubTypesOf(API.class);
-		assert set.size() == 15;
-	}
+    @Test
+    public void test() {
+        Reflections reflections = new Reflections(getClass().getPackage().getName());
+        Set<Class<? extends API>> set = reflections.getSubTypesOf(API.class);
+        assert set.size() == 15;
+    }
 
 }

@@ -37,37 +37,37 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class TicketSubmit extends API {
 
-	public TicketSubmit() {
-		url = "/ticketsubmit";
-		access = Access.USER;
-		authorize = Command.SUBMIT;
-	}
+    public TicketSubmit() {
+        url = "/ticketsubmit";
+        access = Access.USER;
+        authorize = Command.SUBMIT;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		String desc = req.getParameter("desc");
-		if (desc == null || desc.isEmpty()) {
-			return Error.PARAMETER_REQUIRED;
-		}
-		if (desc.length() > Settings.MAX_DESC_LENGTH) {
-			return Error.LENGTH_LIMIT_EXCEEDED;
-		}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        String desc = req.getParameter("desc");
+        if (desc == null || desc.isEmpty()) {
+            return Error.PARAMETER_REQUIRED;
+        }
+        if (desc.length() > Settings.MAX_DESC_LENGTH) {
+            return Error.LENGTH_LIMIT_EXCEEDED;
+        }
 
-		try (Session s = SQLCore.sf.openSession()) {
-			User u = session.getAttribute(Attribute.USER);
-			if (TableTicket.hasOpen(u)) {
-				session.invalidate();
-				return Error.ALREADY_SUBMITTED;
-			}
-			Ticket t = new Ticket();
-			t.setUser(u);
-			t.setDescription(desc);
-			t.setStatus(0);
-			s.beginTransaction();
-			s.save(t);
-			s.getTransaction().commit();
-			session.invalidate();
-			return Error.OK;
-		}
-	}
+        try (Session s = SQLCore.sf.openSession()) {
+            User u = session.getAttribute(Attribute.USER);
+            if (TableTicket.hasOpen(u)) {
+                session.invalidate();
+                return Error.ALREADY_SUBMITTED;
+            }
+            Ticket t = new Ticket();
+            t.setUser(u);
+            t.setDescription(desc);
+            t.setStatus(0);
+            s.beginTransaction();
+            s.save(t);
+            s.getTransaction().commit();
+            session.invalidate();
+            return Error.OK;
+        }
+    }
 }

@@ -29,22 +29,22 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CommandMatcher implements WxMpMessageMatcher {
 
-	public static Map<String, Command> inCmdUsers = new ConcurrentHashMap<>();
+    public static Map<String, Command> inCmdUsers = new ConcurrentHashMap<>();
 
-	Command command;
+    Command command;
 
-	public CommandMatcher(Command command) {
-		this.command = command;
-	}
+    public CommandMatcher(Command command) {
+        this.command = command;
+    }
 
-	@Override
-	public boolean match(WxMpXmlMessage message) {
-		String fromUser = message.getFromUserName();
-		if (inCmdUsers.containsKey(fromUser)) {
-			return command == inCmdUsers.get(fromUser);
-		} else {
-			return message.getContent().matches(command.regex);
-		}
-	}
+    @Override
+    public boolean match(WxMpXmlMessage message) {
+        String fromUser = message.getFromUserName();
+        if (inCmdUsers.containsKey(fromUser)) {
+            return command == inCmdUsers.get(fromUser);
+        } else {
+            return message.getContent().matches(command.regex);
+        }
+    }
 
 }

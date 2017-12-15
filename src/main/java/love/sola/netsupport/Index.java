@@ -31,21 +31,21 @@ import java.io.PrintWriter;
 @WebServlet(name = "Index", urlPatterns = "/index", loadOnStartup = 1)
 public class Index extends HttpServlet {
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.addHeader("Content-type", "text/plain;charset=utf-8");
-		response.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
-		out.println("Wechat Ticket System (WTS) 0.1 Copyright 2015-2016 Sola & LiuYue all rights reserved. | Commercial license for ZSC Network Support Department (ZSCNSD).");
-		out.println("For any problem, Please contact loli@sola.love.");
-		if (response.getStatus() == HttpServletResponse.SC_NOT_FOUND) {
-			out.println("\nError 404: Page not found.");
-		}
-		out.close();
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+        response.addHeader("Content-type", "text/plain;charset=utf-8");
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out = response.getWriter();
+        out.println("Wechat Ticket System (WTS) 0.1 Copyright 2015-2016 Sola & LiuYue all rights reserved. | Commercial license for ZSC Network Support Department (ZSCNSD).");
+        out.println("For any problem, Please contact loli@sola.love.");
+        if (response.getStatus() == HttpServletResponse.SC_NOT_FOUND) {
+            out.println("\nError 404: Page not found.");
+        }
+        out.close();
+    }
 
 }

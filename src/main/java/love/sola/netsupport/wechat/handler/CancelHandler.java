@@ -45,33 +45,33 @@ import static love.sola.netsupport.config.Lang.lang;
  */
 public class CancelHandler implements WxMpMessageHandler {
 
-	@Override
-	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-		User u = TableUser.getByWechat(wxMessage.getFromUserName());
-		Ticket t = TableTicket.latestOpen(u);
-		if (t == null) {
-			return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
-					.content(lang("No_Open_Ticket_Available")).build();
-		}
-		try (Session s = SQLCore.sf.openSession()) {
-			t.setOperator(Operator.USER_SELF);
-			t.setUpdateTime(new Date());
-			t.setRemark(lang("User_Cancel_Remark"));
-			t.setStatus(Status.SOLVED);
-			s.beginTransaction();
-			s.update(t);
-			s.getTransaction().commit();
-			NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
-			WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
-			item.setTitle(lang("Cancel_Title"));
-			item.setDescription(ParseUtil.parseTicket(t));
-			out.addArticle(item);
-			return out.build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
-					.content(lang("Cancel_Failed")).build();
-		}
-	}
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+        User u = TableUser.getByWechat(wxMessage.getFromUserName());
+        Ticket t = TableTicket.latestOpen(u);
+        if (t == null) {
+            return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
+                    .content(lang("No_Open_Ticket_Available")).build();
+        }
+        try (Session s = SQLCore.sf.openSession()) {
+            t.setOperator(Operator.USER_SELF);
+            t.setUpdateTime(new Date());
+            t.setRemark(lang("User_Cancel_Remark"));
+            t.setStatus(Status.SOLVED);
+            s.beginTransaction();
+            s.update(t);
+            s.getTransaction().commit();
+            NewsBuilder out = WxMpXmlOutMessage.NEWS().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName());
+            WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
+            item.setTitle(lang("Cancel_Title"));
+            item.setDescription(ParseUtil.parseTicket(t));
+            out.addArticle(item);
+            return out.build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return WxMpXmlOutMessage.TEXT().fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
+                    .content(lang("Cancel_Failed")).build();
+        }
+    }
 
 }

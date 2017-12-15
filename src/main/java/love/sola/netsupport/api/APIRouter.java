@@ -46,107 +46,107 @@ import java.util.Set;
 @WebServlet(name = "APIRouter", urlPatterns = "/api/*", loadOnStartup = 11)
 public class APIRouter extends HttpServlet {
 
-	protected static Gson gson = SQLCore.gson;
-	private Map<String, API> nodes = new HashMap<>();
+    protected static Gson gson = SQLCore.gson;
+    private Map<String, API> nodes = new HashMap<>();
 
-	@Override
-	public void init() throws ServletException {
-		super.init();
-		try {
-			Reflections reflections = new Reflections(getClass().getPackage().getName());
-			Set<Class<? extends API>> set = reflections.getSubTypesOf(API.class);
-			for (Class<? extends API> clz : set) {
-				try {
-					System.out.println("Loading API: " + clz.getName());
-					API obj = clz.newInstance();
-					System.out.println("Registered API: " + obj);
-					nodes.put(obj.url, obj);
-				} catch (InstantiationException | IllegalAccessException e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("Total " + nodes.size() + " API(s) loaded.");
-	}
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            Reflections reflections = new Reflections(getClass().getPackage().getName());
+            Set<Class<? extends API>> set = reflections.getSubTypesOf(API.class);
+            for (Class<? extends API> clz : set) {
+                try {
+                    System.out.println("Loading API: " + clz.getName());
+                    API obj = clz.newInstance();
+                    System.out.println("Registered API: " + obj);
+                    nodes.put(obj.url, obj);
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Total " + nodes.size() + " API(s) loaded.");
+    }
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
-		resp.setCharacterEncoding("utf-8");
-		resp.addHeader("Content-type", "application/json;charset=utf-8");
-		resp.addHeader("Access-Control-Allow-Origin", "*");
-		Object obj = null;
-		try {
-			API api = nodes.get(req.getPathInfo());
-			if (api == null) {
-				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-				return;
-			}
-			WxSession session = getSession(req);
-			if (session == null) {
-				obj = Error.UNAUTHORIZED;
-				return;
-			}
-			if (api.authorize != null) {
-				if (session.getAttribute(Attribute.AUTHORIZED) != api.authorize) {
-					obj = Error.UNAUTHORIZED;
-					return;
-				}
-				if (api.access == Access.USER) {
-					User u = session.getAttribute(Attribute.USER);
-					if (u == null) {
-						obj = Error.UNAUTHORIZED;
-						return;
-					}
-				}
-				if (api.access < Access.USER) {
-					Operator op = session.getAttribute(Attribute.OPERATOR);
-					if (op == null) {
-						obj = Error.UNAUTHORIZED;
-						return;
-					}
-					if (op.getAccess() > api.access) {
-						obj = Error.PERMISSION_DENIED;
-						return;
-					}
-				}
-			}
-			obj = api.process(req, session);
-		} catch (ParseException | NumberFormatException e) {
-			obj = Error.ILLEGAL_PARAMETER;
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			obj = Error.DATABASE_ERROR;
-		} catch (Exception e) {
-			e.printStackTrace();
-			obj = Error.INTERNAL_ERROR;
-		} finally {
-			if (!resp.isCommitted()) {
-				try (PrintWriter out = resp.getWriter()) {
-					out.println(gson.toJson(obj));
-				}
-			}
-		}
-	}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
+        resp.addHeader("Content-type", "application/json;charset=utf-8");
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        Object obj = null;
+        try {
+            API api = nodes.get(req.getPathInfo());
+            if (api == null) {
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+                return;
+            }
+            WxSession session = getSession(req);
+            if (session == null) {
+                obj = Error.UNAUTHORIZED;
+                return;
+            }
+            if (api.authorize != null) {
+                if (session.getAttribute(Attribute.AUTHORIZED) != api.authorize) {
+                    obj = Error.UNAUTHORIZED;
+                    return;
+                }
+                if (api.access == Access.USER) {
+                    User u = session.getAttribute(Attribute.USER);
+                    if (u == null) {
+                        obj = Error.UNAUTHORIZED;
+                        return;
+                    }
+                }
+                if (api.access < Access.USER) {
+                    Operator op = session.getAttribute(Attribute.OPERATOR);
+                    if (op == null) {
+                        obj = Error.UNAUTHORIZED;
+                        return;
+                    }
+                    if (op.getAccess() > api.access) {
+                        obj = Error.PERMISSION_DENIED;
+                        return;
+                    }
+                }
+            }
+            obj = api.process(req, session);
+        } catch (ParseException | NumberFormatException e) {
+            obj = Error.ILLEGAL_PARAMETER;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            obj = Error.DATABASE_ERROR;
+        } catch (Exception e) {
+            e.printStackTrace();
+            obj = Error.INTERNAL_ERROR;
+        } finally {
+            if (!resp.isCommitted()) {
+                try (PrintWriter out = resp.getWriter()) {
+                    out.println(gson.toJson(obj));
+                }
+            }
+        }
+    }
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doGet(req, resp);
-	}
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
 
-	@Override
-	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.addHeader("Access-Control-Allow-Method", "POST, GET, OPTIONS");
-		resp.addHeader("Access-Control-Allow-Origin", "*");
-		resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
-	}
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Method", "POST, GET, OPTIONS");
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
 
-	private static WxSession getSession(HttpServletRequest req) {
-		String t = req.getParameter("token");
-		if (t == null || t.isEmpty()) return null;
-		return WechatSession.get(t);
-	}
+    private static WxSession getSession(HttpServletRequest req) {
+        String t = req.getParameter("token");
+        if (t == null || t.isEmpty()) return null;
+        return WechatSession.get(t);
+    }
 
 }

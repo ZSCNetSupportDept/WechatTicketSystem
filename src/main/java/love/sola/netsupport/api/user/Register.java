@@ -37,56 +37,56 @@ import static love.sola.netsupport.util.Checker.*;
  */
 public class Register extends API {
 
-	public Register() {
-		url = "/register";
-		access = Access.GUEST;
-		authorize = Command.REGISTER;
-	}
+    public Register() {
+        url = "/register";
+        access = Access.GUEST;
+        authorize = Command.REGISTER;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		String wechat = session.getAttribute(Attribute.WECHAT);
-		if (wechat == null) {
-			return Error.UNAUTHORIZED;
-		}
-		ISP isp = checkISP(req.getParameter("isp"));
-		int block = checkBlock(req.getParameter("block"));
-		return register(
-				checkStudentId(req.getParameter("sid")),
-				req.getParameter("name"),
-				isp,
-				checkNetAccount(req.getParameter("username"), isp),
-				block,
-				checkRoom(req.getParameter("room"), block),
-				checkPhoneNumber(req.getParameter("phone")),
-				wechat);
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        String wechat = session.getAttribute(Attribute.WECHAT);
+        if (wechat == null) {
+            return Error.UNAUTHORIZED;
+        }
+        ISP isp = checkISP(req.getParameter("isp"));
+        int block = checkBlock(req.getParameter("block"));
+        return register(
+                checkStudentId(req.getParameter("sid")),
+                req.getParameter("name"),
+                isp,
+                checkNetAccount(req.getParameter("username"), isp),
+                block,
+                checkRoom(req.getParameter("room"), block),
+                checkPhoneNumber(req.getParameter("phone")),
+                wechat);
+    }
 
-	private Object register(long sid, String name, ISP isp, String netAccount, int block, int room, long phone, String wechat) {
-		if (sid == -1) return Error.INVALID_PARAMETER.withMsg("Invalid_Student_Id");
-		if (name == null) return Error.INVALID_PARAMETER.withMsg("Invalid_Name");
-		if (isp == null) return Error.INVALID_PARAMETER.withMsg("Invalid_ISP");
-		if (netAccount == null) return Error.INVALID_PARAMETER.withMsg("Invalid_Account");
-		if (block == -1) return Error.INVALID_PARAMETER.withMsg("Invalid_Block");
-		if (room == -1) return Error.INVALID_PARAMETER.withMsg("Invalid_Room");
-		if (phone == -1) return Error.INVALID_PARAMETER.withMsg("Invalid_Phone_Number");
-		User user = TableUser.getById(sid);
-		if (user == null) return Error.INVALID_PARAMETER.withMsg("Invalid_Student_Id");
-		if (!user.getName().equals(name)) return Error.INVALID_PARAMETER.withMsg("Invalid_Name");
-		if (user.getWechatId() != null) return Error.INVALID_PARAMETER.withMsg("User_Already_Registered");
-		user.setIsp(isp);
-		user.setNetAccount(netAccount);
-		user.setBlock(block);
-		user.setRoom(room);
-		user.setPhone(phone);
-		user.setWechatId(wechat);
-		try {
-			TableUser.update(user);
-		} catch (ConstraintViolationException e) {
-			String dupKey = e.getConstraintName();
-			return Error.INVALID_PARAMETER.withMsg("Duplicated_" + dupKey.toUpperCase()); // PHONE ACCOUNT WECHAT
-		}
-		return Error.OK;
-	}
+    private Object register(long sid, String name, ISP isp, String netAccount, int block, int room, long phone, String wechat) {
+        if (sid == -1) return Error.INVALID_PARAMETER.withMsg("Invalid_Student_Id");
+        if (name == null) return Error.INVALID_PARAMETER.withMsg("Invalid_Name");
+        if (isp == null) return Error.INVALID_PARAMETER.withMsg("Invalid_ISP");
+        if (netAccount == null) return Error.INVALID_PARAMETER.withMsg("Invalid_Account");
+        if (block == -1) return Error.INVALID_PARAMETER.withMsg("Invalid_Block");
+        if (room == -1) return Error.INVALID_PARAMETER.withMsg("Invalid_Room");
+        if (phone == -1) return Error.INVALID_PARAMETER.withMsg("Invalid_Phone_Number");
+        User user = TableUser.getById(sid);
+        if (user == null) return Error.INVALID_PARAMETER.withMsg("Invalid_Student_Id");
+        if (!user.getName().equals(name)) return Error.INVALID_PARAMETER.withMsg("Invalid_Name");
+        if (user.getWechatId() != null) return Error.INVALID_PARAMETER.withMsg("User_Already_Registered");
+        user.setIsp(isp);
+        user.setNetAccount(netAccount);
+        user.setBlock(block);
+        user.setRoom(room);
+        user.setPhone(phone);
+        user.setWechatId(wechat);
+        try {
+            TableUser.update(user);
+        } catch (ConstraintViolationException e) {
+            String dupKey = e.getConstraintName();
+            return Error.INVALID_PARAMETER.withMsg("Duplicated_" + dupKey.toUpperCase()); // PHONE ACCOUNT WECHAT
+        }
+        return Error.OK;
+    }
 
 }

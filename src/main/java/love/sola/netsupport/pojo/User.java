@@ -18,9 +18,6 @@
 package love.sola.netsupport.pojo;
 
 import com.google.gson.annotations.Expose;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.enums.ISPConverter;
 
@@ -29,37 +26,124 @@ import javax.persistence.*;
 /**
  * @author Sola {@literal <dev@sola.love>}
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
 
-	public static final String PROPERTY_NAME = "name";
-	public static final String PROPERTY_WECHAT = "wechatId";
-	public static final String PROPERTY_BLOCK = "block";
+    //System Accounts
+    public static User OFFICIAL_CHINA_UNICOM_XH;
+    public static User OFFICIAL_CHINA_MOBILE_XH;
+    public static User OFFICIAL_CHINA_MOBILE_FX;
 
-	@Id
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
-	@Column(name = "name", updatable = false, nullable = false)
-	private String name;
-	@Convert(converter = ISPConverter.class)
-	private ISP isp;
-	@Column(name = "netaccount")
-	private String netAccount;
-	@Expose(serialize = false)
-	@Column(name = "wechat")
-	private String wechatId;
-	private Integer block;
-	private Integer room;
-	private Long phone;
+    public static final String PROPERTY_NAME = "name";
+    public static final String PROPERTY_WECHAT = "wechatId";
+    public static final String PROPERTY_BLOCK = "block";
 
+    @Id
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+    @Column(name = "name", updatable = false, nullable = false)
+    private String name;
+    @Convert(converter = ISPConverter.class)
+    private ISP isp;
+    @Column(name = "netaccount")
+    private String netAccount;
+    @Expose(serialize = false)
+    @Column(name = "wechat")
+    private String wechatId;
+    private Integer block;
+    private Integer room;
+    private Long phone;
 
-	//System Accounts
-	public static User OFFICIAL_CHINA_UNICOM_XH;
-	public static User OFFICIAL_CHINA_MOBILE_XH;
-	public static User OFFICIAL_CHINA_MOBILE_FX;
+    public User() {
+    }
 
+    public User(Long id, String name, ISP isp, String netAccount, String wechatId, Integer block, Integer room, Long phone) {
+        this.id = id;
+        this.name = name;
+        this.isp = isp;
+        this.netAccount = netAccount;
+        this.wechatId = wechatId;
+        this.block = block;
+        this.room = room;
+        this.phone = phone;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ISP getIsp() {
+        return isp;
+    }
+
+    public void setIsp(ISP isp) {
+        this.isp = isp;
+    }
+
+    public String getNetAccount() {
+        return netAccount;
+    }
+
+    public void setNetAccount(String netAccount) {
+        this.netAccount = netAccount;
+    }
+
+    public String getWechatId() {
+        return wechatId;
+    }
+
+    public void setWechatId(String wechatId) {
+        this.wechatId = wechatId;
+    }
+
+    public Integer getBlock() {
+        return block;
+    }
+
+    public void setBlock(Integer block) {
+        this.block = block;
+    }
+
+    public Integer getRoom() {
+        return room;
+    }
+
+    public void setRoom(Integer room) {
+        this.room = room;
+    }
+
+    public Long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Long phone) {
+        this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isp=" + isp +
+                ", netAccount='" + netAccount + '\'' +
+                ", wechatId='" + wechatId + '\'' +
+                ", block=" + block +
+                ", room=" + room +
+                ", phone=" + phone +
+                '}';
+    }
 }

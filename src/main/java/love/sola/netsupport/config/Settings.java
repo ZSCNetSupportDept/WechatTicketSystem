@@ -17,40 +17,48 @@
 
 package love.sola.netsupport.config;
 
-import lombok.ToString;
 import love.sola.netsupport.sql.TableConfig;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
  */
-@ToString
 public class Settings {
 
-	public static final int MAX_DESC_LENGTH = 255;
+    public static final int MAX_DESC_LENGTH = 255;
 
-	public static Settings I;
+    public static Settings I;
 
-	static {
-		I = TableConfig.getSettings();
-	}
+    static {
+        I = TableConfig.getSettings();
+    }
 
-	// -------------------------------------------- //
-	// CONFIGURATIONS
-	// -------------------------------------------- //
-	public String Wechat_AppId;
-	public String Wechat_Secret;
-	public String Wechat_Token;
-	public String Wechat_AesKey;
+    public String Wechat_AppId;
+    public String Wechat_Secret;
+    public String Wechat_Token;
+    public String Wechat_AesKey;
 
-	public int Check_Spam_Cache_Expire_Time;
-	public int Check_Spam_Interval;
+    public int Check_Spam_Cache_Expire_Time;
+    public int Check_Spam_Interval;
 
-	public int User_Session_Max_Inactive;
-	public int User_Wechat_Cache_Expire_Time;
+    public int User_Session_Max_Inactive;
+    public int User_Wechat_Cache_Expire_Time;
 
-	//No arg constructor for Yaml.loadAs
-	public Settings() {
-		I = this;
-	}
+    //No arg constructor for Yaml.loadAs
+    public Settings() {
+        I = this;
+    }
 
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "Wechat_AppId='" + Wechat_AppId + '\'' +
+                ", Wechat_Secret='" + Wechat_Secret + '\'' +
+                ", Wechat_Token='" + Wechat_Token + '\'' +
+                ", Wechat_AesKey='" + Wechat_AesKey + '\'' +
+                ", Check_Spam_Cache_Expire_Time=" + Check_Spam_Cache_Expire_Time +
+                ", Check_Spam_Interval=" + Check_Spam_Interval +
+                ", User_Session_Max_Inactive=" + User_Session_Max_Inactive +
+                ", User_Wechat_Cache_Expire_Time=" + User_Wechat_Cache_Expire_Time +
+                '}';
+    }
 }

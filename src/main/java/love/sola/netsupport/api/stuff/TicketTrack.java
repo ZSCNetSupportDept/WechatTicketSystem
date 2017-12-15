@@ -31,19 +31,19 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class TicketTrack extends API {
 
-	public TicketTrack() {
-		url = "/admin/tickettrack";
-		access = Access.MEMBER;
-		authorize = Command.LOGIN;
-	}
+    public TicketTrack() {
+        url = "/admin/tickettrack";
+        access = Access.MEMBER;
+        authorize = Command.LOGIN;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		String tid = req.getParameter("id");
-		if (tid == null) {
-			return Error.PARAMETER_REQUIRED;
-		}
-		return TableTicket.track(Integer.parseInt(tid));
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        String tid = req.getParameter("id");
+        if (tid == null) {
+            return Error.PARAMETER_REQUIRED;
+        }
+        return TableTicket.track(Integer.parseInt(tid));
+    }
 
 }
