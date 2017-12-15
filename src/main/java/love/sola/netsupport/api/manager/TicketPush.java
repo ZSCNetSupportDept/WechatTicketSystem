@@ -39,34 +39,34 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class TicketPush extends API {
 
-	public TicketPush() {
-		url = "/admin/ticketpush";
-		access = Access.LEADER;
-		authorize = Command.LOGIN;
-	}
+    public TicketPush() {
+        url = "/admin/ticketpush";
+        access = Access.LEADER;
+        authorize = Command.LOGIN;
+    }
 
-	@Override
-	protected Object process(HttpServletRequest req, WxSession session) throws Exception {
-		String uid = req.getParameter("uid");
-		String desc = req.getParameter("desc");
-		if (Checker.hasNull(uid, desc)) {
-			return Error.PARAMETER_REQUIRED;
-		}
-		if (desc.length() > Settings.MAX_DESC_LENGTH) {
-			return Error.LENGTH_LIMIT_EXCEEDED;
-		}
-		Operator op = session.getAttribute(Attribute.OPERATOR);
-		try (Session s = SQLCore.sf.openSession()) {
-			s.beginTransaction();
-			User u = s.get(User.class, Long.parseLong(uid));
-			if (u == null) {
-				return Error.USER_NOT_FOUND;
-			}
-			Ticket t = new Ticket(null, u, desc, null, "Pushed By Admin", null, op, Status.UNCHECKED);
-			s.save(t);
-			s.getTransaction().commit();
-			return t;
-		}
-	}
+    @Override
+    protected Object process(HttpServletRequest req, WxSession session) throws Exception {
+        String uid = req.getParameter("uid");
+        String desc = req.getParameter("desc");
+        if (Checker.hasNull(uid, desc)) {
+            return Error.PARAMETER_REQUIRED;
+        }
+        if (desc.length() > Settings.MAX_DESC_LENGTH) {
+            return Error.LENGTH_LIMIT_EXCEEDED;
+        }
+        Operator op = session.getAttribute(Attribute.OPERATOR);
+        try (Session s = SQLCore.sf.openSession()) {
+            s.beginTransaction();
+            User u = s.get(User.class, Long.parseLong(uid));
+            if (u == null) {
+                return Error.USER_NOT_FOUND;
+            }
+            Ticket t = new Ticket(u, desc, null, "Pushed By Admin", null, op, Status.UNCHECKED);
+            s.save(t);
+            s.getTransaction().commit();
+            return t;
+        }
+    }
 
 }

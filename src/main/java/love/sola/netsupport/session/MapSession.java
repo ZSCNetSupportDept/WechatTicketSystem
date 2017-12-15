@@ -32,74 +32,95 @@
  */
 package love.sola.netsupport.session;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
  */
-@EqualsAndHashCode(of = "id")
 public final class MapSession implements WxSession, Serializable {
 
-	@Getter
-	private final String id;
-	private Map<String, Object> sessionAttrs = new HashMap<String, Object>();
-	@Getter
-	private long creationTime = System.currentTimeMillis();
-	@Getter
-	@Setter
-	private long lastAccessedTime = creationTime;
-	@Getter
-	private boolean invalidated = false;
+    private final String id;
+    private Map<String, Object> sessionAttrs = new HashMap<String, Object>();
+    private long creationTime = System.currentTimeMillis();
+    private long lastAccessedTime = creationTime;
+    private boolean invalidated = false;
 
-	/**
-	 * Creates a new instance with a secure randomly generated identifier.
-	 */
-	public MapSession() {
-		this(UUID.randomUUID().toString());
-	}
+    /**
+     * Creates a new instance with a secure randomly generated identifier.
+     */
+    public MapSession() {
+        this(UUID.randomUUID().toString());
+    }
 
-	/**
-	 * Creates a new instance with the specified id. This is preferred to the
-	 * default constructor when the id is known to prevent unnecessary consumption on
-	 * entropy which can be slow.
-	 *
-	 * @param id the identifier to use
-	 */
-	public MapSession(String id) {
-		this.id = id;
-	}
+    /**
+     * Creates a new instance with the specified id. This is preferred to the
+     * default constructor when the id is known to prevent unnecessary consumption on
+     * entropy which can be slow.
+     *
+     * @param id the identifier to use
+     */
+    public MapSession(String id) {
+        this.id = id;
+    }
 
-	@SuppressWarnings("unchecked")
-	public <T> T getAttribute(String attributeName) {
-		return (T) sessionAttrs.get(attributeName);
-	}
+    @SuppressWarnings("unchecked")
+    public <T> T getAttribute(String attributeName) {
+        return (T) sessionAttrs.get(attributeName);
+    }
 
-	public Set<String> getAttributeNames() {
-		return sessionAttrs.keySet();
-	}
+    public Set<String> getAttributeNames() {
+        return sessionAttrs.keySet();
+    }
 
-	public void setAttribute(String attributeName, Object attributeValue) {
-		if (attributeValue == null) {
-			removeAttribute(attributeName);
-		} else {
-			sessionAttrs.put(attributeName, attributeValue);
-		}
-	}
+    public void setAttribute(String attributeName, Object attributeValue) {
+        if (attributeValue == null) {
+            removeAttribute(attributeName);
+        } else {
+            sessionAttrs.put(attributeName, attributeValue);
+        }
+    }
 
-	public void removeAttribute(String attributeName) {
-		sessionAttrs.remove(attributeName);
-	}
+    public void removeAttribute(String attributeName) {
+        sessionAttrs.remove(attributeName);
+    }
 
-	public void invalidate() {
-		invalidated = true;
-	}
+    public void invalidate() {
+        invalidated = true;
+    }
 
+    public long getLastAccessedTime() {
+        return lastAccessedTime;
+    }
+
+    public void setLastAccessedTime(long lastAccessedTime) {
+        this.lastAccessedTime = lastAccessedTime;
+    }
+
+    @Override
+    public String getId() {
+
+        return id;
+    }
+
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    public boolean isInvalidated() {
+        return invalidated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MapSession)) return false;
+        MapSession that = (MapSession) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

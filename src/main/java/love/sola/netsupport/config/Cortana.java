@@ -17,7 +17,6 @@
 
 package love.sola.netsupport.config;
 
-import lombok.Data;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
@@ -42,15 +41,19 @@ public class Cortana {
 		String[] replies;
 	}
 
-	@Data
 	public static class Rule {
 		String[] regexp;
 		String[] replies;
+
+		public Rule() {
+		}
 	}
 
-	@Data
 	public static class RawConfig {
 		Map<String, Rule> rules;
+
+		public RawConfig() {
+		}
 	}
 
 }
