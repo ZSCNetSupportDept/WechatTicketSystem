@@ -28,7 +28,6 @@ import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableOperator;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.util.Crypto;
-import love.sola.netsupport.util.RSAUtil;
 import love.sola.netsupport.wechat.Command;
 
 import javax.servlet.ServletException;
@@ -73,7 +72,7 @@ public class Login extends HttpServlet {
             else if (op.getAccess() >= Access.NO_LOGIN)
                 return Error.PERMISSION_DENIED;
 
-            if (!Crypto.check(bypass ? password : RSAUtil.decrypt(password), op.getPassword())) {
+            if (!Crypto.check(password, op.getPassword())) {
                 return Error.WRONG_PASSWORD;
             }
 
