@@ -17,10 +17,11 @@
 
 package love.sola.netsupport.sql;
 
-import love.sola.netsupport.pojo.Operator;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+
+import love.sola.netsupport.pojo.Operator;
 
 /**
  * @author Sola {@literal <dev@sola.love>}

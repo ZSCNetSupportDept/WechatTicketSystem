@@ -1,10 +1,16 @@
 package love.sola.netsupport.util;
 
-import com.google.gson.*;
-import love.sola.netsupport.enums.ISP;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
+
 import org.junit.Test;
 
 import java.util.Date;
+
+import love.sola.netsupport.enums.ISP;
 
 /**
  * @author Sola {@literal <dev@sola.love>}

@@ -17,9 +17,6 @@
 
 package love.sola.netsupport.sql;
 
-import love.sola.netsupport.enums.Status;
-import love.sola.netsupport.pojo.Ticket;
-import love.sola.netsupport.pojo.User;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -28,6 +25,10 @@ import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.query.AuditEntity;
 
 import java.util.List;
+
+import love.sola.netsupport.enums.Status;
+import love.sola.netsupport.pojo.Ticket;
+import love.sola.netsupport.pojo.User;
 
 /**
  * @author Sola {@literal <dev@sola.love>}

@@ -17,6 +17,14 @@
 
 package love.sola.netsupport.wechat;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import love.sola.netsupport.auth.OAuth2;
 import love.sola.netsupport.auth.OAuth2Handler;
 import love.sola.netsupport.config.Settings;
@@ -27,16 +35,13 @@ import love.sola.netsupport.wechat.matcher.CheckSpamMatcher;
 import love.sola.netsupport.wechat.matcher.RegisterMatcher;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.StringUtils;
-import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpMessageHandler;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static love.sola.netsupport.config.Lang.lang;
 

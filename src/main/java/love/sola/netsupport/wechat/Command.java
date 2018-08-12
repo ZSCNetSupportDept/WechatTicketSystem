@@ -17,14 +17,18 @@
 
 package love.sola.netsupport.wechat;
 
-import love.sola.netsupport.wechat.handler.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import love.sola.netsupport.wechat.handler.CancelHandler;
+import love.sola.netsupport.wechat.handler.ProfileHandler;
+import love.sola.netsupport.wechat.handler.QueryHandler;
+import love.sola.netsupport.wechat.handler.RegisterHandler;
+import love.sola.netsupport.wechat.handler.SubmitHandler;
 import love.sola.netsupport.wechat.handler.admin.LoginHandler;
 import love.sola.netsupport.wechat.handler.admin.OperatorInfoHandler;
 import love.sola.netsupport.wechat.handler.admin.SignHandler;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static love.sola.netsupport.config.Lang.lang;
 

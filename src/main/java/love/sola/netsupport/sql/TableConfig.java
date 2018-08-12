@@ -17,9 +17,13 @@
 
 package love.sola.netsupport.sql;
 
-import love.sola.netsupport.config.Settings;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import java.sql.*;
+import love.sola.netsupport.config.Settings;
 
 /**
  * @author Sola {@literal <dev@sola.love>}

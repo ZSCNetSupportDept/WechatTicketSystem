@@ -17,6 +17,10 @@
 
 package love.sola.netsupport.api.user;
 
+import org.hibernate.exception.ConstraintViolationException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import love.sola.netsupport.api.API;
 import love.sola.netsupport.api.Error;
 import love.sola.netsupport.enums.Access;
@@ -26,11 +30,13 @@ import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.wechat.Command;
-import org.hibernate.exception.ConstraintViolationException;
 
-import javax.servlet.http.HttpServletRequest;
-
-import static love.sola.netsupport.util.Checker.*;
+import static love.sola.netsupport.util.Checker.checkBlock;
+import static love.sola.netsupport.util.Checker.checkISP;
+import static love.sola.netsupport.util.Checker.checkNetAccount;
+import static love.sola.netsupport.util.Checker.checkPhoneNumber;
+import static love.sola.netsupport.util.Checker.checkRoom;
+import static love.sola.netsupport.util.Checker.checkStudentId;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
@@ -73,7 +79,8 @@ public class Register extends API {
         User user = TableUser.getById(sid);
         if (user == null) return Error.INVALID_PARAMETER.withMsg("Invalid_Student_Id");
         if (!user.getName().equals(name)) return Error.INVALID_PARAMETER.withMsg("Invalid_Name");
-        if (user.getWechatId() != null) return Error.INVALID_PARAMETER.withMsg("User_Already_Registered");
+        if (user.getWechatId() != null)
+            return Error.INVALID_PARAMETER.withMsg("User_Already_Registered");
         user.setIsp(isp);
         user.setNetAccount(netAccount);
         user.setBlock(block);

@@ -1,13 +1,11 @@
-<?xml version='1.0' encoding='utf-8'?>
-<!--
+<?xml version='1.0' encoding='utf-8'?><!--
   ~ Hibernate, Relational Persistence for Idiomatic Java
   ~
   ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
   ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
-  -->
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+  --><!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
 
@@ -28,7 +26,8 @@
         <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
 
         <!-- Disable the second-level cache  -->
-        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider
+        </property>
 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
@@ -37,10 +36,10 @@
         <property name="hbm2ddl.auto">validate</property>
 
         <!-- Names the annotated entity class -->
-        <mapping class="love.sola.netsupport.pojo.User"/>
-        <mapping class="love.sola.netsupport.pojo.Ticket"/>
-        <mapping class="love.sola.netsupport.pojo.Operator"/>
-        <mapping class="love.sola.netsupport.pojo.ToolsCheck"/>
+        <mapping class="love.sola.netsupport.pojo.User" />
+        <mapping class="love.sola.netsupport.pojo.Ticket" />
+        <mapping class="love.sola.netsupport.pojo.Operator" />
+        <mapping class="love.sola.netsupport.pojo.ToolsCheck" />
 
     </session-factory>
 

@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
-<!--
+<?xml version='1.0' encoding='utf-8'?><!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
   this work for additional information regarding copyright ownership.
@@ -14,9 +13,7 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
--->
-<!-- The contents of this file will be loaded for each web application -->
-<!-- Don't swallowOutput for debugging, true for logging(production) -->
+--><!-- The contents of this file will be loaded for each web application --><!-- Don't swallowOutput for debugging, true for logging(production) -->
 <Context antiResourceLocking="true">
 
     <!-- Default set of monitored resources -->
@@ -26,20 +23,12 @@
     <!--
     <Manager pathname="" />
     -->
-    <Resource auth="Container"
-              description="C3P0 database connection pool"
-              driverClass="com.mysql.jdbc.Driver"
-              maxPoolSize="10"
-              minPoolSize="2"
-              acquireIncrement="1"
-              maxIdleTime="3600"
-              idleConnectionTestPeriod="1800"
-              name="jdbc/netsupport"
-              user="root"
-              password=""
-              factory="org.apache.naming.factory.BeanFactory"
-              type="com.mchange.v2.c3p0.ComboPooledDataSource"
-              jdbcUrl="jdbc:mysql://localhost:3306/netsupport?autoReconnect=true&amp;characterEncoding=utf8"/>
+    <Resource auth="Container" description="C3P0 database connection pool"
+        driverClass="com.mysql.jdbc.Driver" maxPoolSize="10" minPoolSize="2" acquireIncrement="1"
+        maxIdleTime="3600" idleConnectionTestPeriod="1800" name="jdbc/netsupport" user="root"
+        password="" factory="org.apache.naming.factory.BeanFactory"
+        type="com.mchange.v2.c3p0.ComboPooledDataSource"
+        jdbcUrl="jdbc:mysql://localhost:3306/netsupport?autoReconnect=true&amp;characterEncoding=utf8" />
     <!-- Uncomment this to enable Comet connection tacking (provides events
          on session expiration as well as webapp lifecycle) -->
     <!--

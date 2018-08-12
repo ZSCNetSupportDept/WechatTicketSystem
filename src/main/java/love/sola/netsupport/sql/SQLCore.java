@@ -17,14 +17,21 @@
 
 package love.sola.netsupport.sql;
 
-import com.google.gson.*;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import love.sola.netsupport.enums.ISP;
-import love.sola.netsupport.wechat.Command;
+
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -35,11 +42,15 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.service.ServiceRegistry;
 
+import java.io.IOException;
+import java.util.Date;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.Date;
+
+import love.sola.netsupport.enums.ISP;
+import love.sola.netsupport.wechat.Command;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
@@ -146,7 +157,7 @@ public class SQLCore {
             // Get the TypeAdapter of the original class, to delegate the serialization
             TypeAdapter delegate = context.getAdapter(TypeToken.get(baseType));
             // Get a filled instance of the original class
-            Object unproxiedValue = ((HibernateProxy) value).getHibernateLazyInitializer()
+            Object unproxiedValue = value.getHibernateLazyInitializer()
                     .getImplementation();
             // Serialize the value
             delegate.write(out, unproxiedValue);

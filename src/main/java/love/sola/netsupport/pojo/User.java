@@ -18,10 +18,15 @@
 package love.sola.netsupport.pojo;
 
 import com.google.gson.annotations.Expose;
+
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import love.sola.netsupport.enums.ISP;
 import love.sola.netsupport.enums.ISPConverter;
-
-import javax.persistence.*;
 
 /**
  * @author Sola {@literal <dev@sola.love>}

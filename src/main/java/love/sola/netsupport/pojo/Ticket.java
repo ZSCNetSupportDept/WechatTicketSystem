@@ -17,12 +17,21 @@
 
 package love.sola.netsupport.pojo;
 
-import love.sola.netsupport.sql.TableTicket;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import love.sola.netsupport.sql.TableTicket;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
@@ -47,7 +56,7 @@ public class Ticket {
     private Date submitTime;
     private String remark;
     private Date updateTime;
-    @ManyToOne(optional = true)
+    @ManyToOne
     @JoinColumn(name = TableTicket.COLUMN_OPSID)
     private Operator operator;
     private Integer status;

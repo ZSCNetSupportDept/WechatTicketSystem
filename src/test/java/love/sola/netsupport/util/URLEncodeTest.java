@@ -1,6 +1,7 @@
 package love.sola.netsupport.util;
 
 import com.google.common.net.UrlEscapers;
+
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;

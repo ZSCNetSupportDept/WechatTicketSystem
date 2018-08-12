@@ -17,12 +17,12 @@
 
 package love.sola.netsupport.wechat.matcher;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import love.sola.netsupport.wechat.Command;
 import me.chanjar.weixin.mp.api.WxMpMessageMatcher;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Sola {@literal <dev@sola.love>}

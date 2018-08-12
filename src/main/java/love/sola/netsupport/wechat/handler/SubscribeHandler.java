@@ -17,6 +17,8 @@
 
 package love.sola.netsupport.wechat.handler;
 
+import java.util.Map;
+
 import love.sola.netsupport.enums.Attribute;
 import love.sola.netsupport.pojo.Operator;
 import love.sola.netsupport.pojo.User;
@@ -32,8 +34,6 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.outxmlbuilder.TextBuilder;
-
-import java.util.Map;
 
 import static love.sola.netsupport.config.Lang.format;
 

@@ -19,8 +19,9 @@ package love.sola.netsupport.util;
 
 import com.google.common.net.UrlEscapers;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 
 import static love.sola.netsupport.config.Lang.lang;
 
@@ -115,7 +116,8 @@ public class Redirect {
         WARN("weui_icon_warn"),
         WARN_SAFE("weui_icon_safe_warn"),
         DOWNLOAD("weui_icon_download"),
-        CANCEL("weui_icon_cancel"),;
+        CANCEL("weui_icon_cancel"),
+        ;
 
         private String value;
 

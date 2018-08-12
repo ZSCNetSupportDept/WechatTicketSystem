@@ -20,13 +20,15 @@ package love.sola.netsupport.sql;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import love.sola.netsupport.config.Settings;
-import love.sola.netsupport.pojo.User;
+
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+
+import love.sola.netsupport.config.Settings;
+import love.sola.netsupport.pojo.User;
 
 /**
  * @author Sola {@literal <dev@sola.love>}

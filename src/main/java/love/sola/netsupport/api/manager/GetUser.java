@@ -17,6 +17,8 @@
 
 package love.sola.netsupport.api.manager;
 
+import javax.servlet.http.HttpServletRequest;
+
 import love.sola.netsupport.api.API;
 import love.sola.netsupport.api.Error;
 import love.sola.netsupport.enums.Access;
@@ -24,8 +26,6 @@ import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.TableUser;
 import love.sola.netsupport.wechat.Command;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Sola {@literal <dev@sola.love>}

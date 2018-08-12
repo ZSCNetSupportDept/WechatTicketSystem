@@ -17,6 +17,10 @@
 
 package love.sola.netsupport.api.root;
 
+import org.hibernate.Session;
+
+import javax.servlet.http.HttpServletRequest;
+
 import love.sola.netsupport.api.API;
 import love.sola.netsupport.api.Error;
 import love.sola.netsupport.enums.Access;
@@ -25,9 +29,6 @@ import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.util.Crypto;
 import love.sola.netsupport.wechat.Command;
-import org.hibernate.Session;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
