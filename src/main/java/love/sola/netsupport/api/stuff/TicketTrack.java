@@ -17,14 +17,15 @@
 
 package love.sola.netsupport.api.stuff;
 
-import javax.servlet.http.HttpServletRequest;
-
 import love.sola.netsupport.api.API;
 import love.sola.netsupport.api.Error;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.TableTicket;
 import love.sola.netsupport.wechat.Command;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
@@ -43,7 +44,8 @@ public class TicketTrack extends API {
         if (tid == null) {
             return Error.PARAMETER_REQUIRED;
         }
-        return TableTicket.track(Integer.parseInt(tid));
+        List<Object[]> results = TableTicket.track(Integer.parseInt(tid));
+        return TableTicket.initializeTickets(results);
     }
 
 }

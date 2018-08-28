@@ -17,6 +17,7 @@
 
 package love.sola.netsupport.sql;
 
+import love.sola.netsupport.pojo.Operator;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -29,6 +30,7 @@ import java.util.List;
 import love.sola.netsupport.enums.Status;
 import love.sola.netsupport.pojo.Ticket;
 import love.sola.netsupport.pojo.User;
+import org.hibernate.proxy.HibernateProxy;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
@@ -112,6 +114,28 @@ public class TableTicket extends SQLCore {
                     .getResultList()
                     ;
         }
+    }
+
+    /**
+     * this is a hacky method to initialize all related entities of ticket
+     */
+    public static List<Object[]> initializeTickets(List<Object[]> resultList) {
+        for (Object[] result : resultList) {
+            Ticket value = ((Ticket) result[0]);
+            HibernateProxy proxiedUser = (HibernateProxy) value.getUser();
+            if (proxiedUser != null) {
+                User unproxiedUser = ((User) proxiedUser.getHibernateLazyInitializer()
+                    .getImplementation());
+                value.setUser(unproxiedUser);
+            }
+            HibernateProxy proxiedOperator = (HibernateProxy) value.getOperator();
+            if (proxiedOperator != null) {
+                Operator unproxiedOperator = ((Operator) proxiedOperator.getHibernateLazyInitializer()
+                    .getImplementation());
+                value.setOperator(unproxiedOperator);
+            }
+        }
+        return resultList;
     }
 
 }

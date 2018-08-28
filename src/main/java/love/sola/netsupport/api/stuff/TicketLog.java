@@ -17,23 +17,24 @@
 
 package love.sola.netsupport.api.stuff;
 
-import org.apache.commons.lang3.time.DateUtils;
-import org.hibernate.Session;
-import org.hibernate.envers.AuditReader;
-import org.hibernate.envers.query.AuditEntity;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
 import love.sola.netsupport.api.API;
 import love.sola.netsupport.enums.Access;
 import love.sola.netsupport.pojo.Ticket;
+import love.sola.netsupport.pojo.User;
 import love.sola.netsupport.session.WxSession;
 import love.sola.netsupport.sql.SQLCore;
 import love.sola.netsupport.sql.TableTicket;
 import love.sola.netsupport.wechat.Command;
+import org.apache.commons.lang3.time.DateUtils;
+import org.hibernate.Session;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.query.AuditEntity;
+import org.hibernate.proxy.HibernateProxy;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Sola {@literal <dev@sola.love>}
@@ -48,6 +49,7 @@ public class TicketLog extends API {
         authorize = Command.LOGIN;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected Object process(HttpServletRequest req, WxSession session) throws Exception {
         int first;
@@ -61,13 +63,14 @@ public class TicketLog extends API {
         end = DateUtils.addDays(end, 1);
         try (Session s = SQLCore.sf.openSession()) {
             AuditReader reader = TableTicket.getAuditReader(s);
-            return reader.createQuery()
-                    .forRevisionsOfEntity(Ticket.class, false, true)
-                    .addOrder(AuditEntity.revisionNumber().desc())
-                    .add(AuditEntity.revisionProperty("timestamp").between(start.getTime(), end.getTime()))
-                    .setFirstResult(first)
-                    .setMaxResults(limit)
-                    .getResultList();
+            List<Object[]> resultList = reader.createQuery()
+                .forRevisionsOfEntity(Ticket.class, false, true)
+                .addOrder(AuditEntity.revisionNumber().desc())
+                .add(AuditEntity.revisionProperty("timestamp").between(start.getTime(), end.getTime()))
+                .setFirstResult(first)
+                .setMaxResults(limit)
+                .getResultList();
+            return TableTicket.initializeTickets(resultList);
         }
     }
 
