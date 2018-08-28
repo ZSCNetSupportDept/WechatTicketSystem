@@ -107,12 +107,12 @@ public class TableTicket extends SQLCore {
     public static List<Object[]> track(int tid) {
         try (Session s = SQLCore.sf.openSession()) {
             AuditReader reader = getAuditReader(s);
-            return reader.createQuery()
-                    .forRevisionsOfEntity(Ticket.class, false, true)
-                    .addOrder(AuditEntity.revisionNumber().desc())
-                    .add(AuditEntity.id().eq(tid))
-                    .getResultList()
-                    ;
+            List<Object[]> resultList = reader.createQuery()
+                .forRevisionsOfEntity(Ticket.class, false, true)
+                .addOrder(AuditEntity.revisionNumber().desc())
+                .add(AuditEntity.id().eq(tid))
+                .getResultList();
+            return initializeTickets(resultList);
         }
     }
 
