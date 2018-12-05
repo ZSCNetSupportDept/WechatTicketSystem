@@ -84,6 +84,8 @@ public class Block {
 		// -------------------------------------------- //
 		// THANKS DATA PROVIDED BY Lai Juncheng
 		// -------------------------------------------- //
+        // UPDATE 2018:BS was destroyed.Update by HTroy
+        // -------------------------------------------- //
 		AVAILABLE[FX_1]     = new int[]{108, 208, 308, 408, 508};
 		AVAILABLE[FX_2]     = new int[]{110, 210, 310, 410, 510, 610};
 		AVAILABLE[FX_3]     = new int[]{110, 210, 310, 410, 510, 610};
@@ -109,16 +111,16 @@ public class Block {
 		AVAILABLE[XH_C]     = new int[]{126, 226, 326, 426, 526, 626, 726, 826, 926, 1026, 1126, 1226};
 		AVAILABLE[XH_D]     = new int[]{128, 228, 328, 428, 528, 628, 728, 828, 928, 1028, 1128, 1228};
 		AVAILABLE[FX_6]     = new int[0];
-		AVAILABLE[BS_1]     = new int[]{102, 203, 301};
-		AVAILABLE[BS_2]     = new int[]{102, 203, 301};
-		AVAILABLE[BS_3]     = new int[]{103, 203, 302};
-		AVAILABLE[BS_4]     = new int[]{102, 203, 301};
-		AVAILABLE[BS_5]     = new int[]{102, 203, 301};
-		AVAILABLE[BS_6]     = new int[]{102, 203, 302};
-		AVAILABLE[BS_7]     = new int[]{102, 203, 301};
-		AVAILABLE[BS_8]     = new int[]{102, 203, 301};
-		AVAILABLE[BS_9]     = new int[]{103, 203, 302};
-		AVAILABLE[ZH]       = new int[]{199, 299, 399, 499, 599, 699, 799, 899, 999, 1099, 1199, 1299, 1399};
+		AVAILABLE[BS_1]     = new int[0];
+		AVAILABLE[BS_2]     = new int[0];
+		AVAILABLE[BS_3]     = new int[0];
+		AVAILABLE[BS_4]     = new int[0];
+		AVAILABLE[BS_5]     = new int[0];
+		AVAILABLE[BS_6]     = new int[0];
+		AVAILABLE[BS_7]     = new int[0];
+		AVAILABLE[BS_8]     = new int[0];
+		AVAILABLE[BS_9]     = new int[0];
+		AVAILABLE[ZH]       = new int[]{199, 299, 399, 499, 599, 699, 799, 899, 999, 1099, 1199, 1299, 1399, 1499};
 		// @formatter:on
     }
 
