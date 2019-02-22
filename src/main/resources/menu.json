@@ -4,9 +4,9 @@
       "name": "我要",
       "sub_button": [
         {
-          "type": "view",
+          "type": "click",
           "name": "提交报修",
-          "key": "http://wwbx.zsc.edu.cn/nm/v2/oos.html"
+          "key": "SUBMIT"
         },
         {
           "type": "click",
