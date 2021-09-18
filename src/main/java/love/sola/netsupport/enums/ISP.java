@@ -27,9 +27,9 @@ import static love.sola.netsupport.config.Lang.lang;
  */
 public enum ISP {
 
-    TELECOM(1, "^1[3|4|5|7|8][0-9]{9}$"),
-    UNICOM(2, "ZSZJLAN[0-9]{10}@16900\\.gd"),
-    CHINAMOBILE(3, "^1[3|4|5|7|8][0-9]{9}@139\\.gd$"),
+    TELECOM(1, "^1[3|4|5|6|7|8|9][0-9]{9}$"),
+    UNICOM(2, "^\\w+([-+.]\\w+)*@16900\\.gd"),
+    CHINAMOBILE(3, "^1[3|4|5|6|7|8|9][0-9]{9}@139\\.gd$"),
     OTHER(4, ".*"),
     ;
 
