@@ -25,10 +25,10 @@
     -->
     <Resource auth="Container" description="C3P0 database connection pool"
         driverClass="com.mysql.jdbc.Driver" maxPoolSize="10" minPoolSize="2" acquireIncrement="1"
-        maxIdleTime="3600" idleConnectionTestPeriod="1800" name="jdbc/netsupport" user="root"
-        password="" factory="org.apache.naming.factory.BeanFactory"
+        maxIdleTime="3600" idleConnectionTestPeriod="1800" name="jdbc/netsupport" user="${DATABASE_USER}"
+        password="${DATABASE_PASSWORD}" factory="org.apache.naming.factory.BeanFactory"
         type="com.mchange.v2.c3p0.ComboPooledDataSource"
-        jdbcUrl="jdbc:mysql://localhost:3306/netsupport?autoReconnect=true&amp;characterEncoding=utf8" />
+        jdbcUrl="jdbc:mysql://${DATABASE_HOST}:3306/netsupport?autoReconnect=true&amp;characterEncoding=utf8" />
     <!-- Uncomment this to enable Comet connection tacking (provides events
          on session expiration as well as webapp lifecycle) -->
     <!--
