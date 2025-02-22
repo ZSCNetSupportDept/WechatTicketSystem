@@ -25,7 +25,7 @@ public class URLEncodeTest {
                         .title("Test Title")
                         .msg("Test Message")
                         .toString(),
-                equalTo("http://wwbx.zsc.edu.cn/nm/v2/result.html?type=1&title=Test%20Title&msg=Test%20Message&")
+                equalTo("https://wwbx.davisye.cn/nm/v2/result.html?type=1&title=Test%20Title&msg=Test%20Message&")
         );
     }
 
